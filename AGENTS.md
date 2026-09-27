@@ -192,7 +192,7 @@ Rules for examples (`apps/docs/examples/<package>/<page>/<name>.tsx`):
 
 ### Release
 
-Changesets drives versions. Add one with `pnpm changeset` for any user-facing change. The release workflow opens a version PR; merging it publishes to npm.
+Changesets drives versions. Add one with `pnpm changeset` for any user-facing change. The release workflow opens a version PR; merging it publishes to npm. Publishing runs only when a steward has set the `NPM_PUBLISH` repository variable to `true`.
 
 ## Visual review
 

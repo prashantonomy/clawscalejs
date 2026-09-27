@@ -31,7 +31,9 @@ jobs:
         uses: changesets/action@v2
         with:
           version-script: pnpm version-packages
-          publish-script: pnpm release
+          # A steward sets the NPM_PUBLISH repository variable to "true" once npm publishing is set up.
+          # Until then the workflow only opens version pull requests.
+          publish-script: ${{ vars.NPM_PUBLISH == 'true' && 'pnpm release' || '' }}
           commit-message: "chore: release packages"
           pr-title: "chore: release packages"
           create-github-releases: true
