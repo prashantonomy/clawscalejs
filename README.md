@@ -7,14 +7,14 @@
 <p align="center">A React UI system for data-dense software. Built on Blueprint.</p>
 
 <p align="center">
-  <a href="https://github.com/clawscale/clawscale/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/clawscale/clawscale/actions/workflows/ci.yml/badge.svg" /></a>
+  <a href="https://github.com/prashantonomy/clawscalejs/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/prashantonomy/clawscalejs/actions/workflows/ci.yml/badge.svg" /></a>
   <a href="https://www.npmjs.com/package/@clawscale/react"><img alt="npm" src="https://img.shields.io/npm/v/@clawscale/react" /></a>
   <a href="LICENSE"><img alt="License: Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-blue" /></a>
 </p>
 
 <p align="center">
-  <a href="https://clawscale.github.io/clawscale/docs/">Documentation</a> |
-  <a href="https://clawscale.github.io/clawscale/showcase/">Showcase</a> |
+  <a href="https://prashantonomy.github.io/clawscalejs/docs/">Documentation</a> |
+  <a href="https://prashantonomy.github.io/clawscalejs/showcase/">Showcase</a> |
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
@@ -51,7 +51,7 @@ export function App() {
 }
 ```
 
-Using Next.js? Follow the [Next.js guide](https://clawscale.github.io/clawscale/docs/nextjs/) for the theme script and server rendering.
+Using Next.js? Follow the [Next.js guide](https://prashantonomy.github.io/clawscalejs/docs/nextjs/) for the theme script and server rendering.
 
 ## Packages
 

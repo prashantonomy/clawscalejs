@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: Question
-    url: https://github.com/clawscale/clawscale/discussions
+    url: https://github.com/prashantonomy/clawscalejs/discussions
     about: Ask and answer questions in GitHub Discussions.
   - name: Documentation
-    url: https://clawscale.github.io/clawscale/docs/
+    url: https://prashantonomy.github.io/clawscalejs/docs/
     about: Guides, examples and props for every component.
   - name: Security issue
-    url: https://github.com/clawscale/clawscale/security/advisories/new
+    url: https://github.com/prashantonomy/clawscalejs/security/advisories/new
     about: Report vulnerabilities privately.

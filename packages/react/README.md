@@ -36,7 +36,7 @@ export function App() {
 
 This package pins exact Blueprint versions because its stylesheet is built against them. Do not install `@blueprintjs/*` next to it.
 
-Docs: https://clawscale.github.io/clawscale/docs/
+Docs: https://prashantonomy.github.io/clawscalejs/docs/
 
 ## License
 

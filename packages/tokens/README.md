@@ -33,7 +33,7 @@ chartPalette.dark; // eight categorical colors in their fixed order
 
 Every text and intent color is tested for WCAG AA contrast.
 
-Docs: https://clawscale.github.io/clawscale/docs/core/tokens/
+Docs: https://prashantonomy.github.io/clawscalejs/docs/core/tokens/
 
 ## License
 

@@ -10,11 +10,11 @@
     "data-dense"
   ],
   "license": "Apache-2.0",
-  "homepage": "https://clawscale.github.io/clawscale/docs/core/tokens",
-  "bugs": "https://github.com/clawscale/clawscale/issues",
+  "homepage": "https://prashantonomy.github.io/clawscalejs/docs/core/tokens",
+  "bugs": "https://github.com/prashantonomy/clawscalejs/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/clawscale/clawscale.git",
+    "url": "git+https://github.com/prashantonomy/clawscalejs.git",
     "directory": "packages/tokens"
   },
   "type": "module",

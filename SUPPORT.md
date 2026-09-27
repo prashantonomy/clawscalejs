@@ -1,6 +1,6 @@
 # Support
 
-- **Documentation:** https://clawscale.github.io/clawscale/docs/
+- **Documentation:** https://prashantonomy.github.io/clawscalejs/docs/
 - **Questions:** GitHub Discussions, Q&A category.
 - **Bugs:** open an issue with the bug report template.
 - **Security issues:** follow [SECURITY.md](SECURITY.md).
