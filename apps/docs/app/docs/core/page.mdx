@@ -1,0 +1,67 @@
+export const metadata = { title: "Core" };
+
+# Core
+
+`@clawscale/react` holds every Blueprint core component with the Clawscale look, plus Clawscale patterns and the theme provider.
+
+## Install
+
+```bash
+npm install @clawscale/react
+```
+
+Clawscale installs Blueprint for you, pinned to the version its styles were built for. Do not install `@blueprintjs/*` next to it.
+
+## Load the styles
+
+Import the stylesheet once, at the root of your app.
+
+```tsx
+import "@clawscale/react/styles.css";
+import "@clawscale/react/fonts.css";
+```
+
+`styles.css` holds normalize.css, Blueprint's CSS and the Clawscale layer. `fonts.css` is optional: it loads Inter and JetBrains Mono.
+
+## Add the provider
+
+Wrap your app in `ClawscaleProvider` once. It sets up overlays, hotkeys and portals, and manages the light, dark and system themes.
+
+```tsx
+import { ClawscaleProvider } from "@clawscale/react";
+
+export function App({ children }: { children: React.ReactNode }) {
+  return <ClawscaleProvider>{children}</ClawscaleProvider>;
+}
+```
+
+See [Clawscale provider](/docs/core/clawscale-provider/) for its props.
+
+## Entry points
+
+| Import | Contents |
+| --- | --- |
+| `@clawscale/react` | Core components, hooks, constants and Clawscale patterns |
+| `@clawscale/react/select` | Select, Suggest, MultiSelect, Omnibar and QueryList |
+| `@clawscale/react/datetime` | Date and time pickers and inputs |
+| `@clawscale/react/table` | Table, the spreadsheet-like data grid |
+| `@clawscale/react/icons` | Icon names, icon components and the icon loader |
+| `@clawscale/react/common` | Server-safe constants: `Classes`, `Intent`, `Colors`, `ClawscaleClasses` and more |
+| `@clawscale/react/sync-icons` | Side-effect import that renders icons synchronously on the server |
+| `@clawscale/react/styles.css` | normalize.css, Blueprint's CSS and the Clawscale layer |
+| `@clawscale/react/fonts.css` | Inter and JetBrains Mono. Optional. |
+
+Every component export carries `"use client"`, so server components can render them. To read a constant such as `Classes.DARK` in a server component, import it from `@clawscale/react/common`.
+
+## Foundations
+
+- [Accessibility](/docs/core/accessibility/): focus, contrast, labels and motion.
+- [Classes](/docs/core/classes/): CSS class constants for your own elements.
+- [Colors](/docs/core/colors/): semantic colors and the chart palette.
+- [Typography](/docs/core/typography/): fonts, type scale and text components.
+- [Tokens](/docs/core/tokens/): every `--cs-*` variable.
+
+## Next steps
+
+- [Getting started](/docs/getting-started/): render your first component.
+- [Next.js](/docs/nextjs/): server components, the theme script and icons.

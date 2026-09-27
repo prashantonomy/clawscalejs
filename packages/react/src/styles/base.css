@@ -1,0 +1,79 @@
+/* Page defaults. Your own unlayered CSS always wins over these. */
+
+:root {
+  scrollbar-color: var(--cs-color-border-strong) transparent;
+}
+
+body {
+  background-color: var(--cs-color-canvas);
+  color: var(--cs-color-text);
+  font-family: var(--cs-font-sans), "blueprint-icons-16", sans-serif;
+  font-size: var(--cs-font-size-md);
+  line-height: var(--cs-line-height-normal);
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * Focus rings. Blueprint hardcodes the outline color on these selectors.
+ * Only the color changes here: elements that hide their outline stay hidden.
+ */
+:focus,
+.bp6-control input:focus ~ .bp6-control-indicator,
+.bp6-tag:focus,
+.bp6-tag-input .bp6-tag.bp6-active {
+  outline-color: var(--cs-color-focus);
+}
+
+::selection {
+  background-color: var(--cs-color-selection);
+}
+
+/* Plain links only. Blueprint components that render <a> (menu items, anchor buttons,
+   breadcrumbs) carry bp6- classes and keep their own colors. */
+a:not([class*="bp6-"]) {
+  color: var(--cs-color-primary-text);
+}
+
+a:not([class*="bp6-"]):hover {
+  color: var(--cs-color-primary-hover);
+}
+
+.bp6-dark a:not([class*="bp6-"]):hover,
+[data-cs-theme="dark"] a:not([class*="bp6-"]):hover {
+  color: var(--cs-color-primary-text);
+}
+
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--cs-font-mono);
+  font-variant-ligatures: none;
+}
+
+/* Utilities */
+
+.cs-numeric {
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-monospace {
+  font-family: var(--cs-font-mono);
+  font-size: 0.95em;
+  font-variant-ligatures: none;
+}
+
+.cs-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

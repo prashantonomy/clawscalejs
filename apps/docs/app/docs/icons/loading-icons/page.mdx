@@ -1,0 +1,76 @@
+import LoadingIconsComponents from "@/examples/icons/loading-icons/components";
+
+export const metadata = { title: "Loading icons" };
+
+# Loading icons
+
+Icons named by a string, such as `icon="database"`, need their SVG paths at runtime. Choose how the paths load, above all when you render on the server.
+
+## Default loading
+
+Blueprint loads icon paths asynchronously. The first 16px icon on a page loads the paths of every 16px icon, and the first 20px icon loads the 20px set.
+
+On the server, no paths have loaded. Server-rendered HTML holds an empty placeholder for each icon, which shows a glyph from Blueprint's icon font once that font downloads. After hydration, the SVG replaces it.
+
+```html
+<!-- Default: a placeholder -->
+<span aria-hidden="true" class="bp6-icon bp6-icon-standard bp6-icon-database" data-icon="database"></span>
+
+<!-- With sync icons: the SVG -->
+<span aria-hidden="true" class="bp6-icon bp6-icon-database">
+  <svg data-icon="database" height="16" role="img" viewBox="0 0 16 16" width="16"><path d="..."></path></svg>
+</span>
+```
+
+## Sync icons
+
+Import `@clawscale/react/sync-icons` once, in a client module that wraps your app. Every string icon then renders its SVG on the server and in the first client render. It must be a client module, so the import also runs in the browser.
+
+```tsx
+// app/providers.tsx
+"use client";
+
+import "@clawscale/react/sync-icons";
+import { ClawscaleProvider } from "@clawscale/react";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <ClawscaleProvider>{children}</ClawscaleProvider>;
+}
+```
+
+The cost: every 16px and 20px path joins your client bundle, about 190 kB gzipped. This site uses sync icons.
+
+## Icon components
+
+Icon components such as `DatabaseIcon` carry their own paths. They render on the server without sync icons, and tree-shaking bundlers keep only the icons you import. Pass one to any `icon` prop.
+
+<Example name="icons/loading-icons/components">
+  <LoadingIconsComponents />
+</Example>
+
+## Preloading
+
+`Icons.load` loads the paths of the icons you name. Icons that are already loaded render at once, so call it early in client-rendered apps, for example before the first render. It does not fill server-rendered HTML.
+
+`Icons.loadAll` starts loading every icon in both sizes. Its promise settles before the paths arrive, so awaiting it does not delay rendering.
+
+```ts
+import { Icons, IconSize } from "@clawscale/react/icons";
+
+// The icons on the first screen, before it renders.
+await Icons.load(["database", "refresh", "warning-sign"], IconSize.STANDARD);
+
+// Or every icon, in the background.
+Icons.loadAll();
+```
+
+`Icons.setLoaderOptions({ loader: "all" })` makes the default loader fetch both sizes at once.
+
+## Comparison
+
+| Approach | Server HTML | Bundle |
+| --- | --- | --- |
+| Default loading | Placeholder, SVG after hydration | Paths load on first use, one set per size |
+| Sync icons | SVG | Every path, about 190 kB gzipped |
+| Icon components | SVG | Only the icons you import |
+| Preloading | Placeholder | The paths you load, when you load them |

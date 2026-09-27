@@ -1,0 +1,69 @@
+import FileInputBasic from "@/examples/core/file-input/basic";
+import FileInputButtonText from "@/examples/core/file-input/button-text";
+import FileInputFill from "@/examples/core/file-input/fill";
+import FileInputSelectedFile from "@/examples/core/file-input/selected-file";
+import FileInputSize from "@/examples/core/file-input/size";
+
+export const metadata = { title: "File input" };
+
+# File input
+
+A **FileInput** styles a native file picker. It renders a `<label>` around an `<input type="file">`.
+
+## Usage
+
+```tsx
+import { FileInput } from "@clawscale/react";
+```
+
+```tsx
+<FileInput text="Choose a CSV export" onInputChange={(event) => setFile(event.currentTarget.files?.[0])} />
+```
+
+## Examples
+
+### Basic
+
+`text` fills the field. Pass `<input>` attributes such as `accept` through `inputProps`.
+
+<Example name="core/file-input/basic">
+  <FileInputBasic />
+</Example>
+
+### Button text
+
+`buttonText` replaces the default **Browse** label.
+
+<Example name="core/file-input/button-text">
+  <FileInputButtonText />
+</Example>
+
+### Selected file
+
+**FileInput** does not show the chosen file by itself. Read it in `onInputChange`, then pass its name as `text` and set `hasSelection`.
+
+<Example name="core/file-input/selected-file">
+  <FileInputSelectedFile />
+</Example>
+
+### Fill
+
+`fill` stretches the field to the width of its container.
+
+<Example name="core/file-input/fill" align="start">
+  <FileInputFill />
+</Example>
+
+### Size
+
+`size` accepts **small**, **medium** (default) and **large**.
+
+<Example name="core/file-input/size">
+  <FileInputSize />
+</Example>
+
+## Props interface
+
+**FileInput** also accepts the HTML attributes of a `<label>`. Its `onChange` goes to the label, so listen with `onInputChange`.
+
+<PropsTable name="FileInputProps" />

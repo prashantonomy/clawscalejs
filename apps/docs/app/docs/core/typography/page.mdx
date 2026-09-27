@@ -1,0 +1,84 @@
+import { TokenTable } from "@/examples/core/tokens/_token-table";
+import TypographyCode from "@/examples/core/typography/code";
+import TypographyEllipsize from "@/examples/core/typography/ellipsize";
+import TypographyHeadings from "@/examples/core/typography/headings";
+import TypographyNumeric from "@/examples/core/typography/numeric";
+import TypographyRunningText from "@/examples/core/typography/running-text";
+
+export const metadata = { title: "Typography" };
+
+# Typography
+
+Clawscale sets text in Inter and code in JetBrains Mono, on a 13px base size for dense screens.
+
+## Usage
+
+```tsx
+import { Code, H1, H2, H3, H4, H5, H6, Pre, Text } from "@clawscale/react";
+```
+
+## Fonts
+
+`@clawscale/react/fonts.css` loads Inter and JetBrains Mono as variable fonts. Import it once, next to `styles.css`.
+
+```tsx
+import "@clawscale/react/fonts.css";
+```
+
+Without it, text falls back to the system fonts in each stack. To use your own fonts, set `--cs-font-sans` and `--cs-font-mono`.
+
+## Type scale
+
+Eight sizes, from `xs` to `4xl`. Body text uses `md`.
+
+<TokenTable group="font-size" />
+
+Use the tokens in your own CSS. Weights and line heights are tokens too, listed in [Tokens](/docs/core/tokens/).
+
+```css
+.panel-title {
+  font-size: var(--cs-font-size-lg);
+  font-weight: var(--cs-font-weight-semibold);
+  line-height: var(--cs-line-height-tight);
+}
+```
+
+## Headings
+
+`H1` to `H6` render headings with Clawscale sizes and weights.
+
+<Example name="core/typography/headings" align="start">
+  <TypographyHeadings />
+</Example>
+
+## Running text
+
+Wrap long-form HTML in `Classes.RUNNING_TEXT`. It styles nested paragraphs, lists, code and block quotes, so plain markup needs no components.
+
+<Example name="core/typography/running-text" align="start">
+  <TypographyRunningText />
+</Example>
+
+## Tabular numbers
+
+Inter draws digits with different widths by default. Add the `cs-numeric` class (`ClawscaleClasses.NUMERIC`) to give every digit the same width, so numbers line up in columns. The Table component, date pickers and slider labels already use tabular numbers.
+
+<Example name="core/typography/numeric">
+  <TypographyNumeric />
+</Example>
+
+## Code
+
+`Code` renders inline code. `Pre` renders a preformatted block. Both use `--cs-font-mono`.
+
+<Example name="core/typography/code" align="start">
+  <TypographyCode />
+</Example>
+
+## Text
+
+`Text` with `ellipsize` cuts overflowing text to one line and ends it with an ellipsis. When the text overflows, it also sets `title` to the full text. [Text](/docs/core/text/) lists its props.
+
+<Example name="core/typography/ellipsize">
+  <TypographyEllipsize />
+</Example>

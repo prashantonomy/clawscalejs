@@ -1,0 +1,66 @@
+/* Toasts, non-ideal state, skeletons and dividers */
+
+/*
+ * OverlayToaster.create renders an inline toaster into a new div on <body>, positioned absolute.
+ * On a page that scrolls the window, that is the top of the document, out of view. Pin it to the window.
+ */
+body > div > .bp6-toast-container.bp6-toast-container-inline {
+  position: fixed;
+}
+
+.bp6-toast {
+  border-radius: var(--cs-radius-lg);
+  box-shadow: var(--cs-shadow-3);
+}
+
+.bp6-toast:not([class*="bp6-intent-"]) {
+  background-color: var(--cs-color-surface-raised);
+  color: var(--cs-color-text);
+}
+
+.bp6-toast:not([class*="bp6-intent-"]) > .bp6-icon {
+  color: var(--cs-color-text-muted);
+}
+
+.bp6-non-ideal-state-visual,
+.bp6-non-ideal-state-visual .bp6-icon {
+  color: var(--cs-color-text-subtle);
+}
+
+.bp6-non-ideal-state .bp6-heading {
+  color: var(--cs-color-text);
+  font-size: var(--cs-font-size-lg);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-non-ideal-state > div:not(.bp6-non-ideal-state-visual) {
+  color: var(--cs-color-text-muted);
+}
+
+.bp6-divider {
+  border-color: var(--cs-color-border);
+}
+
+.bp6-skeleton {
+  animation-name: cs-skeleton-glow;
+  background: var(--cs-color-border);
+  border-color: var(--cs-color-border);
+  border-radius: var(--cs-radius-sm);
+}
+
+@keyframes cs-skeleton-glow {
+  from {
+    background: var(--cs-color-border);
+    border-color: var(--cs-color-border);
+  }
+  to {
+    background: var(--cs-color-border-subtle);
+    border-color: var(--cs-color-border-subtle);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bp6-skeleton {
+    animation: none;
+  }
+}

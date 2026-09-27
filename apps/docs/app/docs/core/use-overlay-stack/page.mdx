@@ -1,0 +1,38 @@
+export const metadata = { title: "useOverlayStack" };
+
+# useOverlayStack
+
+**useOverlayStack** reads and changes the stack of open overlays that [OverlaysProvider](/docs/core/overlays-provider/) holds. [Overlay2](/docs/core/overlay/) uses it to decide which overlay owns focus, escape and outside clicks.
+
+<Callout intent="warning" title="Internal API">
+  Blueprint built this hook for its own overlays. Use it only for an overlay that Overlay2 cannot cover, or to read the stack.
+</Callout>
+
+## Usage
+
+```tsx
+import { useOverlayStack } from "@clawscale/react";
+```
+
+For example, ignore a global shortcut while a dialog, drawer or popover is open:
+
+```tsx
+const { getLastOpened } = useOverlayStack();
+
+const handleKeyDown = (event: KeyboardEvent) => {
+  if (getLastOpened() !== undefined) return;
+  // Handle the shortcut.
+};
+```
+
+## Return value
+
+| Method | Description |
+| --- | --- |
+| `openOverlay(overlay)` | Pushes an overlay onto the stack. Locks page scroll when the overlay has a backdrop and uses a portal. |
+| `closeOverlay(id)` | Removes the overlay with that id. Does nothing when it is not on the stack. |
+| `getLastOpened()` | Returns the top overlay, or `undefined` when none is open. |
+| `getThisOverlayAndDescendants(id)` | Returns that overlay and every overlay opened after it. |
+| `resetStack()` | Empties the stack. For unit tests only. |
+
+Each entry is an `OverlayInstance`: an `id`, a `containerElement` ref, the overlay's `autoFocus`, `enforceFocus`, `hasBackdrop` and `usePortal` props, and optional focus and mouse handlers.

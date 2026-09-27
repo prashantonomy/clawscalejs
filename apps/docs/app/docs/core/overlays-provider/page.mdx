@@ -1,0 +1,35 @@
+import OverlaysProviderStacked from "@/examples/core/overlays-provider/stacked";
+
+export const metadata = { title: "Overlays provider" };
+
+# Overlays provider
+
+**OverlaysProvider** holds the stack of open overlays. [Overlay2](/docs/core/overlay/) and every component built on it use the stack to decide which overlay handles focus, escape and outside clicks. [ClawscaleProvider](/docs/core/clawscale-provider/) includes it.
+
+## Usage
+
+```tsx
+import { OverlaysProvider } from "@clawscale/react";
+```
+
+Apps that use ClawscaleProvider never render it themselves. Without any provider, Overlay2 falls back to a global stack and logs an error in development.
+
+## Examples
+
+### Stacked overlays
+
+Only the top overlay reacts to escape and keeps focus. When it closes, focus returns to the overlay below it.
+
+<Example name="core/overlays-provider/stacked">
+  <OverlaysProviderStacked />
+</Example>
+
+## Separate React roots
+
+Content rendered in its own React root does not see the provider. Wrap it in a new OverlaysProvider. The [Toast](/docs/core/toast/) page shows this for `OverlayToaster.create`.
+
+## Props interface
+
+OverlaysProvider takes only `children`.
+
+<PropsTable name="OverlaysProviderProps" />

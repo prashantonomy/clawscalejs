@@ -1,0 +1,50 @@
+export const metadata = { title: "Datetime" };
+
+# Datetime
+
+`@clawscale/react/datetime` holds Blueprint's date and time components: calendars, date inputs, a time picker and a timezone menu.
+
+## Usage
+
+```tsx
+import { DateInput, DatePicker, TimePicker } from "@clawscale/react/datetime";
+```
+
+The styles are part of `@clawscale/react/styles.css`. There is no separate stylesheet to import.
+
+## Components
+
+| Component | Value | Use it for |
+| --- | --- | --- |
+| [DatePicker](/docs/datetime/date-picker/) | `Date` | One day on an inline calendar, with an optional time |
+| [DateInput](/docs/datetime/date-input/) | ISO 8601 string | A text field with a calendar popover and timezones |
+| [DateRangePicker](/docs/datetime/date-range-picker/) | `DateRange` | A range of days on inline calendars |
+| [DateRangeInput](/docs/datetime/date-range-input/) | `DateRange` | Start and end fields with a range picker popover |
+| [TimePicker](/docs/datetime/time-picker/) | `Date` | A time of day, down to the millisecond |
+| [TimezoneSelect](/docs/datetime/timezone-select/) | IANA code | A searchable menu of timezones |
+
+A `DateRange` is `[Date | null, Date | null]`.
+
+## Formatting
+
+Inputs format and parse text with [date-fns](https://date-fns.org/docs/format). Pass a format string to `dateFnsFormat`.
+
+```tsx
+<DateInput dateFnsFormat="dd MMM yyyy HH:mm" timePrecision="minute" />
+```
+
+Without one, inputs use `yyyy-MM-dd`, followed by `HH:mm`, `HH:mm:ss` or `HH:mm:ss.SSS` when `timePrecision` is set. For formats date-fns cannot express, pass `formatDate` and `parseDate` instead.
+
+`locale` sets the language of month and weekday names. It takes a date-fns `Locale` object or a locale code, and defaults to `"en-US"`.
+
+## Server rendering
+
+Every component renders on the server. To keep the server and browser output the same:
+
+- Pass fixed dates to `value`, `defaultValue` or `initialMonth`. Without them, calendars open on the current month.
+- Calendars mark today's date with a class. When the server and the browser disagree on the date, for example across timezones, React logs a mismatch in development.
+- Set `minDate` and `maxDate` on pages cached for months. Their defaults are relative to today.
+- Set `defaultTimezone` or `timezone` on a DateInput with a `timePrecision`. The default is the user's timezone.
+- TimezoneSelect names, abbreviations and offsets can vary with the locale and daylight saving time. `valueDisplayFormat="code"` never varies.
+
+DateInput and TimePicker generate ids with a counter, so React logs attribute mismatch warnings in development. They are harmless and do not appear in production.

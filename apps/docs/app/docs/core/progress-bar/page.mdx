@@ -1,0 +1,58 @@
+import ProgressBarIntent from "@/examples/core/progress-bar/intent";
+import ProgressBarPlayground from "@/examples/core/progress-bar/playground";
+import ProgressBarStripes from "@/examples/core/progress-bar/stripes";
+import ProgressBarValue from "@/examples/core/progress-bar/value";
+
+export const metadata = { title: "Progress bar" };
+
+# Progress bar
+
+A **ProgressBar** shows how far a task has come. Without a `value`, it shows work of unknown length.
+
+## Usage
+
+```tsx
+import { ProgressBar } from "@clawscale/react";
+```
+
+```tsx
+<ProgressBar aria-label="Export progress" intent="primary" value={0.42} />
+```
+
+The bar has no visible label. Pass `aria-label`, or point `aria-labelledby` at a caption.
+
+## Examples
+
+### Intent
+
+`intent` colors the bar. Match it to the state of the task.
+
+<Example name="core/progress-bar/intent">
+  <ProgressBarIntent />
+</Example>
+
+### Stripes and animation
+
+Bars are striped and animated by default. `animate={false}` stops the motion and `stripes={false}` removes the stripes. Use a solid bar for finished or paused work.
+
+<Example name="core/progress-bar/stripes">
+  <ProgressBarStripes />
+</Example>
+
+### Value
+
+`value` runs from 0 to 1, and the bar animates between values. Omit `value` for an indeterminate bar.
+
+<Example name="core/progress-bar/value">
+  <ProgressBarValue />
+</Example>
+
+## Interactive playground
+
+<Example name="core/progress-bar/playground" variant="playground">
+  <ProgressBarPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="ProgressBarProps" />

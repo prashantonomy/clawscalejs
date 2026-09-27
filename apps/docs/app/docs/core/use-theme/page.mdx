@@ -1,0 +1,50 @@
+import UseThemeResolved from "@/examples/core/use-theme/resolved";
+import UseThemeToggle from "@/examples/core/use-theme/toggle";
+
+export const metadata = { title: "useTheme" };
+
+# useTheme
+
+**useTheme** reads and changes the theme that [ClawscaleProvider](/docs/core/clawscale-provider/) manages.
+
+## Usage
+
+```tsx
+import { useTheme } from "@clawscale/react";
+```
+
+```tsx
+const { theme, resolvedTheme, setTheme } = useTheme();
+```
+
+Outside a ClawscaleProvider, it returns the light theme and a `setTheme` that does nothing.
+
+## Return value
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `theme` | `ThemePreference` | The saved preference: `"light"`, `"dark"` or `"system"`. |
+| `resolvedTheme` | `ResolvedTheme` | The theme applied now: `"light"` or `"dark"`. |
+| `setTheme` | `(theme: ThemePreference) => void` | Changes the preference and saves it. |
+
+`@clawscale/react` exports both types, and `ThemeContextValue` for the whole object.
+
+During server rendering and hydration, `theme` equals `defaultTheme` and `"system"` resolves to light. The saved values arrive right after hydration. For styles, prefer the `--cs-*` tokens: they switch with the theme without a render.
+
+## Examples
+
+### Toggle
+
+Pick the next theme from `resolvedTheme`. This button changes the theme of these docs.
+
+<Example name="core/use-theme/toggle">
+  <UseThemeToggle />
+</Example>
+
+### Resolved theme
+
+`theme` can be `"system"`. `resolvedTheme` is always light or dark. Use it for values CSS cannot reach, such as colors drawn on a canvas.
+
+<Example name="core/use-theme/resolved">
+  <UseThemeResolved />
+</Example>

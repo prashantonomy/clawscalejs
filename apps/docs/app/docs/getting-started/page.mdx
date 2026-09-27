@@ -1,0 +1,67 @@
+import FirstScreen from "@/examples/guides/getting-started/first-screen";
+
+export const metadata = { title: "Getting started" };
+
+# Getting started
+
+Install one package, load one stylesheet, wrap your app once.
+
+## Install
+
+```bash
+npm install @clawscale/react
+```
+
+Clawscale supports React 18 and 19. It installs Blueprint for you, pinned to a tested version.
+
+## Add the styles
+
+Load the stylesheet once, at the root of your app.
+
+```tsx
+import "@clawscale/react/styles.css";
+import "@clawscale/react/fonts.css";
+```
+
+`styles.css` holds normalize.css, Blueprint's CSS and the Clawscale layer. `fonts.css` is optional: it loads Inter and JetBrains Mono, the typefaces Clawscale is tuned for.
+
+## Wrap your app
+
+```tsx
+import { ClawscaleProvider } from "@clawscale/react";
+
+export function App() {
+  return <ClawscaleProvider>{/* your app */}</ClawscaleProvider>;
+}
+```
+
+`ClawscaleProvider` sets up overlays, hotkeys and portals, and manages the light, dark and system themes. See [Clawscale provider](/docs/core/clawscale-provider/).
+
+## Render a component
+
+<Example name="guides/getting-started/first-screen">
+  <FirstScreen />
+</Example>
+
+## Entry points
+
+| Import | Contents |
+| --- | --- |
+| `@clawscale/react` | Core components, hooks and Clawscale patterns |
+| `@clawscale/react/select` | Select, Suggest, MultiSelect, Omnibar, QueryList |
+| `@clawscale/react/datetime` | Date and time pickers and inputs |
+| `@clawscale/react/table` | The spreadsheet-like Table |
+| `@clawscale/react/icons` | Icon names, icon components and the icon loader |
+| `@clawscale/react/common` | Constants that are safe in React Server Components |
+| `@clawscale/react/sync-icons` | Synchronous icon loading for server rendering |
+| `@clawscale/tokens` | Design tokens as CSS variables, JSON and TypeScript |
+
+## Browser support
+
+Clawscale targets the last two versions of Chrome, Edge, Firefox and Safari. It needs CSS cascade layers and `color-mix()`.
+
+## Next steps
+
+- Using Next.js? Read [Next.js](/docs/nextjs/).
+- Want your own brand color? Read [Theming](/docs/theming/).
+- Coming from Blueprint? Read [Migrating from Blueprint](/docs/migrating/).

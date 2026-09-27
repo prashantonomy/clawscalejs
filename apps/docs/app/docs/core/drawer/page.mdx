@@ -1,0 +1,54 @@
+import DrawerBasic from "@/examples/core/drawer/basic";
+import DrawerPlayground from "@/examples/core/drawer/playground";
+import DrawerPosition from "@/examples/core/drawer/position";
+import DrawerSizes from "@/examples/core/drawer/size";
+
+export const metadata = { title: "Drawer" };
+
+# Drawer
+
+A **Drawer** slides in from an edge of the screen, above the page. Use it for inspectors and detail panels that keep the page in view.
+
+## Usage
+
+```tsx
+import { Classes, Drawer, DrawerSize } from "@clawscale/react";
+```
+
+Drawer is controlled with `isOpen` and calls `onClose` like a [Dialog](/docs/core/dialog/). Put the content in a `Classes.DRAWER_BODY` element so it scrolls, and actions in `Classes.DRAWER_FOOTER`.
+
+## Examples
+
+### Inspector
+
+A small drawer on the right shows the details of one item.
+
+<Example name="core/drawer/basic">
+  <DrawerBasic />
+</Example>
+
+### Size
+
+`size` sets the width of a left or right drawer and the height of a top or bottom one. It takes any CSS length. `DrawerSize` has three presets: `SMALL` (360px), `STANDARD` (50%, the default) and `LARGE` (90%).
+
+<Example name="core/drawer/size">
+  <DrawerSizes />
+</Example>
+
+### Position
+
+`position` accepts `top`, `right` (the default), `bottom` and `left`.
+
+<Example name="core/drawer/position">
+  <DrawerPosition />
+</Example>
+
+## Interactive playground
+
+<Example name="core/drawer/playground" variant="playground">
+  <DrawerPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="DrawerProps" />

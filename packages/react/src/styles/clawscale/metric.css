@@ -1,0 +1,82 @@
+/* Metric and Delta */
+
+.cs-metric {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-1);
+  min-width: 0;
+}
+
+.cs-metric-label {
+  color: var(--cs-color-text-muted);
+  font-size: var(--cs-font-size-sm);
+  font-weight: var(--cs-font-weight-medium);
+  line-height: var(--cs-line-height-tight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-metric-value {
+  color: var(--cs-color-text);
+  font-size: var(--cs-font-size-2xl);
+  font-weight: var(--cs-font-weight-semibold);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.cs-metric[data-size="small"] .cs-metric-value {
+  font-size: var(--cs-font-size-xl);
+}
+
+.cs-metric[data-size="large"] .cs-metric-value {
+  font-size: var(--cs-font-size-3xl);
+}
+
+.cs-metric-unit {
+  color: var(--cs-color-text-muted);
+  font-size: 0.6em;
+  font-weight: var(--cs-font-weight-medium);
+  letter-spacing: 0;
+  margin-left: 0.25em;
+}
+
+.cs-metric-footer {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cs-space-2);
+  font-size: var(--cs-font-size-sm);
+}
+
+.cs-metric-caption {
+  color: var(--cs-color-text-subtle);
+}
+
+.cs-metric-trend {
+  margin-top: var(--cs-space-1);
+}
+
+.cs-delta {
+  align-items: center;
+  display: inline-flex;
+  font-weight: var(--cs-font-weight-medium);
+  gap: 3px;
+  white-space: nowrap;
+}
+
+.cs-delta[data-tone="good"] {
+  color: var(--cs-color-success-text);
+}
+
+.cs-delta[data-tone="bad"] {
+  color: var(--cs-color-danger-text);
+}
+
+.cs-delta[data-tone="neutral"] {
+  color: var(--cs-color-text-muted);
+}
+
+.cs-delta-icon {
+  flex: none;
+}

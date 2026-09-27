@@ -1,0 +1,103 @@
+import ButtonsAnchor from "@/examples/core/buttons/anchor";
+import ButtonsBasic from "@/examples/core/buttons/basic";
+import ButtonsFill from "@/examples/core/buttons/fill";
+import ButtonsIcons from "@/examples/core/buttons/icons";
+import ButtonsIntent from "@/examples/core/buttons/intent";
+import ButtonsPlayground from "@/examples/core/buttons/playground";
+import ButtonsSize from "@/examples/core/buttons/size";
+import ButtonsStates from "@/examples/core/buttons/states";
+import ButtonsVariant from "@/examples/core/buttons/variant";
+
+export const metadata = { title: "Buttons" };
+
+# Buttons
+
+A **Button** triggers an action. An **AnchorButton** looks the same and navigates.
+
+## Usage
+
+```tsx
+import { AnchorButton, Button } from "@clawscale/react";
+```
+
+```tsx
+<Button intent="primary" text="Save" />
+```
+
+## Examples
+
+### Basic
+
+Set the label with `text` or pass children.
+
+<Example name="core/buttons/basic">
+  <ButtonsBasic />
+</Example>
+
+### Intent
+
+`intent` signals what the action does. Use **primary** for the main action on a screen and **danger** for destructive ones.
+
+<Example name="core/buttons/intent">
+  <ButtonsIntent />
+</Example>
+
+### Variant
+
+`variant` sets the visual weight: **solid** (default), **outlined** or **minimal**. Use minimal buttons in toolbars and dense tables.
+
+<Example name="core/buttons/variant">
+  <ButtonsVariant />
+</Example>
+
+### Size
+
+`size` accepts **small**, **medium** (default) and **large**.
+
+<Example name="core/buttons/size">
+  <ButtonsSize />
+</Example>
+
+### Icons
+
+`icon` renders before the text and `endIcon` after it. Icon-only buttons need an `aria-label`.
+
+<Example name="core/buttons/icons">
+  <ButtonsIcons />
+</Example>
+
+### States
+
+`active`, `disabled` and `loading` change how a button responds. A loading button keeps its width.
+
+<Example name="core/buttons/states">
+  <ButtonsStates />
+</Example>
+
+### Fill
+
+`fill` stretches a button to its container. Pair it with `alignText` for menu-like triggers.
+
+<Example name="core/buttons/fill">
+  <ButtonsFill />
+</Example>
+
+## AnchorButton
+
+**AnchorButton** renders an `<a>` element with button styles. Use it for navigation, not actions.
+
+<Example name="core/buttons/anchor">
+  <ButtonsAnchor />
+</Example>
+
+## Interactive playground
+
+<Example name="core/buttons/playground" variant="playground">
+  <ButtonsPlayground />
+</Example>
+
+## Props interface
+
+Both components accept the HTML attributes of their element.
+
+<PropsTable name="ButtonSharedProps" />

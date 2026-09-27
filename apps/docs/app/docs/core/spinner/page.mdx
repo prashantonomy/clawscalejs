@@ -1,0 +1,51 @@
+import SpinnerIntent from "@/examples/core/spinner/intent";
+import SpinnerSizeExample from "@/examples/core/spinner/size";
+import SpinnerValue from "@/examples/core/spinner/value";
+
+export const metadata = { title: "Spinner" };
+
+# Spinner
+
+A **Spinner** shows that work is in progress. Without a `value` it spins. With a `value` it shows how much is done.
+
+## Usage
+
+```tsx
+import { Spinner, SpinnerSize } from "@clawscale/react";
+```
+
+```tsx
+<Spinner size={SpinnerSize.SMALL} />
+```
+
+The spinner has the ARIA role `progressbar` and the label "loading". Pass `aria-label` to describe the task.
+
+## Examples
+
+### Size
+
+`size` sets the diameter in pixels, 10 or more. `SpinnerSize` holds the common sizes: **SMALL** (20), **STANDARD** (50, the default) and **LARGE** (100).
+
+<Example name="core/spinner/size">
+  <SpinnerSizeExample />
+</Example>
+
+### Intent
+
+`intent` colors the moving part of the spinner.
+
+<Example name="core/spinner/intent">
+  <SpinnerIntent />
+</Example>
+
+### Value
+
+`value` runs from 0 to 1 and fills that share of the track. The spinner stops spinning and animates between values. For a linear bar, use a [Progress bar](/docs/core/progress-bar/).
+
+<Example name="core/spinner/value">
+  <SpinnerValue />
+</Example>
+
+## Props interface
+
+<PropsTable name="SpinnerProps" />

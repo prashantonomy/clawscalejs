@@ -1,0 +1,38 @@
+import PortalProviderFullscreen from "@/examples/core/portal-provider/fullscreen";
+
+export const metadata = { title: "Portal provider" };
+
+# Portal provider
+
+**PortalProvider** sets where the [portals](/docs/core/portal/) in its subtree render and which class name they get. Popovers, tooltips, dialogs and drawers all render through portals. [ClawscaleProvider](/docs/core/clawscale-provider/) includes one.
+
+## Usage
+
+```tsx
+import { PortalProvider } from "@clawscale/react";
+```
+
+For the whole app, pass the options to ClawscaleProvider.
+
+```tsx
+<ClawscaleProvider portalClassName="app-portal">{children}</ClawscaleProvider>
+```
+
+- `portalContainer`: the element that portals render into. Defaults to `document.body`.
+- `portalClassName`: a class name added to every portal element, for example to scope your CSS.
+
+## Examples
+
+### Full screen panel
+
+In full screen, the browser shows only the full screen element and its descendants. A nested PortalProvider renders the panel's menus inside the panel, so they stay visible. Switch to full screen, then open the time range menu.
+
+<Example name="core/portal-provider/fullscreen">
+  <PortalProviderFullscreen />
+</Example>
+
+A nested PortalProvider replaces both options for its subtree. The `container` prop of a single Portal wins over `portalContainer`.
+
+## Props interface
+
+<PropsTable name="PortalContextOptions" />

@@ -1,0 +1,46 @@
+import QueryListCustomRenderer from "@/examples/select/query-list/custom-renderer";
+
+export const metadata = { title: "Query list" };
+
+# Query list
+
+**QueryList** holds the query, filtering and keyboard logic behind every component in the package, and renders nothing itself. Use it to build a picker that the other components do not cover.
+
+## Usage
+
+```tsx
+import { QueryList, renderFilteredItems } from "@clawscale/react/select";
+```
+
+QueryList takes the shared [item props](/docs/select/#item-model), plus a required `renderer`.
+
+## Examples
+
+### Custom list renderer
+
+This picker renders inline instead of in a popover.
+
+- `renderer` lays out the whole component. It receives the query, the rendered list and the key handlers. Attach `handleKeyDown` and `handleKeyUp` to a wrapper, so the arrow keys and Enter work from the input.
+- `itemListRenderer` replaces the default list. Here it adds a summary line above the options. Attach `itemsParentRef` to the element that holds the options, so the active option scrolls into view.
+- `renderFilteredItems` renders the matching items, or its second argument when nothing matches.
+- `listId` fixes the id of the list. Without it, QueryList generates one, and server and client renders can disagree.
+
+<Example name="select/query-list/custom-renderer">
+  <QueryListCustomRenderer />
+</Example>
+
+## Props interface
+
+<PropsTable name="QueryListProps" />
+
+### Renderer props
+
+`renderer` receives these props.
+
+<PropsTable name="QueryListRendererProps" />
+
+### Item list renderer props
+
+`itemListRenderer` receives these props.
+
+<PropsTable name="ItemListRendererProps" />

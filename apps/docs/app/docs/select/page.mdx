@@ -1,0 +1,71 @@
+import SelectItemModel from "@/examples/select/overview/item-model";
+
+export const metadata = { title: "Select" };
+
+# Select
+
+`@clawscale/react/select` holds the components that pick items from a list. They share one item model, so a prop works the same way in each.
+
+## Usage
+
+```tsx
+import { MultiSelect, Omnibar, QueryList, Select, Suggest } from "@clawscale/react/select";
+```
+
+The styles ship in `@clawscale/react/styles.css`. There is no extra stylesheet to load.
+
+## Components
+
+| Component | Use it to |
+| --- | --- |
+| [Select](/docs/select/select-component/) | Pick one item from a button. |
+| [Suggest](/docs/select/suggest/) | Pick one item by typing in a text input. |
+| [Multi select](/docs/select/multi-select/) | Pick several items, shown as tags. |
+| [Omnibar](/docs/select/omnibar/) | Search or run commands from an overlay. |
+| [Query list](/docs/select/query-list/) | Build your own picker on the same logic. |
+
+## Item model
+
+Every component is generic. `T` is the type of one item, and these props describe the list:
+
+| Prop | Role |
+| --- | --- |
+| `items` | The array of `T` to pick from. |
+| `itemRenderer` | Renders one item, usually as a `MenuItem`. |
+| `itemPredicate` | Decides whether one item matches the query. |
+| `itemListPredicate` | Filters the whole array at once. It can also rank. It wins over `itemPredicate`. |
+| `onItemSelect` | Receives the chosen item. |
+
+Here one set of props drives a Select and a Suggest. Both write to the same state, so they stay in sync.
+
+<Example name="select/overview/item-model">
+  <SelectItemModel />
+</Example>
+
+### Item renderer
+
+`itemRenderer` receives the item and an object with `handleClick`, `handleFocus`, `modifiers`, `ref` and `id`.
+
+- Return a `MenuItem` with `roleStructure="listoption"`. The list is a listbox, so each item is an option.
+- Set `active={modifiers.active}` to highlight the item that the arrow keys point at.
+- Forward `ref`, so the list scrolls to the active item.
+- Pass `id`, so the filter input can point screen readers to the active item.
+- Return `null` when `modifiers.matchesPredicate` is false. A custom list renderer may call the renderer for every item.
+
+### Filtering
+
+`itemPredicate` runs once per item and suits most lists. Use `itemListPredicate` for fuzzy search or ranking across the whole list. With neither, every item shows. Set `noResults` for an empty result and `initialContent` for an empty query.
+
+### Controlled state
+
+Control the query with `query` and `onQueryChange`, and the highlighted item with `activeItem` and `onActiveItemChange`.
+
+## Props interface
+
+Every component in the package accepts these props.
+
+<PropsTable name="ListItemsProps" />
+
+`itemRenderer` receives these props for each item.
+
+<PropsTable name="ItemRendererProps" />

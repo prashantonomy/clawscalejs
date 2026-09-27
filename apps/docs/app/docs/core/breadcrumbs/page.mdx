@@ -1,0 +1,64 @@
+import BreadcrumbsBasic from "@/examples/core/breadcrumbs/basic";
+import BreadcrumbsIcons from "@/examples/core/breadcrumbs/icons";
+import BreadcrumbsOverflow from "@/examples/core/breadcrumbs/overflow";
+import BreadcrumbsRenderer from "@/examples/core/breadcrumbs/renderer";
+
+export const metadata = { title: "Breadcrumbs" };
+
+# Breadcrumbs
+
+**Breadcrumbs** show where the current page sits in a hierarchy. Items that do not fit collapse into a menu.
+
+## Usage
+
+```tsx
+import { Breadcrumbs } from "@clawscale/react";
+```
+
+```tsx
+<Breadcrumbs items={[{ href: "/datasets", text: "Datasets" }, { text: "orders_daily" }]} />
+```
+
+## Examples
+
+### Basic
+
+Pass the path to `items`. Items with an `href` or `onClick` render as links, and the last item marks the current page.
+
+<Example name="core/breadcrumbs/basic">
+  <BreadcrumbsBasic />
+</Example>
+
+### Icons
+
+`icon` renders before the text. An item with only an icon needs an `iconTitle` for screen readers.
+
+<Example name="core/breadcrumbs/icons">
+  <BreadcrumbsIcons />
+</Example>
+
+### Overflow
+
+Items that do not fit move into a menu. `collapseFrom` sets the side that collapses first, and `minVisibleItems` keeps a number of items visible.
+
+<Example name="core/breadcrumbs/overflow">
+  <BreadcrumbsOverflow />
+</Example>
+
+### Custom renderer
+
+`breadcrumbRenderer` and `currentBreadcrumbRenderer` replace the default rendering. Return a **Breadcrumb** to keep its styles.
+
+<Example name="core/breadcrumbs/renderer">
+  <BreadcrumbsRenderer />
+</Example>
+
+## Props interface
+
+<PropsTable name="BreadcrumbsProps" />
+
+## Breadcrumb
+
+Each entry in `items` takes these props. Render **Breadcrumb** yourself in a custom renderer.
+
+<PropsTable name="BreadcrumbProps" />

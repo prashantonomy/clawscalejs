@@ -1,0 +1,49 @@
+import TimezoneSelectBasic from "@/examples/datetime/timezone-select/basic";
+import TimezoneSelectDisplayFormat from "@/examples/datetime/timezone-select/display-format";
+import TimezoneSelectLocalTimezone from "@/examples/datetime/timezone-select/local-timezone";
+
+export const metadata = { title: "Timezone select" };
+
+# Timezone select
+
+A **TimezoneSelect** is a searchable menu of timezones. Its value is an IANA timezone code, such as `"Europe/Berlin"`.
+
+## Usage
+
+```tsx
+import { TimezoneSelect } from "@clawscale/react/datetime";
+```
+
+```tsx
+<TimezoneSelect value={timezone} onChange={setTimezone} />
+```
+
+## Examples
+
+### Basic
+
+`value` and `onChange` are required. `onChange` receives the code of the chosen timezone. Users can search by city, code, name or abbreviation. UTC is `"Etc/UTC"`.
+
+<Example name="datetime/timezone-select/basic">
+  <TimezoneSelectBasic />
+</Example>
+
+### Local timezone
+
+`showLocalTimezone` lists the user's timezone first. `placeholder` shows while `value` is `undefined`.
+
+<Example name="datetime/timezone-select/local-timezone">
+  <TimezoneSelectLocalTimezone />
+</Example>
+
+### Display format
+
+`valueDisplayFormat` sets the button text: **composite** (default), **abbreviation**, **long-name**, **offset** or **code**. Names and abbreviations follow the runtime's locale, and offsets follow daylight saving time, so the server and the browser can disagree. **code** never does.
+
+<Example name="datetime/timezone-select/display-format">
+  <TimezoneSelectDisplayFormat />
+</Example>
+
+## Props interface
+
+<PropsTable name="TimezoneSelectProps" />

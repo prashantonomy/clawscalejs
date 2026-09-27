@@ -1,0 +1,215 @@
+/* Tags. Solid tags keep Blueprint's bridged fills. Minimal tags use subtle tints. */
+
+.bp6-tag {
+  font-weight: var(--cs-font-weight-medium);
+}
+
+.bp6-tag:not(.bp6-round) {
+  border-radius: var(--cs-radius-sm);
+}
+
+.bp6-tag.bp6-minimal:not([class*="bp6-intent-"]) {
+  background-color: var(--cs-color-surface-active);
+  color: var(--cs-color-text);
+}
+
+.bp6-tag.bp6-minimal.bp6-interactive:not([class*="bp6-intent-"]):hover {
+  background-color: color-mix(in srgb, var(--cs-color-text) 14%, transparent);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-primary {
+  background-color: var(--cs-color-primary-subtle);
+  color: var(--cs-color-primary-text);
+}
+.bp6-tag.bp6-minimal.bp6-interactive.bp6-intent-primary:hover {
+  background-color: var(--cs-color-primary-subtle-hover);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-success {
+  background-color: var(--cs-color-success-subtle);
+  color: var(--cs-color-success-text);
+}
+.bp6-tag.bp6-minimal.bp6-interactive.bp6-intent-success:hover {
+  background-color: var(--cs-color-success-subtle-hover);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-warning {
+  background-color: var(--cs-color-warning-subtle);
+  color: var(--cs-color-warning-text);
+}
+.bp6-tag.bp6-minimal.bp6-interactive.bp6-intent-warning:hover {
+  background-color: var(--cs-color-warning-subtle-hover);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-danger {
+  background-color: var(--cs-color-danger-subtle);
+  color: var(--cs-color-danger-text);
+}
+.bp6-tag.bp6-minimal.bp6-interactive.bp6-intent-danger:hover {
+  background-color: var(--cs-color-danger-subtle-hover);
+}
+
+.bp6-tag.bp6-minimal .bp6-icon:not([class*="bp6-intent-"]) {
+  color: currentColor;
+}
+
+/* Minimal intent tags: icons, the remove button and hover states use the readable -text tokens */
+
+.bp6-tag.bp6-minimal.bp6-intent-primary > .bp6-icon,
+.bp6-tag.bp6-minimal.bp6-intent-primary .bp6-icon-standard,
+.bp6-tag.bp6-minimal.bp6-intent-primary .bp6-icon-large {
+  color: var(--cs-color-primary-text);
+  fill: var(--cs-color-primary-text);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-primary .bp6-tag-remove,
+.bp6-tag.bp6-minimal.bp6-intent-primary.bp6-interactive:hover,
+.bp6-tag.bp6-minimal.bp6-intent-primary.bp6-interactive:active {
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-success > .bp6-icon,
+.bp6-tag.bp6-minimal.bp6-intent-success .bp6-icon-standard,
+.bp6-tag.bp6-minimal.bp6-intent-success .bp6-icon-large {
+  color: var(--cs-color-success-text);
+  fill: var(--cs-color-success-text);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-success .bp6-tag-remove,
+.bp6-tag.bp6-minimal.bp6-intent-success.bp6-interactive:hover,
+.bp6-tag.bp6-minimal.bp6-intent-success.bp6-interactive:active {
+  color: var(--cs-color-success-text);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-warning > .bp6-icon,
+.bp6-tag.bp6-minimal.bp6-intent-warning .bp6-icon-standard,
+.bp6-tag.bp6-minimal.bp6-intent-warning .bp6-icon-large {
+  color: var(--cs-color-warning-text);
+  fill: var(--cs-color-warning-text);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-warning .bp6-tag-remove,
+.bp6-tag.bp6-minimal.bp6-intent-warning.bp6-interactive:hover,
+.bp6-tag.bp6-minimal.bp6-intent-warning.bp6-interactive:active {
+  color: var(--cs-color-warning-text);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-danger > .bp6-icon,
+.bp6-tag.bp6-minimal.bp6-intent-danger .bp6-icon-standard,
+.bp6-tag.bp6-minimal.bp6-intent-danger .bp6-icon-large {
+  color: var(--cs-color-danger-text);
+  fill: var(--cs-color-danger-text);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-danger .bp6-tag-remove,
+.bp6-tag.bp6-minimal.bp6-intent-danger.bp6-interactive:hover,
+.bp6-tag.bp6-minimal.bp6-intent-danger.bp6-interactive:active {
+  color: var(--cs-color-danger-text);
+}
+
+/*
+ * Solid warning tags. Blueprint lightens its dark orange by up to 0.24 in OKLCH,
+ * which turns Clawscale's amber almost white. Use the solid tokens instead.
+ */
+
+.bp6-tag.bp6-intent-warning:not(.bp6-minimal):not(.bp6-compound-tag) {
+  background: var(--cs-color-warning);
+  color: var(--cs-color-warning-on);
+}
+
+.bp6-tag.bp6-intent-warning.bp6-interactive:not(.bp6-minimal):not(.bp6-compound-tag):hover {
+  background-color: var(--cs-color-warning-hover);
+}
+
+.bp6-tag.bp6-intent-warning.bp6-interactive:not(.bp6-minimal):not(.bp6-compound-tag):active,
+.bp6-tag.bp6-intent-warning.bp6-interactive.bp6-active:not(.bp6-minimal):not(.bp6-compound-tag) {
+  background-color: var(--cs-color-warning-active);
+}
+
+.bp6-tag.bp6-intent-warning:not(.bp6-minimal) .bp6-tag-remove {
+  color: color-mix(in srgb, var(--cs-color-warning-on) 70%, transparent);
+}
+
+.bp6-tag.bp6-intent-warning:not(.bp6-minimal) .bp6-tag-remove:hover,
+.bp6-tag.bp6-intent-warning:not(.bp6-minimal) .bp6-tag-remove:active {
+  color: var(--cs-color-warning-on);
+}
+
+.bp6-compound-tag.bp6-intent-warning:not(.bp6-minimal) {
+  color: var(--cs-color-warning-on);
+}
+
+.bp6-compound-tag.bp6-intent-warning:not(.bp6-minimal) .bp6-compound-tag-left {
+  background-color: var(--cs-color-warning-hover);
+}
+
+.bp6-compound-tag.bp6-intent-warning:not(.bp6-minimal) .bp6-compound-tag-right {
+  background-color: var(--cs-color-warning);
+}
+
+.bp6-compound-tag.bp6-intent-warning.bp6-interactive:not(.bp6-minimal):hover .bp6-compound-tag-left {
+  background-color: var(--cs-color-warning-active);
+}
+
+.bp6-compound-tag.bp6-intent-warning.bp6-interactive:not(.bp6-minimal):hover .bp6-compound-tag-right {
+  background-color: var(--cs-color-warning-hover);
+}
+
+.bp6-compound-tag.bp6-intent-warning.bp6-interactive:not(.bp6-minimal):active .bp6-compound-tag-left,
+.bp6-compound-tag.bp6-intent-warning.bp6-interactive.bp6-active:not(.bp6-minimal) .bp6-compound-tag-left,
+.bp6-compound-tag.bp6-intent-warning.bp6-interactive:not(.bp6-minimal):active .bp6-compound-tag-right,
+.bp6-compound-tag.bp6-intent-warning.bp6-interactive.bp6-active:not(.bp6-minimal) .bp6-compound-tag-right {
+  background-color: var(--cs-color-warning-active);
+}
+
+/* Compound tags: minimal variants tint each half; the text keeps its -text color */
+
+.bp6-tag.bp6-compound-tag.bp6-minimal {
+  background: none;
+}
+
+.bp6-compound-tag.bp6-minimal.bp6-intent-primary .bp6-compound-tag-left {
+  background-color: var(--cs-color-primary-subtle-hover);
+}
+
+.bp6-compound-tag.bp6-minimal.bp6-intent-primary .bp6-compound-tag-right {
+  background-color: var(--cs-color-primary-subtle);
+}
+
+.bp6-compound-tag.bp6-minimal.bp6-intent-success .bp6-compound-tag-left {
+  background-color: var(--cs-color-success-subtle-hover);
+}
+
+.bp6-compound-tag.bp6-minimal.bp6-intent-success .bp6-compound-tag-right {
+  background-color: var(--cs-color-success-subtle);
+}
+
+.bp6-compound-tag.bp6-minimal.bp6-intent-warning .bp6-compound-tag-left {
+  background-color: var(--cs-color-warning-subtle-hover);
+}
+
+.bp6-compound-tag.bp6-minimal.bp6-intent-warning .bp6-compound-tag-right {
+  background-color: var(--cs-color-warning-subtle);
+}
+
+.bp6-compound-tag.bp6-minimal.bp6-intent-danger .bp6-compound-tag-left {
+  background-color: var(--cs-color-danger-subtle-hover);
+}
+
+.bp6-compound-tag.bp6-minimal.bp6-intent-danger .bp6-compound-tag-right {
+  background-color: var(--cs-color-danger-subtle);
+}
+
+/* Key combos, as used by KeyComboTag and the hotkeys dialog */
+
+.bp6-key {
+  background-color: var(--cs-color-control);
+  border-radius: var(--cs-radius-sm);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border),
+    inset 0 -1px 0 var(--cs-color-control-border);
+  color: var(--cs-color-text-muted);
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-font-size-xs);
+  font-weight: var(--cs-font-weight-medium);
+}

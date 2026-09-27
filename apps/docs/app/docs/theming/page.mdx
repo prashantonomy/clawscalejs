@@ -1,0 +1,78 @@
+import BrandColor from "@/examples/guides/theming/brand-color";
+
+export const metadata = { title: "Theming" };
+
+# Theming
+
+Clawscale's look comes from design tokens. Change a token and every component follows.
+
+## How it works
+
+The stylesheet has two cascade layers. Rules in a later layer win, whatever their specificity.
+
+```css
+@layer blueprint, clawscale;
+
+@layer blueprint {
+  /* normalize.css and Blueprint's CSS, unchanged */
+}
+
+@layer clawscale {
+  /* 1. tokens: --cs-* variables for light and dark */
+  /* 2. bridge: Blueprint's --bp-* tokens point at --cs-* tokens */
+  /* 3. overrides for what Blueprint hardcodes */
+}
+```
+
+Your own CSS is not in a layer, so it beats both. No `!important` needed.
+
+## Dark theme
+
+`ClawscaleProvider` puts the `bp6-dark` class and `data-cs-theme` on `<html>`. It supports light, dark and system themes and saves the choice. Read or change it with [useTheme](/docs/core/use-theme/).
+
+```tsx
+const { theme, resolvedTheme, setTheme } = useTheme();
+```
+
+## Override tokens
+
+Set tokens in your own CSS. Declare dark values under the dark attribute.
+
+```css
+:root {
+  --cs-color-primary: #0e7c6b;
+  --cs-color-primary-hover: #0b6b5c;
+  --cs-color-primary-text: #0b6b5c;
+  --cs-radius-md: 4px;
+}
+
+[data-cs-theme="dark"] {
+  --cs-color-primary-text: #4fd1b8;
+}
+```
+
+See [Tokens](/docs/core/tokens/) for every variable.
+
+## Scope a theme
+
+`data-cs-theme` on any element re-applies the tokens for that subtree. Combine it with token overrides for a local brand color.
+
+<Example name="guides/theming/brand-color">
+  <BrandColor />
+</Example>
+
+## Fonts
+
+`@clawscale/react/fonts.css` loads Inter and JetBrains Mono. To use your own, set `--cs-font-sans` and `--cs-font-mono`.
+
+## Density
+
+Clawscale sets a 13px base size and tabular numbers in tables. Use `size="small"` on buttons and inputs, `compact` on `HTMLTable`, `CardList` and `Callout` for denser screens.
+
+## Your own cascade layers
+
+If your app declares cascade layers, list Clawscale's first so yours win:
+
+```css
+@layer blueprint, clawscale, app;
+```

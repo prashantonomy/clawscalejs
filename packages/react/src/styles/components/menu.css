@@ -1,0 +1,90 @@
+/* Menus */
+
+.bp6-menu {
+  background: var(--cs-color-surface-raised);
+  border-radius: var(--cs-radius-lg);
+  color: var(--cs-color-text);
+}
+
+.bp6-menu-item {
+  border-radius: var(--cs-radius-sm);
+}
+
+.bp6-menu-item:hover {
+  background-color: var(--cs-color-surface-hover);
+}
+
+.bp6-menu-item.bp6-active,
+.bp6-menu-item.bp6-selected {
+  background-color: var(--cs-color-primary-subtle);
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-menu-item.bp6-active .bp6-icon,
+.bp6-menu-item.bp6-selected .bp6-icon {
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-menu-item > .bp6-icon {
+  color: var(--cs-color-text-muted);
+}
+
+.bp6-menu-item .bp6-menu-item-label {
+  color: var(--cs-color-text-subtle);
+  font-size: var(--cs-font-size-sm);
+}
+
+.bp6-menu-item.bp6-disabled,
+.bp6-menu-item.bp6-disabled .bp6-icon {
+  background-color: transparent;
+  color: var(--cs-color-text-disabled);
+}
+
+.bp6-menu-item.bp6-intent-primary,
+.bp6-menu-item.bp6-intent-primary .bp6-icon {
+  color: var(--cs-color-primary-text);
+}
+.bp6-menu-item.bp6-intent-primary:hover {
+  background-color: var(--cs-color-primary-subtle);
+}
+
+.bp6-menu-item.bp6-intent-success,
+.bp6-menu-item.bp6-intent-success .bp6-icon {
+  color: var(--cs-color-success-text);
+}
+.bp6-menu-item.bp6-intent-success:hover {
+  background-color: var(--cs-color-success-subtle);
+}
+
+.bp6-menu-item.bp6-intent-warning,
+.bp6-menu-item.bp6-intent-warning .bp6-icon {
+  color: var(--cs-color-warning-text);
+}
+.bp6-menu-item.bp6-intent-warning:hover {
+  background-color: var(--cs-color-warning-subtle);
+}
+
+.bp6-menu-item.bp6-intent-danger,
+.bp6-menu-item.bp6-intent-danger .bp6-icon {
+  color: var(--cs-color-danger-text);
+}
+.bp6-menu-item.bp6-intent-danger:hover {
+  background-color: var(--cs-color-danger-subtle);
+}
+
+.bp6-menu-divider,
+.bp6-menu-header {
+  border-top-color: var(--cs-color-border);
+}
+
+.bp6-menu-header:first-of-type {
+  border-top: none;
+}
+
+.bp6-menu-header > h6 {
+  color: var(--cs-color-text-subtle);
+  font-size: var(--cs-font-size-xs);
+  font-weight: var(--cs-font-weight-semibold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}

@@ -1,0 +1,84 @@
+import TableEditable from "@/examples/table/features/editable";
+import TableFormats from "@/examples/table/features/formats";
+import TableFrozen from "@/examples/table/features/frozen";
+import TableLoading from "@/examples/table/features/loading";
+import TableReordering from "@/examples/table/features/reordering";
+import TableResizing from "@/examples/table/features/resizing";
+import TableSelection from "@/examples/table/features/selection";
+import TableStriped from "@/examples/table/features/striped";
+
+export const metadata = { title: "Features" };
+
+# Features
+
+Each example turns on one feature of the [Table](/docs/table/). They all show the same pipeline runs.
+
+## Layout
+
+### Column resizing
+
+Drag the right edge of a column header to resize the column. Double-click the edge to fit the widest visible cell. Keep the widths in state with `columnWidths` and `onColumnWidthChanged`, or they reset when the table remounts. `minColumnWidth` and `maxColumnWidth` set the limits. Rows resize the same way from the row header.
+
+<Example name="table/features/resizing" align="start">
+  <TableResizing />
+</Example>
+
+### Column reordering
+
+`enableColumnReordering` shows a drag handle in each column header. Reorder your column list in `onColumnsReordered`, where `Utils.reorderArray` does the index math. Give each column a stable `id`, so its width moves with it, and pass the list in `cellRendererDependencies`, so the cells re-render.
+
+<Example name="table/features/reordering" align="start">
+  <TableReordering />
+</Example>
+
+### Frozen columns and rows
+
+`numFrozenColumns` pins columns to the left edge and `numFrozenRows` pins rows to the top. Scroll the table: the pipeline name and the first two runs stay in place.
+
+<Example name="table/features/frozen" align="start">
+  <TableFrozen />
+</Example>
+
+## Interaction
+
+### Selection modes
+
+`selectionModes` sets what a click or a drag selects: cells, rows, columns or the whole table. `SelectionModes` holds the common sets, and an array of `RegionCardinality` values builds any other. Read the selection with `onSelection`, or control it with `selectedRegions`.
+
+<Example name="table/features/selection" align="start">
+  <TableSelection />
+</Example>
+
+### Editable cells
+
+Return an `EditableCell` from `cellRenderer`. Double-click an owner to edit it: Enter confirms and Escape cancels. `onConfirm` receives the new value. Pass the edited state in `cellRendererDependencies`, so the cells re-render.
+
+<Example name="table/features/editable" align="start">
+  <TableEditable />
+</Example>
+
+## Display
+
+### Loading states
+
+`loadingOptions` on the table replaces cells, column headers and row headers with skeletons. `Column` accepts `loadingOptions` for one column, and `Cell` accepts `loading` for one cell. The most specific setting wins.
+
+<Example name="table/features/loading" align="start">
+  <TableLoading />
+</Example>
+
+### Truncated and JSON cells
+
+`TruncatedFormat` cuts long text to fit its cell, and `JSONFormat` does the same for objects. With `detectTruncation`, a button appears at the right edge of a cut cell. Click it to read the full value in a popover.
+
+<Example name="table/features/formats" align="start">
+  <TableFormats />
+</Example>
+
+### Striped rows
+
+Pass `className="bp6-table-striped"` to the table to shade every other row.
+
+<Example name="table/features/striped" align="start">
+  <TableStriped />
+</Example>

@@ -1,0 +1,119 @@
+export const metadata = { title: "API" };
+
+# API
+
+A `Table` holds `Column` children, and each column renders a `Cell` for every row. The other components customize cells and headers.
+
+## Usage
+
+```tsx
+import {
+  Cell,
+  Column,
+  ColumnHeaderCell,
+  EditableCell,
+  JSONFormat,
+  RowHeaderCell,
+  Table,
+  TruncatedFormat,
+} from "@clawscale/react/table";
+```
+
+<Callout intent="primary" title="Table2 and EditableCell2">
+  `Table2` and `EditableCell2` are deprecated aliases of `Table` and `EditableCell`. Use the names without the 2.
+</Callout>
+
+## Table
+
+The root component. Set `numRows` and pass `Column` children. The table fills the height of its container.
+
+<PropsTable name="TableProps" />
+
+### Instance methods
+
+Get the instance with a ref, for example `useRef<Table>(null)`.
+
+| Method | What it does |
+| --- | --- |
+| `scrollToRegion(region)` | Scrolls a region to the top left of the viewport. |
+| `scrollByOffset({ left, top })` | Scrolls the body by a number of pixels. |
+| `resizeRowsByTallestCell(columns?)` | Sets every row to the height of the tallest visible cell. |
+| `resizeRowsByApproximateHeight(getCellText)` | Sizes each row to fit its wrapped text, by estimate. Experimental. |
+
+### Regions
+
+A region is a rectangle of cells. Selection, styled overlays and `scrollToRegion` all take regions. Build them with the `Regions` helpers.
+
+```tsx
+import { Regions } from "@clawscale/react/table";
+
+Regions.cell(0, 2); // one cell: row 0, column 2
+Regions.row(4, 6); // rows 4 to 6
+Regions.column(1); // column 1
+Regions.table(); // every cell
+```
+
+## Column
+
+One column: its name, its cell renderer and an optional header renderer. Give each column a stable `id`, so its width survives reordering.
+
+<PropsTable name="ColumnProps" />
+
+## Cell
+
+The content of one cell, returned from a column's `cellRenderer`. `intent` colors the cell, `wrapText` allows several lines and `loading` shows a skeleton.
+
+<PropsTable name="CellProps" />
+
+## EditableCell
+
+A cell that turns into a text input on double click. `onConfirm` receives the new value.
+
+<PropsTable name="EditableCellProps" />
+
+## ColumnHeaderCell
+
+Return one from a column's `columnHeaderCellRenderer` to customize its header. `menuRenderer` adds a menu that opens from a header button or on right click. Children render below the name.
+
+```tsx
+<Column
+  name="Rows"
+  cellRenderer={renderRows}
+  columnHeaderCellRenderer={() => (
+    <ColumnHeaderCell
+      name="Rows"
+      menuRenderer={() => (
+        <Menu>
+          <MenuItem icon="sort-desc" text="Sort largest first" onClick={sortByRows} />
+        </Menu>
+      )}
+    />
+  )}
+/>
+```
+
+<PropsTable name="ColumnHeaderCellProps" />
+
+## RowHeaderCell
+
+Return one from the table's `rowHeaderCellRenderer` to replace the default row numbers.
+
+```tsx
+<Table numRows={runs.length} rowHeaderCellRenderer={(row) => <RowHeaderCell name={runs[row]?.id} />}>
+  {columns}
+</Table>
+```
+
+<PropsTable name="RowHeaderCellProps" />
+
+## TruncatedFormat
+
+Wraps long text in a cell. With `detectTruncation`, a button opens the full text when it does not fit.
+
+<PropsTable name="TruncatedFormatProps" />
+
+## JSONFormat
+
+Prints an object as JSON and truncates it like `TruncatedFormat`.
+
+<PropsTable name="JSONFormatProps" />

@@ -1,0 +1,76 @@
+import CheckboxAlignRight from "@/examples/core/checkbox/align-right";
+import CheckboxBasic from "@/examples/core/checkbox/basic";
+import CheckboxDisabled from "@/examples/core/checkbox/disabled";
+import CheckboxIndeterminate from "@/examples/core/checkbox/indeterminate";
+import CheckboxInline from "@/examples/core/checkbox/inline";
+import CheckboxPlayground from "@/examples/core/checkbox/playground";
+
+export const metadata = { title: "Checkbox" };
+
+# Checkbox
+
+A **Checkbox** turns one option on or off. A third, indeterminate state shows a partial selection.
+
+## Usage
+
+```tsx
+import { Checkbox } from "@clawscale/react";
+```
+
+```tsx
+<Checkbox checked={retry} label="Retry failed tasks" onChange={(event) => setRetry(event.currentTarget.checked)} />
+```
+
+## Examples
+
+### Basic
+
+`defaultChecked` sets the initial state of an uncontrolled checkbox. Pass `checked` and `onChange` to control it.
+
+<Example name="core/checkbox/basic">
+  <CheckboxBasic />
+</Example>
+
+### Indeterminate
+
+`indeterminate` shows a dash instead of a check. Use it on a select-all checkbox when only some items are selected.
+
+<Example name="core/checkbox/indeterminate">
+  <CheckboxIndeterminate />
+</Example>
+
+### Inline
+
+`inline` places checkboxes on one line.
+
+<Example name="core/checkbox/inline">
+  <CheckboxInline />
+</Example>
+
+### Disabled
+
+`disabled` blocks changes in every state.
+
+<Example name="core/checkbox/disabled">
+  <CheckboxDisabled />
+</Example>
+
+### Align right
+
+`alignIndicator="end"` moves the box after the label. Use it in settings lists with a fixed width.
+
+<Example name="core/checkbox/align-right">
+  <CheckboxAlignRight />
+</Example>
+
+## Interactive playground
+
+<Example name="core/checkbox/playground" variant="playground">
+  <CheckboxPlayground />
+</Example>
+
+## Props interface
+
+**Checkbox** also accepts the HTML attributes of an `<input>`.
+
+<PropsTable name="CheckboxProps" />

@@ -1,0 +1,136 @@
+/* Landing page. Always dark, like the blueprintjs.com hero. */
+
+.landing {
+  background: #0b0e14;
+  color: #e7e9ec;
+  min-height: 100vh;
+}
+
+.landing-hero {
+  align-items: center;
+  background:
+    linear-gradient(rgba(124, 156, 255, 0.07) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(124, 156, 255, 0.07) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(rgba(124, 156, 255, 0.12) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(90deg, rgba(124, 156, 255, 0.12) 1px, transparent 1px) 0 0 / 120px 120px,
+    radial-gradient(ellipse at 50% 40%, #1a2c5c 0%, #101a36 45%, #0b0e14 100%);
+  display: flex;
+  justify-content: center;
+  min-height: min(720px, 86vh);
+  overflow: hidden;
+  position: relative;
+}
+
+.landing-wireframes {
+  color: rgba(147, 178, 251, 0.22);
+  height: 100%;
+  inset: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.landing-center {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 24px;
+  position: relative;
+  text-align: center;
+}
+
+.landing-center::before {
+  background: radial-gradient(closest-side, rgba(11, 14, 20, 0.85), rgba(11, 14, 20, 0));
+  content: "";
+  inset: -60px -120px;
+  position: absolute;
+  z-index: -1;
+}
+
+.landing-logo {
+  box-shadow: 0 12px 40px rgba(53, 99, 233, 0.45);
+  border-radius: 16px;
+  margin-bottom: 20px;
+}
+
+.landing-title {
+  color: #ffffff;
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.landing-tagline {
+  color: #dce4f5;
+  font-size: 19px;
+  margin: 14px 0 0;
+}
+
+.landing-subtitle {
+  color: #8f9bb3;
+  font-size: 15px;
+  margin: 8px 0 0;
+  max-width: 460px;
+}
+
+.landing-links {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.landing-links a {
+  color: #dce4f5;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.landing-links a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.landing-separator {
+  background: rgba(220, 228, 245, 0.3);
+  height: 16px;
+  width: 1px;
+}
+
+.landing-footer {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 56px 24px 64px;
+  text-align: center;
+}
+
+.landing-footer p {
+  color: #c9d1e0;
+  margin: 0;
+  max-width: 320px;
+}
+
+.landing-footer a {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.landing-footnote {
+  color: #7c879c;
+  font-size: 13px;
+}
+
+.landing-rule {
+  background: rgba(220, 228, 245, 0.2);
+  height: 1px;
+  margin-top: 16px;
+  width: 40px;
+}

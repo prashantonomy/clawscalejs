@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    # Titles and commits follow "Commits and pull requests" in AGENTS.md.
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      development:
+        dependency-type: development
+      production:
+        dependency-type: production
+    ignore:
+      # Blueprint upgrades run through .github/workflows/blueprint-upgrade.yml,
+      # because styles and generated exports must change with them.
+      - dependency-name: "@blueprintjs/*"
+      # TypeScript 7 drops the JavaScript API that the docs props generator needs.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "chore(deps)"

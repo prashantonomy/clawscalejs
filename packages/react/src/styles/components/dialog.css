@@ -1,0 +1,67 @@
+/* Dialogs, drawers, alerts and the overlay backdrop */
+
+.bp6-overlay-backdrop {
+  background-color: var(--cs-color-backdrop);
+}
+
+.bp6-dialog,
+.bp6-alert {
+  background: var(--cs-color-surface-raised);
+  border-radius: var(--cs-radius-xl);
+  box-shadow: var(--cs-shadow-4);
+  color: var(--cs-color-text);
+}
+
+.bp6-dialog-header {
+  background: transparent;
+  border-radius: var(--cs-radius-xl) var(--cs-radius-xl) 0 0;
+  box-shadow: inset 0 -1px 0 var(--cs-color-border);
+  min-height: 44px;
+}
+
+.bp6-dialog-header .bp6-heading {
+  font-size: var(--cs-font-size-lg);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-dialog-header > .bp6-icon {
+  color: var(--cs-color-text-muted);
+}
+
+/* Actions line up with the body content. Blueprint indents them 8px less on the right. */
+.bp6-dialog-footer-fixed {
+  background-color: var(--cs-color-surface-sunken);
+  border-radius: 0 0 var(--cs-radius-xl) var(--cs-radius-xl);
+  border-top-color: var(--cs-color-border);
+  padding: 8px 16px;
+}
+
+/* A form's last field needs no gap above the footer. */
+.bp6-dialog-body > .bp6-form-group:last-child {
+  margin-bottom: 0;
+}
+
+.bp6-drawer {
+  background: var(--cs-color-surface-raised);
+  box-shadow: var(--cs-shadow-4);
+  color: var(--cs-color-text);
+}
+
+.bp6-drawer-header {
+  box-shadow: inset 0 -1px 0 var(--cs-color-border);
+}
+
+.bp6-drawer-header .bp6-heading {
+  font-size: var(--cs-font-size-lg);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-drawer-footer {
+  background-color: var(--cs-color-surface-sunken);
+  box-shadow: inset 0 1px 0 var(--cs-color-border);
+}
+
+.bp6-multistep-dialog-panels .bp6-multistep-dialog-left-panel {
+  background-color: var(--cs-color-surface-sunken);
+  border-right: 1px solid var(--cs-color-border);
+}

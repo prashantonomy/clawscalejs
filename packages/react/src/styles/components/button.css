@@ -1,0 +1,258 @@
+/*
+ * Buttons.
+ * Every rule in this layer beats every Blueprint rule, so selectors mirror
+ * Blueprint's variant structure and never touch border-radius (button groups set it).
+ */
+
+.bp6-button {
+  font-weight: var(--cs-font-weight-medium);
+  transition:
+    background-color var(--cs-duration-fast) var(--cs-ease-standard),
+    box-shadow var(--cs-duration-fast) var(--cs-ease-standard),
+    color var(--cs-duration-fast) var(--cs-ease-standard);
+}
+
+/* Default solid */
+
+.bp6-button:not([class*="bp6-intent-"]):not(.bp6-minimal):not(.bp6-outlined) {
+  background-color: var(--cs-color-control);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border),
+    var(--cs-shadow-control);
+  color: var(--cs-color-text);
+}
+
+.bp6-button:not([class*="bp6-intent-"]):not(.bp6-minimal):not(.bp6-outlined):hover {
+  background-color: var(--cs-color-control-hover);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border-hover),
+    var(--cs-shadow-control);
+}
+
+.bp6-button:not([class*="bp6-intent-"]):not(.bp6-minimal):not(.bp6-outlined):active,
+.bp6-button:not([class*="bp6-intent-"]):not(.bp6-minimal):not(.bp6-outlined).bp6-active {
+  background-color: var(--cs-color-control-active);
+  box-shadow: inset 0 0 0 1px var(--cs-color-control-border-hover);
+}
+
+.bp6-button:not([class*="bp6-intent-"]):not(.bp6-minimal):not(.bp6-outlined):disabled,
+.bp6-button:not([class*="bp6-intent-"]):not(.bp6-minimal):not(.bp6-outlined).bp6-disabled {
+  background-color: var(--cs-color-surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--cs-color-border);
+  color: var(--cs-color-text-disabled);
+}
+
+.bp6-button:not([class*="bp6-intent-"]) .bp6-icon:not([class*="bp6-intent-"]),
+.bp6-button:not([class*="bp6-intent-"]) .bp6-icon-standard:not([class*="bp6-intent-"]),
+.bp6-button:not([class*="bp6-intent-"]) .bp6-icon-large:not([class*="bp6-intent-"]) {
+  color: var(--cs-color-text-muted);
+}
+
+.bp6-button:not([class*="bp6-intent-"]):disabled .bp6-icon,
+.bp6-button:not([class*="bp6-intent-"]).bp6-disabled .bp6-icon {
+  color: var(--cs-color-text-disabled);
+}
+
+/* Intent solids: Blueprint sets the fills from the bridged tokens. */
+
+.bp6-button[class*="bp6-intent-"]:not(.bp6-minimal):not(.bp6-outlined) {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    var(--cs-shadow-control);
+}
+
+.bp6-button[class*="bp6-intent-"]:not(.bp6-minimal):not(.bp6-outlined):active,
+.bp6-button[class*="bp6-intent-"]:not(.bp6-minimal):not(.bp6-outlined).bp6-active {
+  box-shadow:
+    inset 0 0 0 1px rgba(0, 0, 0, 0.16),
+    inset 0 1px 2px rgba(0, 0, 0, 0.14);
+}
+
+.bp6-button[class*="bp6-intent-"]:not(.bp6-minimal):not(.bp6-outlined):disabled,
+.bp6-button[class*="bp6-intent-"]:not(.bp6-minimal):not(.bp6-outlined).bp6-disabled {
+  box-shadow: none;
+}
+
+/* Minimal and outlined, no intent */
+
+.bp6-button.bp6-minimal:not([class*="bp6-intent-"]),
+.bp6-button.bp6-outlined:not([class*="bp6-intent-"]) {
+  color: var(--cs-color-text);
+}
+
+.bp6-button.bp6-minimal:not([class*="bp6-intent-"]):hover,
+.bp6-button.bp6-outlined:not([class*="bp6-intent-"]):hover {
+  background-color: var(--cs-color-surface-hover);
+  color: var(--cs-color-text);
+}
+
+.bp6-button.bp6-minimal:not([class*="bp6-intent-"]):active,
+.bp6-button.bp6-minimal:not([class*="bp6-intent-"]).bp6-active,
+.bp6-button.bp6-outlined:not([class*="bp6-intent-"]):active,
+.bp6-button.bp6-outlined:not([class*="bp6-intent-"]).bp6-active {
+  background-color: var(--cs-color-surface-active);
+  color: var(--cs-color-text);
+}
+
+.bp6-button.bp6-minimal:disabled,
+.bp6-button.bp6-minimal.bp6-disabled,
+.bp6-button.bp6-outlined:disabled,
+.bp6-button.bp6-outlined.bp6-disabled {
+  background-color: transparent;
+  color: var(--cs-color-text-disabled);
+}
+
+.bp6-button.bp6-outlined:not([class*="bp6-intent-"]) {
+  border-color: var(--cs-color-control-border);
+}
+
+/* Minimal and outlined, with intent */
+
+.bp6-button.bp6-minimal.bp6-intent-primary,
+.bp6-button.bp6-outlined.bp6-intent-primary {
+  color: var(--cs-color-primary-text);
+}
+.bp6-button.bp6-minimal.bp6-intent-primary:hover,
+.bp6-button.bp6-outlined.bp6-intent-primary:hover {
+  background-color: var(--cs-color-primary-subtle);
+  color: var(--cs-color-primary-text);
+}
+.bp6-button.bp6-minimal.bp6-intent-primary:active,
+.bp6-button.bp6-minimal.bp6-intent-primary.bp6-active,
+.bp6-button.bp6-outlined.bp6-intent-primary:active,
+.bp6-button.bp6-outlined.bp6-intent-primary.bp6-active {
+  background-color: var(--cs-color-primary-subtle-hover);
+}
+.bp6-button.bp6-outlined.bp6-intent-primary {
+  border-color: var(--cs-color-primary-border);
+}
+
+.bp6-button.bp6-minimal.bp6-intent-success,
+.bp6-button.bp6-outlined.bp6-intent-success {
+  color: var(--cs-color-success-text);
+}
+.bp6-button.bp6-minimal.bp6-intent-success:hover,
+.bp6-button.bp6-outlined.bp6-intent-success:hover {
+  background-color: var(--cs-color-success-subtle);
+  color: var(--cs-color-success-text);
+}
+.bp6-button.bp6-minimal.bp6-intent-success:active,
+.bp6-button.bp6-minimal.bp6-intent-success.bp6-active,
+.bp6-button.bp6-outlined.bp6-intent-success:active,
+.bp6-button.bp6-outlined.bp6-intent-success.bp6-active {
+  background-color: var(--cs-color-success-subtle-hover);
+}
+.bp6-button.bp6-outlined.bp6-intent-success {
+  border-color: var(--cs-color-success-border);
+}
+
+.bp6-button.bp6-minimal.bp6-intent-warning,
+.bp6-button.bp6-outlined.bp6-intent-warning {
+  color: var(--cs-color-warning-text);
+}
+.bp6-button.bp6-minimal.bp6-intent-warning:hover,
+.bp6-button.bp6-outlined.bp6-intent-warning:hover {
+  background-color: var(--cs-color-warning-subtle);
+  color: var(--cs-color-warning-text);
+}
+.bp6-button.bp6-minimal.bp6-intent-warning:active,
+.bp6-button.bp6-minimal.bp6-intent-warning.bp6-active,
+.bp6-button.bp6-outlined.bp6-intent-warning:active,
+.bp6-button.bp6-outlined.bp6-intent-warning.bp6-active {
+  background-color: var(--cs-color-warning-subtle-hover);
+}
+.bp6-button.bp6-outlined.bp6-intent-warning {
+  border-color: var(--cs-color-warning-border);
+}
+
+.bp6-button.bp6-minimal.bp6-intent-danger,
+.bp6-button.bp6-outlined.bp6-intent-danger {
+  color: var(--cs-color-danger-text);
+}
+.bp6-button.bp6-minimal.bp6-intent-danger:hover,
+.bp6-button.bp6-outlined.bp6-intent-danger:hover {
+  background-color: var(--cs-color-danger-subtle);
+  color: var(--cs-color-danger-text);
+}
+.bp6-button.bp6-minimal.bp6-intent-danger:active,
+.bp6-button.bp6-minimal.bp6-intent-danger.bp6-active,
+.bp6-button.bp6-outlined.bp6-intent-danger:active,
+.bp6-button.bp6-outlined.bp6-intent-danger.bp6-active {
+  background-color: var(--cs-color-danger-subtle-hover);
+}
+.bp6-button.bp6-outlined.bp6-intent-danger {
+  border-color: var(--cs-color-danger-border);
+}
+
+.bp6-button.bp6-minimal[class*="bp6-intent-"]:disabled,
+.bp6-button.bp6-minimal[class*="bp6-intent-"].bp6-disabled,
+.bp6-button.bp6-outlined[class*="bp6-intent-"]:disabled,
+.bp6-button.bp6-outlined[class*="bp6-intent-"].bp6-disabled {
+  background-color: transparent;
+  color: var(--cs-color-text-disabled);
+}
+
+/*
+ * Buttons inside minimal and outlined groups take the group's variant.
+ * The :not() keeps the specificity equal to the solid rules above, and source order wins.
+ */
+
+.bp6-button-group.bp6-minimal .bp6-button:not(.bp6-minimal),
+.bp6-button-group.bp6-outlined .bp6-button:not(.bp6-outlined) {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.bp6-button-group.bp6-minimal .bp6-button:not(.bp6-minimal):not([class*="bp6-intent-"]),
+.bp6-button-group.bp6-outlined .bp6-button:not(.bp6-outlined):not([class*="bp6-intent-"]) {
+  color: var(--cs-color-text);
+}
+
+.bp6-button-group.bp6-minimal .bp6-button:not(.bp6-minimal):not([class*="bp6-intent-"]):hover,
+.bp6-button-group.bp6-outlined .bp6-button:not(.bp6-outlined):not([class*="bp6-intent-"]):hover {
+  background-color: var(--cs-color-surface-hover);
+}
+
+.bp6-button-group.bp6-minimal .bp6-button:not(.bp6-minimal):not([class*="bp6-intent-"]):active,
+.bp6-button-group.bp6-minimal .bp6-button:not(.bp6-minimal):not([class*="bp6-intent-"]).bp6-active,
+.bp6-button-group.bp6-outlined .bp6-button:not(.bp6-outlined):not([class*="bp6-intent-"]):active,
+.bp6-button-group.bp6-outlined .bp6-button:not(.bp6-outlined):not([class*="bp6-intent-"]).bp6-active {
+  background-color: var(--cs-color-surface-active);
+}
+
+.bp6-button-group.bp6-minimal .bp6-button.bp6-intent-primary:not(.bp6-minimal),
+.bp6-button-group.bp6-outlined .bp6-button.bp6-intent-primary:not(.bp6-outlined) {
+  color: var(--cs-color-primary-text);
+}
+.bp6-button-group.bp6-minimal .bp6-button.bp6-intent-primary:not(.bp6-minimal):hover,
+.bp6-button-group.bp6-outlined .bp6-button.bp6-intent-primary:not(.bp6-outlined):hover {
+  background-color: var(--cs-color-primary-subtle);
+}
+
+.bp6-button-group.bp6-minimal .bp6-button.bp6-intent-success:not(.bp6-minimal),
+.bp6-button-group.bp6-outlined .bp6-button.bp6-intent-success:not(.bp6-outlined) {
+  color: var(--cs-color-success-text);
+}
+.bp6-button-group.bp6-minimal .bp6-button.bp6-intent-success:not(.bp6-minimal):hover,
+.bp6-button-group.bp6-outlined .bp6-button.bp6-intent-success:not(.bp6-outlined):hover {
+  background-color: var(--cs-color-success-subtle);
+}
+
+.bp6-button-group.bp6-minimal .bp6-button.bp6-intent-warning:not(.bp6-minimal),
+.bp6-button-group.bp6-outlined .bp6-button.bp6-intent-warning:not(.bp6-outlined) {
+  color: var(--cs-color-warning-text);
+}
+.bp6-button-group.bp6-minimal .bp6-button.bp6-intent-warning:not(.bp6-minimal):hover,
+.bp6-button-group.bp6-outlined .bp6-button.bp6-intent-warning:not(.bp6-outlined):hover {
+  background-color: var(--cs-color-warning-subtle);
+}
+
+.bp6-button-group.bp6-minimal .bp6-button.bp6-intent-danger:not(.bp6-minimal),
+.bp6-button-group.bp6-outlined .bp6-button.bp6-intent-danger:not(.bp6-outlined) {
+  color: var(--cs-color-danger-text);
+}
+.bp6-button-group.bp6-minimal .bp6-button.bp6-intent-danger:not(.bp6-minimal):hover,
+.bp6-button-group.bp6-outlined .bp6-button.bp6-intent-danger:not(.bp6-outlined):hover {
+  background-color: var(--cs-color-danger-subtle);
+}

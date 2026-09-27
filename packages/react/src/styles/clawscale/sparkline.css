@@ -1,0 +1,10 @@
+/* Sparkline */
+
+.cs-sparkline {
+  display: block;
+  flex: none;
+}
+
+.cs-sparkline-area {
+  opacity: 0.12;
+}

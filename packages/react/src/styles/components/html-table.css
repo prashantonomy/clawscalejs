@@ -1,0 +1,79 @@
+/*
+ * HTML table. Blueprint draws cell borders with inset box-shadows in hardcoded colors,
+ * so each border pattern is restated with Clawscale tokens.
+ */
+
+table.bp6-html-table,
+.bp6-running-text table {
+  font-size: var(--cs-font-size-md);
+  font-variant-numeric: tabular-nums;
+}
+
+table.bp6-html-table th,
+.bp6-running-text table th {
+  color: var(--cs-color-text-muted);
+  font-size: var(--cs-font-size-sm);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+table.bp6-html-table td,
+.bp6-running-text table td {
+  color: var(--cs-color-text);
+}
+
+table.bp6-html-table tbody tr td,
+table.bp6-html-table tbody tr th,
+table.bp6-html-table tfoot tr td,
+table.bp6-html-table tfoot tr th,
+.bp6-running-text table tbody tr td,
+.bp6-running-text table tbody tr th {
+  box-shadow: inset 0 1px 0 0 var(--cs-color-border-subtle);
+}
+
+table.bp6-html-table tbody tr:first-child td,
+table.bp6-html-table tbody tr:first-child th,
+table.bp6-html-table tfoot tr:first-child td,
+table.bp6-html-table tfoot tr:first-child th,
+.bp6-running-text table tbody tr:first-child td,
+.bp6-running-text table tbody tr:first-child th {
+  box-shadow: inset 0 1px 0 0 var(--cs-color-border);
+}
+
+table.bp6-html-table.bp6-html-table-bordered th:not(:first-child) {
+  box-shadow: inset 1px 0 0 0 var(--cs-color-border);
+}
+
+table.bp6-html-table.bp6-html-table-bordered tbody tr td:not(:first-child),
+table.bp6-html-table.bp6-html-table-bordered tfoot tr td:not(:first-child) {
+  box-shadow: inset 1px 1px 0 0 var(--cs-color-border);
+}
+
+table.bp6-html-table.bp6-html-table-bordered tbody tr td:first-child,
+table.bp6-html-table.bp6-html-table-bordered tfoot tr td:first-child {
+  box-shadow: inset 0 1px 0 0 var(--cs-color-border);
+}
+
+table.bp6-html-table.bp6-html-table-striped tbody tr td,
+table.bp6-html-table.bp6-html-table-bordered.bp6-html-table-striped tbody tr:not(:first-child) td:first-child {
+  box-shadow: none;
+}
+
+table.bp6-html-table.bp6-html-table-bordered.bp6-html-table-striped tbody tr td:not(:first-child) {
+  box-shadow: inset 1px 0 0 0 var(--cs-color-border);
+}
+
+table.bp6-html-table.bp6-html-table-striped tbody tr:nth-child(odd) td {
+  background: var(--cs-color-surface-sunken);
+}
+
+table.bp6-html-table.bp6-interactive tbody tr:hover td {
+  background-color: var(--cs-color-surface-hover);
+}
+
+table.bp6-html-table.bp6-html-table-striped.bp6-interactive tbody tr:nth-child(odd):hover td {
+  background: var(--cs-color-surface-hover);
+}
+
+table.bp6-html-table.bp6-interactive tbody tr:active td {
+  background-color: var(--cs-color-surface-active);
+}

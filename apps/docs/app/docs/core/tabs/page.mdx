@@ -1,0 +1,85 @@
+import TabsBasic from "@/examples/core/tabs/basic";
+import TabsControlled from "@/examples/core/tabs/controlled";
+import TabsFill from "@/examples/core/tabs/fill";
+import TabsTabPanel from "@/examples/core/tabs/tab-panel";
+import TabsTags from "@/examples/core/tabs/tags";
+import TabsVertical from "@/examples/core/tabs/vertical";
+
+export const metadata = { title: "Tabs" };
+
+# Tabs
+
+**Tabs** switch between views that share one space. Each **Tab** has a title and an optional panel.
+
+## Usage
+
+```tsx
+import { Tab, TabPanel, Tabs } from "@clawscale/react";
+```
+
+```tsx
+<Tabs id="dataset-tabs">
+  <Tab id="preview" title="Preview" panel={<PreviewPanel />} />
+  <Tab id="schema" title="Schema" panel={<SchemaPanel />} />
+</Tabs>
+```
+
+**Tabs** and every **Tab** need an `id`. The ids build the ARIA attributes, so keep them unique on the page. Other children render in the tab list in order. Insert a `TabsExpander` to push the children after it to the end.
+
+## Examples
+
+### Basic
+
+Tabs manage their own selection. `defaultSelectedTabId` sets the first selected tab. `disabled` turns a tab off.
+
+<Example name="core/tabs/basic" align="start">
+  <TabsBasic />
+</Example>
+
+### Tags on tabs
+
+`tagContent` renders a minimal tag after the title, for a count or a status. `tagProps` passes other props to the tag.
+
+<Example name="core/tabs/tags" align="start">
+  <TabsTags />
+</Example>
+
+### Vertical
+
+`vertical` stacks the tab list on the left and shows the panel on the right.
+
+<Example name="core/tabs/vertical" align="start">
+  <TabsVertical />
+</Example>
+
+### Fill
+
+`fill` stretches the tab list to the height of its parent, so the indicator sits on the bottom edge of a [Navbar](/docs/core/navbar/). Render the panels elsewhere. `fill` has no effect on vertical tabs.
+
+<Example name="core/tabs/fill" align="start">
+  <TabsFill />
+</Example>
+
+### Controlled
+
+Pass `selectedTabId` and `onChange` to control the selection, for example from a button or the URL.
+
+<Example name="core/tabs/controlled" align="start">
+  <TabsControlled />
+</Example>
+
+### Tab panel
+
+To show the content elsewhere in the DOM, leave out `panel` and render a **TabPanel** yourself. It sets the ARIA attributes that link it to its tab. Pass the `id` of the **Tabs** as `parentId`.
+
+<Example name="core/tabs/tab-panel" align="start">
+  <TabsTabPanel />
+</Example>
+
+## Props interface
+
+<PropsTable name="TabsProps" />
+
+<PropsTable name="TabProps" />
+
+<PropsTable name="TabPanelProps" />

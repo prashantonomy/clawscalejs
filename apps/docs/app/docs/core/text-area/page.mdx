@@ -1,0 +1,69 @@
+import TextAreaAutoResize from "@/examples/core/text-area/auto-resize";
+import TextAreaBasic from "@/examples/core/text-area/basic";
+import TextAreaFill from "@/examples/core/text-area/fill";
+import TextAreaIntent from "@/examples/core/text-area/intent";
+import TextAreaSize from "@/examples/core/text-area/size";
+
+export const metadata = { title: "Text area" };
+
+# Text area
+
+A **TextArea** takes multiline text such as descriptions, queries or JSON. Use [InputGroup](/docs/core/input-group/) for a single line.
+
+## Usage
+
+```tsx
+import { TextArea } from "@clawscale/react";
+```
+
+```tsx
+<TextArea value={description} onChange={(event) => setDescription(event.currentTarget.value)} />
+```
+
+## Examples
+
+### Basic
+
+Use **TextArea** like a `<textarea>`, controlled or uncontrolled. `rows` sets the initial height.
+
+<Example name="core/text-area/basic">
+  <TextAreaBasic />
+</Example>
+
+### Auto resize
+
+`autoResize` grows the height with the content, so long text never scrolls. Users can still resize the width.
+
+<Example name="core/text-area/auto-resize" align="start">
+  <TextAreaAutoResize />
+</Example>
+
+### Fill
+
+`fill` stretches the text area to the width of its container.
+
+<Example name="core/text-area/fill" align="start">
+  <TextAreaFill />
+</Example>
+
+### Intent
+
+`intent` colors the border and focus ring. Explain the problem in the helper text of a [FormGroup](/docs/core/form-group/).
+
+<Example name="core/text-area/intent">
+  <TextAreaIntent />
+</Example>
+
+### Size
+
+`size` accepts **small**, **medium** (default) and **large**.
+
+<Example name="core/text-area/size">
+  <TextAreaSize />
+</Example>
+
+## Props interface
+
+**TextArea** also accepts the HTML attributes of a `<textarea>`.
+
+<PropsTable name="TextAreaProps" />

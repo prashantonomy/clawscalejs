@@ -1,0 +1,65 @@
+import TimePickerAmPm from "@/examples/datetime/time-picker/am-pm";
+import TimePickerArrowButtons from "@/examples/datetime/time-picker/arrow-buttons";
+import TimePickerMinMax from "@/examples/datetime/time-picker/min-max";
+import TimePickerPlayground from "@/examples/datetime/time-picker/playground";
+import TimePickerPrecision from "@/examples/datetime/time-picker/precision";
+
+export const metadata = { title: "Time picker" };
+
+# Time picker
+
+A **TimePicker** sets a time of day, with one input per unit. Its value is a `Date`, and only the time part counts.
+
+## Usage
+
+```tsx
+import { TimePicker } from "@clawscale/react/datetime";
+```
+
+```tsx
+<TimePicker precision="second" value={time} onChange={setTime} />
+```
+
+## Examples
+
+### Precision
+
+`precision` sets the smallest unit: **minute** (default), **second** or **millisecond**. Type a value, or step a unit with the up and down arrow keys.
+
+<Example name="datetime/time-picker/precision">
+  <TimePickerPrecision />
+</Example>
+
+### 12-hour clock
+
+`useAmPm` shows hours from 1 to 12 and an AM and PM menu. The value is still a regular `Date`.
+
+<Example name="datetime/time-picker/am-pm">
+  <TimePickerAmPm />
+</Example>
+
+### Arrow buttons
+
+`showArrowButtons` adds a button above and below each unit to step it up or down.
+
+<Example name="datetime/time-picker/arrow-buttons">
+  <TimePickerArrowButtons />
+</Example>
+
+### Minimum and maximum time
+
+`minTime` and `maxTime` limit the time. Only the time of each `Date` counts. When `maxTime` is earlier than `minTime`, the range wraps past midnight. A time outside the range reverts to the last valid one.
+
+<Example name="datetime/time-picker/min-max">
+  <TimePickerMinMax />
+</Example>
+
+## Interactive playground
+
+<Example name="datetime/time-picker/playground" variant="playground">
+  <TimePickerPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="TimePickerProps" />

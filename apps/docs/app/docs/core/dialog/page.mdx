@@ -1,0 +1,62 @@
+import DialogBasic from "@/examples/core/dialog/basic";
+import DialogMultistep from "@/examples/core/dialog/multistep";
+import DialogScrollable from "@/examples/core/dialog/scrollable";
+
+export const metadata = { title: "Dialog" };
+
+# Dialog
+
+A **Dialog** shows a focused task above the page, such as a form or a review. It blocks the rest of the app until the user closes it. **MultistepDialog** splits a longer task into steps.
+
+## Usage
+
+```tsx
+import { Dialog, DialogBody, DialogFooter } from "@clawscale/react";
+```
+
+```tsx
+<Dialog isOpen={isOpen} onClose={close} title="Schedule ingest-orders">
+  <DialogBody>{/* content */}</DialogBody>
+  <DialogFooter actions={<Button intent="primary" text="Save" onClick={close} />} />
+</Dialog>
+```
+
+Dialog is controlled with `isOpen`. It calls `onClose` when the user presses escape, clicks the backdrop or clicks the close button. The header renders only when `title` is set.
+
+## Examples
+
+### Basic
+
+`DialogBody` pads the content. `DialogFooter` puts `actions` on the right and its children on the left.
+
+<Example name="core/dialog/basic">
+  <DialogBasic />
+</Example>
+
+### Scrollable body
+
+DialogBody scrolls once its content is taller than 70% of the viewport. The header and footer stay in place. Set `useOverflowScrollContainer={false}` to turn this off.
+
+<Example name="core/dialog/scrollable">
+  <DialogScrollable />
+</Example>
+
+### Multistep dialog
+
+**MultistepDialog** takes `DialogStep` children. Each step has a `title` for the navigation and a `panel`, usually a DialogBody. It renders the back and next buttons. `finalButtonProps` sets the button on the last step.
+
+<Example name="core/dialog/multistep">
+  <DialogMultistep />
+</Example>
+
+## Props interface
+
+<PropsTable name="DialogProps" />
+
+<PropsTable name="DialogBodyProps" />
+
+<PropsTable name="DialogFooterProps" />
+
+<PropsTable name="MultistepDialogProps" />
+
+<PropsTable name="DialogStepProps" />

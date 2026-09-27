@@ -1,0 +1,114 @@
+/* @blueprintjs/datetime: date pickers, range pickers and time pickers */
+
+.bp6-datepicker-content .rdp {
+  --rdp-accent-color: var(--cs-color-primary);
+  --rdp-accent-color-dark: var(--cs-color-primary-hover);
+  --rdp-background-color: var(--cs-color-surface-raised);
+  --rdp-background-color-dark: var(--cs-color-surface-raised);
+  --rdp-outline: 2px solid var(--cs-color-focus);
+}
+
+.bp6-datepicker {
+  background: var(--cs-color-surface-raised);
+  border-radius: var(--cs-radius-lg);
+  color: var(--cs-color-text);
+}
+
+.bp6-datepicker .rdp-caption {
+  border-bottom-color: var(--cs-color-border);
+}
+
+.bp6-datepicker .rdp-head_cell {
+  color: var(--cs-color-text-subtle);
+  font-size: var(--cs-font-size-xs);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-datepicker .rdp-day {
+  border-radius: var(--cs-radius-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Days from other months stay readable. react-day-picker halves their opacity; only disabled days fade. */
+.bp6-datepicker .rdp-day.rdp-day_outside {
+  color: var(--cs-color-text-subtle);
+}
+
+.bp6-datepicker .rdp-day.rdp-day_outside:not([disabled]) {
+  opacity: 1;
+}
+
+.bp6-datepicker .rdp-day.rdp-day_disabled {
+  color: var(--cs-color-text-disabled);
+}
+
+.bp6-datepicker .rdp-day.rdp-day_today:not(.rdp-day_selected) {
+  color: var(--cs-color-primary-text);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-datepicker .rdp-day:not([disabled], .rdp-day_selected):hover,
+.bp6-datepicker .rdp-day:not([disabled], .rdp-day_selected):focus {
+  background: var(--cs-color-surface-hover);
+  color: var(--cs-color-text);
+}
+
+.bp6-datepicker .rdp-day:not([disabled], .rdp-day_selected):active {
+  background: var(--cs-color-surface-active);
+}
+
+.bp6-datepicker .rdp-day.rdp-day_selected {
+  background-color: var(--cs-color-primary);
+  color: var(--cs-color-primary-on);
+}
+
+.bp6-datepicker .rdp-day.rdp-day_selected:hover {
+  background-color: var(--cs-color-primary-hover);
+  color: var(--cs-color-primary-on);
+}
+
+.bp6-datepicker .rdp-day.rdp-day_selected:active {
+  background-color: var(--cs-color-primary-active);
+}
+
+.bp6-daterangepicker.bp6-datepicker
+  .rdp-day_hovered:not(.rdp-day_selected):not(.rdp-day_range_start, .rdp-day_range_middle, .rdp-day_range_end) {
+  background-color: var(--cs-color-primary-subtle);
+}
+
+.bp6-daterangepicker.bp6-datepicker .rdp-day_range_middle {
+  background-color: var(--cs-color-primary-subtle);
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-daterangepicker.bp6-datepicker .rdp-day_range_middle:hover {
+  background-color: var(--cs-color-primary-subtle-hover);
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-datepicker-footer,
+.bp6-daterangepicker .bp6-daterangepicker-timepickers {
+  border-top-color: var(--cs-color-border);
+}
+
+.bp6-menu.bp6-daterangepicker-shortcuts {
+  border-right: 1px solid var(--cs-color-border);
+}
+
+.bp6-timepicker .bp6-timepicker-input-row {
+  background: var(--cs-color-control);
+  border-radius: var(--cs-radius-md);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border),
+    var(--cs-shadow-control);
+}
+
+.bp6-timepicker .bp6-timepicker-input {
+  color: var(--cs-color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.bp6-timepicker .bp6-timepicker-divider-text,
+.bp6-timepicker .bp6-timepicker-arrow-button {
+  color: var(--cs-color-text-muted);
+}

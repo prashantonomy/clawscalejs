@@ -1,0 +1,111 @@
+/*
+ * Docs site styles. Only docs-specific classes live here, so component demos
+ * always show the real Clawscale styles.
+ */
+
+/* Theme-dependent content that must be right on the first paint, before React hydrates */
+
+.theme-show-dark {
+  display: none;
+}
+
+[data-cs-theme="dark"] .theme-show-dark {
+  display: inline-flex;
+}
+
+[data-cs-theme="dark"] .theme-show-light {
+  display: none;
+}
+
+/* Gallery */
+
+.gallery {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.gallery-grid {
+  display: grid;
+  flex: 1;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  padding: 16px;
+}
+
+.gallery-block {
+  background: var(--cs-color-surface);
+  border: 1px solid var(--cs-color-border);
+  border-radius: var(--cs-radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px;
+}
+
+.gallery-block-title {
+  color: var(--cs-color-text-muted);
+  font-size: var(--cs-font-size-xs);
+  font-weight: var(--cs-font-weight-semibold);
+  letter-spacing: 0.06em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.gallery-block-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gallery-row {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.gallery-metrics {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.gallery-overlays {
+  display: flex;
+  gap: 16px;
+  min-height: 210px;
+}
+
+.gallery-overlay-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gallery-tooltip-spacer {
+  height: 64px;
+}
+
+.gallery-popover {
+  max-width: 200px;
+  padding: 12px;
+}
+
+.gallery-data-table {
+  height: 190px;
+}
+
+.gallery-table {
+  width: 100%;
+}
+
+/* Not found */
+
+.docs-not-found {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}

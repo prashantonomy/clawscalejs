@@ -1,0 +1,57 @@
+import ClassesModifiers from "@/examples/core/classes/modifiers";
+
+export const metadata = { title: "Classes" };
+
+# Classes
+
+`Classes` holds Blueprint's CSS class names as constants. Use them to style your own elements like Blueprint components.
+
+## Usage
+
+```tsx
+import { Classes } from "@clawscale/react";
+```
+
+In React Server Components, import it from `@clawscale/react/common`. The values are the same.
+
+```tsx
+import { Classes } from "@clawscale/react/common";
+```
+
+`@clawscale/react` marks its exports `"use client"`. A server component gets `Classes` from there as a client reference and cannot read its fields.
+
+## Namespace
+
+Every Blueprint class starts with `bp6-`, for Blueprint 6. `Classes.DARK` is `"bp6-dark"`. Use the constants, not the strings: the prefix changes with each major version of Blueprint.
+
+Prefer props where a component has them. Write `<Button intent="primary" />`, not `className={Classes.INTENT_PRIMARY}`.
+
+## Modifiers
+
+| Constant | Class | Effect |
+| --- | --- | --- |
+| `Classes.DARK` | `bp6-dark` | Switches a subtree to the dark theme |
+| `Classes.ELEVATION_1` to `Classes.ELEVATION_4` | `bp6-elevation-1` to `bp6-elevation-4` | Adds a shadow, from `--cs-shadow-1` to `--cs-shadow-4` |
+| `Classes.TEXT_MUTED` | `bp6-text-muted` | Sets the muted text color |
+| `Classes.SKELETON` | `bp6-skeleton` | Replaces content with a loading placeholder |
+| `Classes.RUNNING_TEXT` | `bp6-running-text` | Styles nested headings, lists, code and quotes for long-form text |
+| `Classes.FILL` | `bp6-fill` | Stretches buttons, inputs, selects and groups to fill their container |
+
+## Example
+
+Blueprint's styles apply to any element with the right classes. Both cards below are plain `div` elements.
+
+<Example name="core/classes/modifiers">
+  <ClassesModifiers />
+</Example>
+
+## Clawscale classes
+
+`ClawscaleClasses` holds the `cs-` classes of Clawscale. Import it from `@clawscale/react`, or from `@clawscale/react/common` in server components.
+
+| Constant | Class | Effect |
+| --- | --- | --- |
+| `ClawscaleClasses.NUMERIC` | `cs-numeric` | Tabular numbers, so digits line up in columns |
+| `ClawscaleClasses.MONOSPACE` | `cs-monospace` | Monospace font for ids, hashes and paths |
+
+The other constants name the parts of Clawscale patterns, such as `ClawscaleClasses.METRIC_VALUE` for `cs-metric-value`. Use them to target those parts in your CSS.

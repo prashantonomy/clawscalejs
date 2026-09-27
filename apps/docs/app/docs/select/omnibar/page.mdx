@@ -1,0 +1,33 @@
+import OmnibarCommandPalette from "@/examples/select/omnibar/command-palette";
+
+export const metadata = { title: "Omnibar" };
+
+# Omnibar
+
+**Omnibar** is a search overlay in the style of macOS Spotlight. Use it for command palettes and quick navigation.
+
+## Usage
+
+```tsx
+import { Omnibar } from "@clawscale/react/select";
+```
+
+Omnibar takes the shared [item props](/docs/select/#item-model). It is controlled: `isOpen` shows it, and `onClose` fires on Escape or a click on the backdrop.
+
+## Examples
+
+### Command palette
+
+A button and a global hotkey open the palette. [useHotkeys](/docs/core/use-hotkeys/) registers the hotkey, and `useMemo` keeps the hotkey list stable between renders. `resetOnSelect` clears the query for the next time.
+
+<Example name="select/omnibar/command-palette">
+  <OmnibarCommandPalette />
+</Example>
+
+Many apps open their palette with Cmd + K (`mod+k`). This site uses that combo for its own search, an Omnibar too, so the example uses Shift + P.
+
+Omnibar renders an overlay, and hotkeys need a hotkeys provider. [Clawscale provider](/docs/core/clawscale-provider/) sets up both.
+
+## Props interface
+
+<PropsTable name="OmnibarProps" />

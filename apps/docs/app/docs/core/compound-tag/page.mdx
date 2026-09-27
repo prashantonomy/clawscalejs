@@ -1,0 +1,60 @@
+import CompoundTagBasic from "@/examples/core/compound-tag/basic";
+import CompoundTagIntent from "@/examples/core/compound-tag/intent";
+import CompoundTagMinimal from "@/examples/core/compound-tag/minimal";
+import CompoundTagRemovable from "@/examples/core/compound-tag/removable";
+
+export const metadata = { title: "Compound tag" };
+
+# Compound tag
+
+A **CompoundTag** is a [Tag](/docs/core/tag/) split in two: a key on the left and a value on the right. Use it for properties and filters, such as `env` and `production`.
+
+## Usage
+
+```tsx
+import { CompoundTag } from "@clawscale/react";
+```
+
+```tsx
+<CompoundTag leftContent="env">production</CompoundTag>
+```
+
+## Examples
+
+### Basic
+
+`leftContent` is the key. `children` are the value.
+
+<Example name="core/compound-tag/basic">
+  <CompoundTagBasic />
+</Example>
+
+### Intent
+
+`intent` colors the tag. The key keeps a stronger shade than the value.
+
+<Example name="core/compound-tag/intent">
+  <CompoundTagIntent />
+</Example>
+
+### Minimal
+
+`minimal` uses light tints instead of solid fills. Use it in dense tables and lists.
+
+<Example name="core/compound-tag/minimal">
+  <CompoundTagMinimal />
+</Example>
+
+### Removable
+
+`onRemove` adds a remove button after the value. Use it for active filters.
+
+<Example name="core/compound-tag/removable">
+  <CompoundTagRemovable />
+</Example>
+
+## Props interface
+
+**CompoundTag** accepts the other [Tag](/docs/core/tag/) props too: `icon`, `endIcon`, `round`, `size`, `fill` and `interactive`.
+
+<PropsTable name="CompoundTagProps" />

@@ -1,0 +1,76 @@
+import SegmentedControlBasic from "@/examples/core/segmented-control/basic";
+import SegmentedControlFill from "@/examples/core/segmented-control/fill";
+import SegmentedControlIcons from "@/examples/core/segmented-control/icons";
+import SegmentedControlIntent from "@/examples/core/segmented-control/intent";
+import SegmentedControlPlayground from "@/examples/core/segmented-control/playground";
+import SegmentedControlSize from "@/examples/core/segmented-control/size";
+
+export const metadata = { title: "Segmented control" };
+
+# Segmented control
+
+A **SegmentedControl** picks one value from a few options shown as joined buttons. Use it for time ranges, view switches and short filters.
+
+## Usage
+
+```tsx
+import { SegmentedControl } from "@clawscale/react";
+```
+
+```tsx
+<SegmentedControl options={[{ label: "24h", value: "24h" }, { label: "7d", value: "7d" }]} value={range} onValueChange={setRange} />
+```
+
+Each option takes a `label` and a `value`, plus an optional `icon` and `disabled`.
+
+## Examples
+
+### Time range
+
+Pass `value` and `onValueChange` to control the selection, or `defaultValue` to leave it uncontrolled.
+
+<Example name="core/segmented-control/basic">
+  <SegmentedControlBasic />
+</Example>
+
+### Icons
+
+An option's `icon` renders before its label.
+
+<Example name="core/segmented-control/icons">
+  <SegmentedControlIcons />
+</Example>
+
+### Intent
+
+`intent="primary"` fills the selected option with the primary color. Only **none** and **primary** are supported.
+
+<Example name="core/segmented-control/intent">
+  <SegmentedControlIntent />
+</Example>
+
+### Fill
+
+`fill` stretches the control to its container and gives every option the same share.
+
+<Example name="core/segmented-control/fill" align="start">
+  <SegmentedControlFill />
+</Example>
+
+### Size
+
+`size` accepts **small**, **medium** (default) and **large**.
+
+<Example name="core/segmented-control/size">
+  <SegmentedControlSize />
+</Example>
+
+## Interactive playground
+
+<Example name="core/segmented-control/playground" variant="playground">
+  <SegmentedControlPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="SegmentedControlProps" />

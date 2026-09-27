@@ -1,0 +1,71 @@
+import SectionBasic from "@/examples/core/section/basic";
+import SectionCards from "@/examples/core/section/cards";
+import SectionCollapsible from "@/examples/core/section/collapsible";
+import SectionCompact from "@/examples/core/section/compact";
+import SectionRightElement from "@/examples/core/section/right-element";
+
+export const metadata = { title: "Section" };
+
+# Section
+
+A **Section** groups related content under a header. It looks like a [Card](/docs/core/card/) with a title, can collapse, and holds one or more **SectionCard** elements.
+
+## Usage
+
+```tsx
+import { Section, SectionCard } from "@clawscale/react";
+```
+
+```tsx
+<Section title="Schema" subtitle="24 columns">
+  <SectionCard>{/* content */}</SectionCard>
+</Section>
+```
+
+## Examples
+
+### Basic
+
+The header renders only when `title` is set. `subtitle` and `icon` are optional.
+
+<Example name="core/section/basic" align="start">
+  <SectionBasic />
+</Example>
+
+### Collapsible
+
+`collapsible` makes the header toggle the content. `collapseProps={{ defaultIsOpen: false }}` starts the section closed.
+
+<Example name="core/section/collapsible" align="start">
+  <SectionCollapsible />
+</Example>
+
+### Header actions
+
+`rightElement` renders at the end of the header. Keep it to a small button or a tag.
+
+<Example name="core/section/right-element" align="start">
+  <SectionRightElement />
+</Example>
+
+### Compact
+
+`compact` reduces the padding of the header and the cards.
+
+<Example name="core/section/compact" align="start">
+  <SectionCompact />
+</Example>
+
+### Section cards
+
+Cards stack inside a section, divided by borders. `padded={false}` removes the padding, for tables and lists that run edge to edge.
+
+<Example name="core/section/cards" align="start">
+  <SectionCards />
+</Example>
+
+## Props interface
+
+<PropsTable name="SectionProps" />
+
+<PropsTable name="SectionCardProps" />

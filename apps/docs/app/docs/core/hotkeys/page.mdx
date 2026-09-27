@@ -1,0 +1,73 @@
+import HotkeysGlobal from "@/examples/core/hotkeys/global";
+import HotkeysKeyCombo from "@/examples/core/hotkeys/key-combo";
+import HotkeysLocal from "@/examples/core/hotkeys/local";
+
+export const metadata = { title: "Hotkeys" };
+
+# Hotkeys
+
+**HotkeysTarget** binds keyboard shortcuts to part of your UI. Local hotkeys fire while that part has focus. Global hotkeys fire anywhere on the page.
+
+## Usage
+
+```tsx
+import { HotkeysTarget, KeyComboTag } from "@clawscale/react";
+```
+
+```tsx
+<HotkeysTarget hotkeys={hotkeys}>
+  {({ handleKeyDown, handleKeyUp }) => (
+    <div tabIndex={0} onKeyDown={handleKeyDown} onKeyUp={handleKeyUp}>
+      <PipelineList />
+    </div>
+  )}
+</HotkeysTarget>
+```
+
+A [HotkeysProvider](/docs/core/hotkeys-provider/) above them collects hotkeys for the dialog. [ClawscaleProvider](/docs/core/clawscale-provider/) includes one. In function components, the [useHotkeys](/docs/core/use-hotkeys/) hook does the same job without a wrapper. `HotkeysTarget2` is a deprecated alias of **HotkeysTarget**.
+
+Memoize the `hotkeys` array, for example with `useMemo`. A new array on every render registers the hotkeys again.
+
+## Examples
+
+### Local hotkeys
+
+A local hotkey needs a `group`, which titles it in the hotkeys dialog. Bind `handleKeyDown` and `handleKeyUp` to an element with a `tabIndex` so it can take focus. Click the list, then press J or K.
+
+<Example name="core/hotkeys/local">
+  <HotkeysLocal />
+</Example>
+
+### Global hotkeys
+
+`global: true` fires a hotkey wherever focus is. When every hotkey is global, pass an element instead of a render function. No hotkey fires in a text input unless it sets `allowInInput`.
+
+<Example name="core/hotkeys/global">
+  <HotkeysGlobal />
+</Example>
+
+### Key combos
+
+**KeyComboTag** renders a combo string such as `mod+s`. `mod` shows as cmd on macOS and ctrl elsewhere, and macOS shows modifier keys as icons. On the server it renders PC keys, then switches to the visitor's platform after hydration. `minimal` drops the key caps.
+
+<Example name="core/hotkeys/key-combo" align="start">
+  <HotkeysKeyCombo />
+</Example>
+
+## Hotkeys dialog
+
+Press `?` on this page to open the hotkeys dialog. It lists every registered hotkey by `group`, global hotkeys first. Set `showDialogKeyCombo` in `options` to change the combo, or pass `false` to turn it off.
+
+## Props interface
+
+<PropsTable name="HotkeysTargetProps" />
+
+## Hotkey configuration
+
+Each entry in `hotkeys` takes these fields.
+
+<PropsTable name="HotkeyConfig" />
+
+## KeyComboTag
+
+<PropsTable name="KeyComboTagProps" />

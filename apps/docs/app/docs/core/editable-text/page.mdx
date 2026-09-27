@@ -1,0 +1,69 @@
+import EditableTextBasic from "@/examples/core/editable-text/basic";
+import EditableTextIntent from "@/examples/core/editable-text/intent";
+import EditableTextMultiline from "@/examples/core/editable-text/multiline";
+import EditableTextPlayground from "@/examples/core/editable-text/playground";
+import EditableTextSelectAll from "@/examples/core/editable-text/select-all";
+
+export const metadata = { title: "Editable text" };
+
+# Editable text
+
+**EditableText** reads as plain text and turns into an input on click or focus. Use it for inline renames and short descriptions.
+
+## Usage
+
+```tsx
+import { EditableText } from "@clawscale/react";
+```
+
+```tsx
+<EditableText defaultValue="Revenue by region" onConfirm={rename} />
+```
+
+## Examples
+
+### Basic
+
+**EditableText** inherits font styles, so wrap it in a heading for a title. Enter or blur confirms the edit and calls `onConfirm`. Escape calls `onCancel` and restores the last confirmed value. Use `value` and `onChange` for controlled use.
+
+<Example name="core/editable-text/basic">
+  <EditableTextBasic />
+</Example>
+
+<Callout intent="warning" title="Do not center with text-align">
+  `text-align: center` on a parent causes an endless resize loop. Center **EditableText** with flexbox instead.
+</Callout>
+
+### Multiline
+
+`multiline` renders a text area that grows between `minLines` and `maxLines`. Enter adds a line and Cmd+Enter or Ctrl+Enter confirms. `confirmOnEnterKey` swaps the two.
+
+<Example name="core/editable-text/multiline">
+  <EditableTextMultiline />
+</Example>
+
+### Intent
+
+`intent` colors the text and its outline. Use it to show validation state.
+
+<Example name="core/editable-text/intent">
+  <EditableTextIntent />
+</Example>
+
+### Select all on focus
+
+`selectAllOnFocus` selects the whole value on focus, ready to replace. It suits renames.
+
+<Example name="core/editable-text/select-all">
+  <EditableTextSelectAll />
+</Example>
+
+## Interactive playground
+
+<Example name="core/editable-text/playground" variant="playground">
+  <EditableTextPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="EditableTextProps" />

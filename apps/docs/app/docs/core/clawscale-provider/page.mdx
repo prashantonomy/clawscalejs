@@ -1,0 +1,104 @@
+import ClawscaleProviderThemeSwitcher from "@/examples/core/clawscale-provider/theme-switcher";
+
+export const metadata = { title: "Clawscale provider" };
+
+# Clawscale provider
+
+**ClawscaleProvider** is the root provider of a Clawscale app. It renders Blueprint's [BlueprintProvider](/docs/core/blueprint-provider/) for overlays, hotkeys and portals, and manages the light, dark and system themes. Wrap your app in it once.
+
+## Usage
+
+```tsx
+import { ClawscaleProvider, ThemeScript } from "@clawscale/react";
+```
+
+In Next.js, render the provider in a client component and the theme script in `<head>`.
+
+```tsx
+// app/providers.tsx
+"use client";
+
+import { ClawscaleProvider } from "@clawscale/react";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <ClawscaleProvider>{children}</ClawscaleProvider>;
+}
+```
+
+```tsx
+// app/layout.tsx
+import { ThemeScript } from "@clawscale/react";
+import { Providers } from "./providers";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+See [Next.js](/docs/nextjs/) for the full setup.
+
+## What it includes
+
+- [OverlaysProvider](/docs/core/overlays-provider/): the stack of open dialogs, drawers and popovers.
+- [HotkeysProvider](/docs/core/hotkeys-provider/): the hotkeys registered with useHotkeys, and the hotkeys dialog.
+- [PortalProvider](/docs/core/portal-provider/): where portals render.
+- The theme context that [useTheme](/docs/core/use-theme/) reads.
+
+## Themes
+
+The provider supports three preferences: `light`, `dark` and `system`. `system` follows the operating system through `prefers-color-scheme` and updates when it changes.
+
+- The preference is saved in `localStorage` under `clawscale-theme`. Change the key with `storageKey`, or pass `null` to save nothing.
+- `defaultTheme` applies until the user picks a theme. It defaults to `system`.
+- The resolved theme goes on `<html>` as the `bp6-dark` class, the `data-cs-theme` attribute and `color-scheme`, so portals follow it. Set `applyToDocument={false}` to skip this.
+- Open tabs stay in sync. A change in one tab applies to the others.
+
+## Examples
+
+### Theme switcher
+
+`useTheme` returns the preference and a setter. This switcher changes the theme of these docs.
+
+<Example name="core/clawscale-provider/theme-switcher">
+  <ClawscaleProviderThemeSwitcher />
+</Example>
+
+## Theme script
+
+The provider reads the saved theme after hydration. On its own, the page would first paint in the default theme, then switch. **ThemeScript** prevents this flash: it runs before the first paint and applies the saved theme to `<html>`.
+
+- Render it in `<head>`.
+- Give it the same `storageKey` and `defaultTheme` as the provider.
+- Add `suppressHydrationWarning` to `<html>`, because the script changes its attributes before React hydrates.
+- Pass `nonce` if your Content Security Policy requires one.
+
+Outside React, `getThemeScript(options)` returns the script as a string.
+
+## Controlled theme
+
+Pass `theme` and `onThemeChange` to own the preference, for example to sync it with account settings. The provider still saves it to `localStorage`, so ThemeScript applies it on the next visit.
+
+```tsx
+<ClawscaleProvider theme={theme} onThemeChange={saveTheme}>
+  {children}
+</ClawscaleProvider>
+```
+
+## Blueprint options
+
+ClawscaleProvider passes the portal and hotkeys props on to BlueprintProvider. See [where each one goes](/docs/core/blueprint-provider/#options).
+
+## Props interface
+
+<PropsTable name="ClawscaleProviderProps" />
+
+<PropsTable name="ThemeScriptProps" />

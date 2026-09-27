@@ -1,0 +1,37 @@
+export const metadata = { title: "Design principles" };
+
+# Design principles
+
+Clawscale keeps Blueprint's principles and adds a few for dense software.
+
+## Density with clarity
+
+Show more on one screen without making it harder to read. A 13px base size, tight line heights, tabular numbers and hairline borders keep dense screens calm.
+
+## Desktop first
+
+Clawscale targets complex desktop applications, like Blueprint. Layouts work on small screens, but mouse, keyboard and wide screens come first.
+
+## Tokens over overrides
+
+Every color, shadow, radius and size is a token. Change the token, not the component. Overrides exist only where Blueprint hardcodes a value.
+
+## Layer, never fork
+
+Blueprint renders every component. Clawscale adds tokens, a style layer and entry points. Blueprint's fixes and features arrive with each release.
+
+## Accessible by default
+
+Text and intent colors meet WCAG AA in both themes, and tests enforce it. Focus rings stay visible. Every interactive component works with the keyboard.
+
+## Color that means something
+
+Intents carry meaning: primary for the main action, danger for destructive ones. Chart colors follow a fixed, validated order. Status is never shown by color alone.
+
+## Server ready
+
+Components render on the server. The theme applies before the first paint. Icons can render synchronously.
+
+## API contract
+
+Clawscale keeps Blueprint's component API. It follows semantic versioning: breaking changes only in major versions, with notes in the changelog.

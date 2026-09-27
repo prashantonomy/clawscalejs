@@ -1,0 +1,76 @@
+import TagInputBasic from "@/examples/core/tag-input/basic";
+import TagInputLeftIcon from "@/examples/core/tag-input/left-icon";
+import TagInputPlayground from "@/examples/core/tag-input/playground";
+import TagInputRightElement from "@/examples/core/tag-input/right-element";
+import TagInputSeparator from "@/examples/core/tag-input/separator";
+import TagInputTagProps from "@/examples/core/tag-input/tag-props";
+
+export const metadata = { title: "Tag input" };
+
+# Tag input
+
+A **TagInput** collects a list of short values, such as regions, owners or table names, and shows each one as a [Tag](/docs/core/tag/).
+
+## Usage
+
+```tsx
+import { TagInput } from "@clawscale/react";
+```
+
+```tsx
+<TagInput values={regions} onChange={(values) => setRegions(values.map(String))} />
+```
+
+**TagInput** is always controlled: pass `values` and update them in `onChange`, or in `onAdd` and `onRemove`. Enter adds the typed text. Backspace at the start of the field selects the last tag, and a second Backspace removes it.
+
+## Examples
+
+### Basic
+
+`onChange` receives the full list after every add or remove. `placeholder` shows only while the list is empty.
+
+<Example name="core/tag-input/basic" align="start">
+  <TagInputBasic />
+</Example>
+
+### Left icon
+
+`leftIcon` renders an icon before the tags.
+
+<Example name="core/tag-input/left-icon" align="start">
+  <TagInputLeftIcon />
+</Example>
+
+### Right element
+
+`rightElement` holds one element after the input, such as a minimal button that clears every tag.
+
+<Example name="core/tag-input/right-element" align="start">
+  <TagInputRightElement />
+</Example>
+
+### Tag props
+
+`tagProps` styles the tags. Pass an object for every tag, or a function to style each value on its own.
+
+<Example name="core/tag-input/tag-props" align="start">
+  <TagInputTagProps />
+</Example>
+
+### Separators
+
+`separator` splits typed or pasted text into several tags. The default splits on commas and new lines. Set it to `false` to keep text whole.
+
+<Example name="core/tag-input/separator" align="start">
+  <TagInputSeparator />
+</Example>
+
+## Interactive playground
+
+<Example name="core/tag-input/playground" variant="playground">
+  <TagInputPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="TagInputProps" />

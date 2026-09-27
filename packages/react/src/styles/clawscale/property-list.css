@@ -1,0 +1,56 @@
+/* PropertyList */
+
+.cs-property-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.cs-property {
+  display: grid;
+  gap: var(--cs-space-1) var(--cs-space-3);
+  grid-template-columns: var(--cs-property-label-width) minmax(0, 1fr);
+  padding: 6px 0;
+}
+
+.cs-property + .cs-property {
+  border-top: 1px solid var(--cs-color-border-subtle);
+}
+
+.cs-property-list[data-layout="vertical"] .cs-property {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px;
+}
+
+.cs-property-list[data-compact] .cs-property {
+  padding: 3px 0;
+}
+
+.cs-property-list[data-striped] .cs-property {
+  border-top: 0;
+  border-radius: var(--cs-radius-sm);
+  padding-left: var(--cs-space-2);
+  padding-right: var(--cs-space-2);
+}
+
+.cs-property-list[data-striped] .cs-property:nth-child(odd) {
+  background-color: var(--cs-color-surface-sunken);
+}
+
+.cs-property-label {
+  color: var(--cs-color-text-muted);
+  font-size: var(--cs-font-size-sm);
+  line-height: 20px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-property-value {
+  color: var(--cs-color-text);
+  line-height: 20px;
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

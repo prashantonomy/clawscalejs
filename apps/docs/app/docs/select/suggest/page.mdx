@@ -1,0 +1,56 @@
+import SuggestBasic from "@/examples/select/suggest/basic";
+import SuggestCloseOnSelect from "@/examples/select/suggest/close-on-select";
+import SuggestInputValue from "@/examples/select/suggest/input-value";
+import SuggestResetOnClose from "@/examples/select/suggest/reset-on-close";
+
+export const metadata = { title: "Suggest" };
+
+# Suggest
+
+**Suggest** picks one item from a list by typing. It renders a text input instead of a button, so it suits users who know what they want.
+
+## Usage
+
+```tsx
+import { Suggest } from "@clawscale/react/select";
+```
+
+Suggest takes the shared [item props](/docs/select/#item-model), plus `inputValueRenderer`.
+
+## Examples
+
+### Basic
+
+`inputValueRenderer` turns the selected item into the input text. It is required. Pass `selectedItem` to control the choice, or leave it out to let Suggest keep it.
+
+<Example name="select/suggest/basic">
+  <SuggestBasic />
+</Example>
+
+### Input value
+
+The input can show more than the list does. Here it shows the qualified name, `owner.name`.
+
+<Example name="select/suggest/input-value">
+  <SuggestInputValue />
+</Example>
+
+### Close on select
+
+`closeOnSelect={false}` keeps the list open after a pick, so users can try several items in a row.
+
+<Example name="select/suggest/close-on-select">
+  <SuggestCloseOnSelect />
+</Example>
+
+### Reset on close
+
+`resetOnClose` clears the query and the active item when the list closes. Type part of a name, then click away: the input empties instead of keeping the partial query.
+
+<Example name="select/suggest/reset-on-close">
+  <SuggestResetOnClose />
+</Example>
+
+## Props interface
+
+<PropsTable name="SuggestProps" />

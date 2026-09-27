@@ -1,0 +1,103 @@
+import MetricBasic from "@/examples/patterns/metric/basic";
+import MetricCaption from "@/examples/patterns/metric/caption";
+import MetricGoodDirection from "@/examples/patterns/metric/good-direction";
+import MetricGrid from "@/examples/patterns/metric/grid";
+import MetricLoading from "@/examples/patterns/metric/loading";
+import MetricPlayground from "@/examples/patterns/metric/playground";
+import MetricSize from "@/examples/patterns/metric/size";
+import MetricTrend from "@/examples/patterns/metric/trend";
+import MetricUnitDelta from "@/examples/patterns/metric/unit-delta";
+
+export const metadata = { title: "Metric" };
+
+# Metric
+
+A **Metric** shows a labeled headline number with an optional change and trend. Use it for KPI rows and dashboard tiles.
+
+## Usage
+
+```tsx
+import { Metric } from "@clawscale/react";
+```
+
+```tsx
+<Metric label="Throughput" value="12,480" unit="rows/s" delta={8.2} />
+```
+
+## Examples
+
+### Basic
+
+`label` names the number and `value` shows it. Pass the value formatted, with separators and precision.
+
+<Example name="patterns/metric/basic">
+  <MetricBasic />
+</Example>
+
+### Unit and delta
+
+`unit` follows the value in muted text. `delta` adds a [Delta](/docs/patterns/delta/) below it, a percentage by default. `deltaFormat` changes the format.
+
+<Example name="patterns/metric/unit-delta">
+  <MetricUnitDelta />
+</Example>
+
+### Good direction
+
+Set `goodDirection="down"` when lower is better, as for latency, cost or error rate. A rise then reads as bad.
+
+<Example name="patterns/metric/good-direction">
+  <MetricGoodDirection />
+</Example>
+
+### Caption
+
+`caption` adds short context next to the delta, usually the comparison period.
+
+<Example name="patterns/metric/caption">
+  <MetricCaption />
+</Example>
+
+### Trend
+
+`trend` draws a [Sparkline](/docs/patterns/sparkline/) under the value, oldest point first. Set `trendColor` to the chart slot the same series uses elsewhere on the screen.
+
+<Example name="patterns/metric/trend">
+  <MetricTrend />
+</Example>
+
+### Size
+
+`size` accepts **small**, **medium** (default) and **large**. It scales the value. The label and footer keep their size.
+
+<Example name="patterns/metric/size">
+  <MetricSize />
+</Example>
+
+### Loading
+
+`loading` swaps the value for a skeleton and sets `aria-busy`. The label stays, so nothing shifts when data arrives. The delta and trend do not turn into skeletons: pass them once you have them.
+
+<Example name="patterns/metric/loading">
+  <MetricLoading />
+</Example>
+
+### Metric grid
+
+Put each metric in a compact [Card](/docs/core/card/) and lay the cards out in a CSS grid. Long labels truncate instead of wrapping.
+
+<Example name="patterns/metric/grid" align="start">
+  <MetricGrid />
+</Example>
+
+## Interactive playground
+
+<Example name="patterns/metric/playground" variant="playground">
+  <MetricPlayground />
+</Example>
+
+## Props interface
+
+Metric also accepts the HTML attributes of a `div`.
+
+<PropsTable name="MetricProps" />

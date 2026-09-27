@@ -1,0 +1,45 @@
+import TableBasic from "@/examples/table/overview/basic";
+
+export const metadata = { title: "Table" };
+
+# Table
+
+`@clawscale/react/table` renders interactive, spreadsheet-like tables for large datasets. For a static table, use [HTML table](/docs/core/html-table/).
+
+## Usage
+
+```tsx
+import { Cell, Column, Table } from "@clawscale/react/table";
+```
+
+The styles ship in `@clawscale/react/styles.css`. There is no extra stylesheet to load.
+
+## Examples
+
+### Basic
+
+The table stores no data. Set `numRows`, then give each `Column` a `cellRenderer` that returns a `Cell` for a row index. `intent` colors a cell.
+
+<Example name="table/overview/basic" align="start">
+  <TableBasic />
+</Example>
+
+## Tabular numbers
+
+Clawscale turns on tabular numbers in every table, so each digit takes the same width. Right-align numeric cells, like Rows and Duration above, and digits line up by place value.
+
+## Sizing
+
+The table fills the height of its container and measures it after mount. Give the container a height, either fixed or from a flex or grid layout. Only the cells in view render, so large row counts stay fast.
+
+## Features
+
+- [Column resizing](/docs/table/features/#column-resizing) and [reordering](/docs/table/features/#column-reordering)
+- [Frozen columns and rows](/docs/table/features/#frozen-columns-and-rows)
+- [Selection modes](/docs/table/features/#selection-modes)
+- [Editable cells](/docs/table/features/#editable-cells)
+- [Loading states](/docs/table/features/#loading-states)
+- [Truncated and JSON cells](/docs/table/features/#truncated-and-json-cells)
+- [Striped rows](/docs/table/features/#striped-rows)
+
+The [API](/docs/table/api/) page lists the props of every component.

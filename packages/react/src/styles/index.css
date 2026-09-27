@@ -1,0 +1,35 @@
+/*
+ * Clawscale layer. The build wraps everything here in `@layer clawscale`,
+ * after Blueprint's layer, so these rules win without specificity tricks.
+ *
+ * That power cuts both ways: a rule here beats every Blueprint rule, even far more
+ * specific ones. Target component classes precisely and restate variants
+ * (intent, minimal, outlined, active, disabled) instead of styling a base class broadly.
+ *
+ * Order: bridge, base, Blueprint component overrides, Clawscale components.
+ */
+@import "./bridge.css";
+@import "./base.css";
+
+@import "./components/typography.css";
+@import "./components/button.css";
+@import "./components/input.css";
+@import "./components/controls.css";
+@import "./components/tag.css";
+@import "./components/callout.css";
+@import "./components/card.css";
+@import "./components/menu.css";
+@import "./components/popover.css";
+@import "./components/dialog.css";
+@import "./components/navigation.css";
+@import "./components/html-table.css";
+@import "./components/feedback.css";
+@import "./components/table.css";
+@import "./generated/table-borders.css";
+@import "./components/datetime.css";
+@import "./components/select.css";
+
+@import "./clawscale/metric.css";
+@import "./clawscale/sparkline.css";
+@import "./clawscale/property-list.css";
+@import "./clawscale/status-bar.css";

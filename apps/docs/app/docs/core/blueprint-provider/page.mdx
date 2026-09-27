@@ -1,0 +1,56 @@
+export const metadata = { title: "Blueprint provider" };
+
+# Blueprint provider
+
+**BlueprintProvider** combines Blueprint's three context providers in the right order. [ClawscaleProvider](/docs/core/clawscale-provider/) already renders it, so most apps never use it directly.
+
+## Usage
+
+```tsx
+import { BlueprintProvider } from "@clawscale/react";
+```
+
+## What it combines
+
+BlueprintProvider nests these providers, outermost first:
+
+1. [PortalProvider](/docs/core/portal-provider/): the container and class name of portals.
+2. [OverlaysProvider](/docs/core/overlays-provider/): the stack of open overlays.
+3. [HotkeysProvider](/docs/core/hotkeys-provider/): registered hotkeys and the hotkeys dialog.
+
+## Options
+
+ClawscaleProvider accepts every BlueprintProvider prop and passes it on. The hotkeys props carry a `hotkeysProvider` prefix.
+
+```tsx
+<ClawscaleProvider
+  portalClassName="app-portal"
+  hotkeysProviderDialogProps={{ title: "Keyboard shortcuts", globalGroupName: "Workspace" }}
+>
+  {children}
+</ClawscaleProvider>
+```
+
+| Prop | Goes to |
+| --- | --- |
+| `portalClassName` | PortalProvider `portalClassName` |
+| `portalContainer` | PortalProvider `portalContainer` |
+| `hotkeysProviderDialogProps` | HotkeysProvider `dialogProps` |
+| `hotkeysProviderRenderDialog` | HotkeysProvider `renderDialog` |
+| `hotkeysProviderValue` | HotkeysProvider `value` |
+
+## Use it directly
+
+Render BlueprintProvider yourself only in an app without ClawscaleProvider, for example one that manages its own theme. Render it once, at the root. Never nest it inside ClawscaleProvider.
+
+```tsx
+root.render(
+  <BlueprintProvider>
+    <App />
+  </BlueprintProvider>,
+);
+```
+
+## Props interface
+
+<PropsTable name="BlueprintProviderProps" />

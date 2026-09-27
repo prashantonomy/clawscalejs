@@ -1,0 +1,42 @@
+# Weekly check for new Blueprint releases. When one exists, Claude Code upgrades
+# Clawscale following AGENTS.md and opens a pull request for a steward to review.
+name: Blueprint upgrade
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - id: check
+        name: Compare pinned Blueprint versions with npm
+        run: node scripts/check-blueprint.mjs >> "$GITHUB_OUTPUT"
+      - if: steps.check.outputs.outdated == 'true'
+        name: Install the browser for end-to-end tests and audits
+        run: pnpm --filter @clawscale/docs exec playwright install --with-deps chromium
+      - if: steps.check.outputs.outdated == 'true'
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            New Blueprint releases are available: ${{ steps.check.outputs.summary }}.
+            Follow "Upgrade Blueprint" in AGENTS.md and the upgrade-blueprint skill.
+            Run pnpm verify and pnpm test:audit, review /gallery in both themes, then open a pull request
+            titled "chore(deps): upgrade Blueprint to <new @blueprintjs/core version>". List what changed and
+            anything a steward should check.

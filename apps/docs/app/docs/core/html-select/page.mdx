@@ -1,0 +1,69 @@
+import HTMLSelectBasic from "@/examples/core/html-select/basic";
+import HTMLSelectDisabled from "@/examples/core/html-select/disabled";
+import HTMLSelectFill from "@/examples/core/html-select/fill";
+import HTMLSelectLarge from "@/examples/core/html-select/large";
+import HTMLSelectMinimal from "@/examples/core/html-select/minimal";
+
+export const metadata = { title: "HTML select" };
+
+# HTML select
+
+**HTMLSelect** styles a native `<select>`. Use it for short, fixed lists. Use [Select](/docs/select/select-component/) when users need to search or the items need custom rendering.
+
+## Usage
+
+```tsx
+import { HTMLSelect } from "@clawscale/react";
+```
+
+```tsx
+<HTMLSelect options={["eu-west-1", "us-east-1"]} value={region} onChange={(event) => setRegion(event.currentTarget.value)} />
+```
+
+## Examples
+
+### Options
+
+`options` takes strings, numbers or `{ label, value }` objects. You can pass `<option>` children instead. Control the value with `value` and `onChange`.
+
+<Example name="core/html-select/basic">
+  <HTMLSelectBasic />
+</Example>
+
+### Fill
+
+`fill` stretches the select to the width of its container.
+
+<Example name="core/html-select/fill" align="start">
+  <HTMLSelectFill />
+</Example>
+
+### Minimal
+
+`minimal` removes the border and background. Use it in toolbars. `iconName="caret-down"` swaps the default icon.
+
+<Example name="core/html-select/minimal">
+  <HTMLSelectMinimal />
+</Example>
+
+### Disabled
+
+`disabled` blocks the select and dims it.
+
+<Example name="core/html-select/disabled">
+  <HTMLSelectDisabled />
+</Example>
+
+### Size
+
+`large` matches the height of large buttons and inputs.
+
+<Example name="core/html-select/large">
+  <HTMLSelectLarge />
+</Example>
+
+## Props interface
+
+**HTMLSelect** also accepts the HTML attributes of a `<select>`. It does not support `multiple`.
+
+<PropsTable name="HTMLSelectProps" />

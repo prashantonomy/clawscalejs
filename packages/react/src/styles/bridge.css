@@ -1,0 +1,130 @@
+/*
+ * Points Blueprint's --bp-* tokens at Clawscale's --cs-* tokens.
+ * Declared on every theme scope, not only :root, so each var() re-resolves
+ * inside dark and light subtrees.
+ */
+:root,
+.bp6-dark,
+[data-bp-color-scheme="dark"],
+[data-cs-theme] {
+  --bp-emphasis-transition-duration: var(--cs-duration-fast);
+  --bp-emphasis-ease-default: var(--cs-ease-standard);
+  --bp-emphasis-focus-color: var(--cs-color-focus);
+  --bp-emphasis-focus-width: 2px;
+  --bp-emphasis-focus-offset: 2px;
+
+  --bp-intent-default-rest: var(--cs-color-neutral);
+  --bp-intent-default-hover: var(--cs-color-neutral-hover);
+  --bp-intent-default-active: var(--cs-color-neutral-active);
+  --bp-intent-default-disabled: var(--cs-color-text-disabled);
+  --bp-intent-default-foreground: var(--cs-color-neutral-on);
+
+  --bp-intent-primary-rest: var(--cs-color-primary);
+  --bp-intent-primary-hover: var(--cs-color-primary-hover);
+  --bp-intent-primary-active: var(--cs-color-primary-active);
+  --bp-intent-primary-disabled: var(--cs-color-primary-disabled);
+  --bp-intent-primary-foreground: var(--cs-color-primary-on);
+
+  --bp-intent-success-rest: var(--cs-color-success);
+  --bp-intent-success-hover: var(--cs-color-success-hover);
+  --bp-intent-success-active: var(--cs-color-success-active);
+  --bp-intent-success-disabled: var(--cs-color-success-disabled);
+  --bp-intent-success-foreground: var(--cs-color-success-on);
+
+  --bp-intent-warning-rest: var(--cs-color-warning);
+  --bp-intent-warning-hover: var(--cs-color-warning-hover);
+  --bp-intent-warning-active: var(--cs-color-warning-active);
+  --bp-intent-warning-disabled: var(--cs-color-warning-disabled);
+  --bp-intent-warning-foreground: var(--cs-color-warning-on);
+  /* Blueprint lightens its dark orange for warning buttons. Clawscale's amber is light already. */
+  --bp6-button-warning-rest: var(--cs-color-warning);
+
+  --bp-intent-danger-rest: var(--cs-color-danger);
+  --bp-intent-danger-hover: var(--cs-color-danger-hover);
+  --bp-intent-danger-active: var(--cs-color-danger-active);
+  --bp-intent-danger-disabled: var(--cs-color-danger-disabled);
+  --bp-intent-danger-foreground: var(--cs-color-danger-on);
+
+  --bp-surface-border-color-default: var(--cs-color-border);
+  --bp-surface-border-color-strong: var(--cs-color-border-strong);
+  --bp-surface-border-radius: var(--cs-radius-md);
+  --bp-surface-shadow-0: var(--cs-shadow-0);
+  --bp-surface-shadow-1: var(--cs-shadow-1);
+  --bp-surface-shadow-2: var(--cs-shadow-2);
+  --bp-surface-shadow-3: var(--cs-shadow-3);
+  --bp-surface-shadow-4: var(--cs-shadow-4);
+  --bp-surface-spacing: var(--cs-space-unit);
+  --bp-surface-color-code: var(--cs-color-surface-sunken);
+  --bp-surface-layer-color-default: var(--cs-color-surface-hover);
+  --bp-surface-layer-color-primary: var(--cs-color-primary-subtle);
+  --bp-surface-layer-color-success: var(--cs-color-success-subtle);
+  --bp-surface-layer-color-warning: var(--cs-color-warning-subtle);
+  --bp-surface-layer-color-danger: var(--cs-color-danger-subtle);
+  --bp-surface-layer-default: linear-gradient(var(--cs-color-surface-hover) 0 0);
+  --bp-surface-layer-primary: linear-gradient(var(--cs-color-primary-subtle) 0 0);
+  --bp-surface-layer-success: linear-gradient(var(--cs-color-success-subtle) 0 0);
+  --bp-surface-layer-warning: linear-gradient(var(--cs-color-warning-subtle) 0 0);
+  --bp-surface-layer-danger: linear-gradient(var(--cs-color-danger-subtle) 0 0);
+
+  --bp-surface-background-color-default-rest: var(--cs-color-surface);
+  --bp-surface-background-color-default-hover: var(--cs-color-surface-sunken);
+  --bp-surface-background-color-default-active: var(--cs-color-surface-sunken);
+  --bp-surface-background-color-default-disabled: var(--cs-color-surface-sunken);
+  --bp-surface-background-color-primary-rest: var(--cs-color-primary);
+  --bp-surface-background-color-primary-hover: var(--cs-color-primary-hover);
+  --bp-surface-background-color-primary-active: var(--cs-color-primary-active);
+  --bp-surface-background-color-primary-disabled: var(--cs-color-primary-disabled);
+  --bp-surface-background-color-success-rest: var(--cs-color-success);
+  --bp-surface-background-color-success-hover: var(--cs-color-success-hover);
+  --bp-surface-background-color-success-active: var(--cs-color-success-active);
+  --bp-surface-background-color-success-disabled: var(--cs-color-success-disabled);
+  --bp-surface-background-color-warning-rest: var(--cs-color-warning);
+  --bp-surface-background-color-warning-hover: var(--cs-color-warning-hover);
+  --bp-surface-background-color-warning-active: var(--cs-color-warning-active);
+  --bp-surface-background-color-warning-disabled: var(--cs-color-warning-disabled);
+  --bp-surface-background-color-danger-rest: var(--cs-color-danger);
+  --bp-surface-background-color-danger-hover: var(--cs-color-danger-hover);
+  --bp-surface-background-color-danger-active: var(--cs-color-danger-active);
+  --bp-surface-background-color-danger-disabled: var(--cs-color-danger-disabled);
+
+  --bp-typography-family-default: var(--cs-font-sans);
+  --bp-typography-family-mono: var(--cs-font-mono);
+  --bp-typography-size-body-x-small: var(--cs-font-size-xs);
+  --bp-typography-size-body-small: var(--cs-font-size-sm);
+  --bp-typography-size-body-medium: var(--cs-font-size-md);
+  --bp-typography-size-body-large: var(--cs-font-size-lg);
+  --bp-typography-size-heading-small: var(--cs-font-size-lg);
+  --bp-typography-size-heading-medium: var(--cs-font-size-xl);
+  --bp-typography-size-heading-large: var(--cs-font-size-2xl);
+  --bp-typography-size-heading-x-large: var(--cs-font-size-3xl);
+  --bp-typography-size-heading-display: 44px;
+  --bp-typography-size-code-small: var(--cs-font-size-xs);
+  --bp-typography-size-code-medium: var(--cs-font-size-sm);
+  --bp-typography-size-code-large: var(--cs-font-size-md);
+  --bp-typography-weight-default: var(--cs-font-weight-regular);
+  --bp-typography-weight-bold: var(--cs-font-weight-semibold);
+  --bp-typography-line-height-default: var(--cs-line-height-normal);
+  --bp-typography-line-height-large: var(--cs-line-height-relaxed);
+
+  --bp-typography-color-muted: var(--cs-color-text-muted);
+  --bp-typography-color-default-rest: var(--cs-color-text);
+  --bp-typography-color-default-hover: var(--cs-color-text);
+  --bp-typography-color-default-active: var(--cs-color-text);
+  --bp-typography-color-default-disabled: var(--cs-color-text-disabled);
+  --bp-typography-color-primary-rest: var(--cs-color-primary-text);
+  --bp-typography-color-primary-hover: var(--cs-color-primary-hover);
+  --bp-typography-color-primary-active: var(--cs-color-primary-active);
+  --bp-typography-color-primary-disabled: var(--cs-color-text-disabled);
+  --bp-typography-color-success-rest: var(--cs-color-success-text);
+  --bp-typography-color-success-hover: var(--cs-color-success-text);
+  --bp-typography-color-success-active: var(--cs-color-success-text);
+  --bp-typography-color-success-disabled: var(--cs-color-text-disabled);
+  --bp-typography-color-warning-rest: var(--cs-color-warning-text);
+  --bp-typography-color-warning-hover: var(--cs-color-warning-text);
+  --bp-typography-color-warning-active: var(--cs-color-warning-text);
+  --bp-typography-color-warning-disabled: var(--cs-color-text-disabled);
+  --bp-typography-color-danger-rest: var(--cs-color-danger-text);
+  --bp-typography-color-danger-hover: var(--cs-color-danger-text);
+  --bp-typography-color-danger-active: var(--cs-color-danger-text);
+  --bp-typography-color-danger-disabled: var(--cs-color-text-disabled);
+}

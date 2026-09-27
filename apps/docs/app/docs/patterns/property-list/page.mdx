@@ -1,0 +1,82 @@
+import PropertyListCompact from "@/examples/patterns/property-list/compact";
+import PropertyListHorizontal from "@/examples/patterns/property-list/horizontal";
+import PropertyListInspector from "@/examples/patterns/property-list/inspector";
+import PropertyListMonospace from "@/examples/patterns/property-list/monospace";
+import PropertyListStriped from "@/examples/patterns/property-list/striped";
+import PropertyListVertical from "@/examples/patterns/property-list/vertical";
+
+export const metadata = { title: "Property list" };
+
+# Property list
+
+A **PropertyList** shows key and value pairs. Use it in inspectors, detail panels and summaries.
+
+## Usage
+
+```tsx
+import { PropertyList, PropertyListItem } from "@clawscale/react";
+```
+
+```tsx
+<PropertyList>
+  <PropertyListItem label="Owner">data-platform</PropertyListItem>
+</PropertyList>
+```
+
+## Examples
+
+### Horizontal
+
+The default layout puts each label beside its value. `labelWidth` sets the label column, 120px by default. Long labels truncate and long values wrap.
+
+<Example name="patterns/property-list/horizontal">
+  <PropertyListHorizontal />
+</Example>
+
+### Vertical
+
+`layout="vertical"` stacks each label above its value. Use it in narrow side panels.
+
+<Example name="patterns/property-list/vertical">
+  <PropertyListVertical />
+</Example>
+
+### Compact
+
+`compact` tightens the rows for inspectors and dense panels.
+
+<Example name="patterns/property-list/compact">
+  <PropertyListCompact />
+</Example>
+
+### Striped
+
+`striped` shades every other row instead of drawing dividers. It helps the eye across wide panels.
+
+<Example name="patterns/property-list/striped">
+  <PropertyListStriped />
+</Example>
+
+### Monospace values
+
+`monospace` on an item sets its value in the monospace font. Use it for IDs, hashes and image tags.
+
+<Example name="patterns/property-list/monospace">
+  <PropertyListMonospace />
+</Example>
+
+### Inspector
+
+Put compact lists in a [Section](/docs/core/section/) to build an inspector. Each `SectionCard` holds one group of properties.
+
+<Example name="patterns/property-list/inspector">
+  <PropertyListInspector />
+</Example>
+
+## Props interface
+
+PropertyList renders a `dl` and accepts its HTML attributes. Each PropertyListItem renders a `div` that wraps a `dt` and a `dd`.
+
+<PropsTable name="PropertyListProps" />
+
+<PropsTable name="PropertyListItemProps" />

@@ -1,0 +1,41 @@
+import NavbarBasic from "@/examples/core/navbar/basic";
+
+export const metadata = { title: "Navbar" };
+
+# Navbar
+
+A **Navbar** holds the app name, top-level navigation and global actions at the top of the screen.
+
+## Usage
+
+```tsx
+import { Navbar, NavbarDivider, NavbarGroup, NavbarHeading } from "@clawscale/react";
+```
+
+Use the top-level components. The nested aliases, such as `Navbar.Group`, are deprecated.
+
+## Examples
+
+### App navbar
+
+**NavbarGroup** lays out its children in a row. `align={Alignment.END}` moves a group to the end. Use minimal [buttons](/docs/core/buttons/) for navigation and actions.
+
+<Example name="core/navbar/basic" align="start">
+  <NavbarBasic />
+</Example>
+
+### Fixed to top
+
+`fixedToTop` pins the navbar to the top of the viewport with `position: fixed`. Add top padding to `body` equal to the navbar height, 50px, or the navbar covers the top of the page. It is not shown here because it would cover this page.
+
+## Props interface
+
+Each component renders a `<div>` and accepts its HTML attributes.
+
+<PropsTable name="NavbarProps" />
+
+<PropsTable name="NavbarGroupProps" />
+
+<PropsTable name="NavbarHeadingProps" />
+
+<PropsTable name="NavbarDividerProps" />

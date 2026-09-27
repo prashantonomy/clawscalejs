@@ -1,0 +1,37 @@
+import PanelStackSettings from "@/examples/core/panel-stack/settings";
+
+export const metadata = { title: "Panel stack" };
+
+# Panel stack
+
+A **PanelStack** shows one panel at a time. Opening a panel slides it in on top, and a back button in its header returns to the previous one.
+
+## Usage
+
+```tsx
+import { type PanelProps, PanelStack } from "@clawscale/react";
+```
+
+A panel is an object with a `title` and a `renderPanel` component, plus optional `props` for that component. `PanelStack` passes two actions to the component: `openPanel` pushes a new panel and `closePanel` removes the current one.
+
+`PanelStack2` is a deprecated alias of `PanelStack`.
+
+## Examples
+
+### Drill-down settings
+
+`initialPanel` is the bottom of the stack. It cannot be closed. Panels are absolutely positioned, so give the stack a fixed height.
+
+<Example name="core/panel-stack/settings">
+  <PanelStackSettings />
+</Example>
+
+Only the top panel is mounted, so a covered panel loses its state. Set `renderActivePanelOnly={false}` to keep every panel mounted. To control the stack, pass `stack` and add or remove panels at the end of the array.
+
+## Props interface
+
+<PropsTable name="PanelStackProps" />
+
+`PanelProps<P>` types a panel component: your own props `P` plus the panel actions.
+
+<PropsTable name="PanelProps" />

@@ -1,0 +1,78 @@
+import RadioBasic from "@/examples/core/radio/basic";
+import RadioChildren from "@/examples/core/radio/children";
+import RadioControlled from "@/examples/core/radio/controlled";
+import RadioDisabled from "@/examples/core/radio/disabled";
+import RadioInline from "@/examples/core/radio/inline";
+
+export const metadata = { title: "Radio" };
+
+# Radio
+
+A **Radio** picks one option from a set. A **RadioGroup** links its radios by `name` and marks the selected one.
+
+## Usage
+
+```tsx
+import { Radio, RadioGroup } from "@clawscale/react";
+```
+
+```tsx
+<RadioGroup name="codec" onChange={(event) => setCodec(event.currentTarget.value)} selectedValue={codec}>
+  <Radio label="zstd" value="zstd" />
+  <Radio label="gzip" value="gzip" />
+</RadioGroup>
+```
+
+**RadioGroup** is always controlled, so `onChange` is required. Always pass a `name`. Without one, the group generates a name that differs between the server and the client render.
+
+## Examples
+
+### Options
+
+`options` renders one radio per item. The item whose `value` matches `selectedValue` is checked.
+
+<Example name="core/radio/basic">
+  <RadioBasic />
+</Example>
+
+### Radio children
+
+Pass **Radio** elements instead of `options` for labels with markup. The group sets `checked`, `name` and `onChange` on each one.
+
+<Example name="core/radio/children">
+  <RadioChildren />
+</Example>
+
+### Inline
+
+`inline` places the radios on one line.
+
+<Example name="core/radio/inline">
+  <RadioInline />
+</Example>
+
+### Disabled
+
+Set `disabled` on an option to block it. Set it on the group to block every option.
+
+<Example name="core/radio/disabled">
+  <RadioDisabled />
+</Example>
+
+### Controlled
+
+The selected value is your state. Read it from `event.currentTarget.value`, use it anywhere and set it from outside the group.
+
+<Example name="core/radio/controlled">
+  <RadioControlled />
+</Example>
+
+## Props interface
+
+**Radio** also accepts the HTML attributes of an `<input>`.
+
+<PropsTable name="RadioGroupProps" />
+
+<PropsTable name="RadioProps" />
+
+<PropsTable name="OptionProps" />

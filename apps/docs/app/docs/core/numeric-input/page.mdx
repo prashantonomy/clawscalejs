@@ -1,0 +1,88 @@
+import NumericInputBasic from "@/examples/core/numeric-input/basic";
+import NumericInputButtonPosition from "@/examples/core/numeric-input/button-position";
+import NumericInputControlled from "@/examples/core/numeric-input/controlled";
+import NumericInputPlayground from "@/examples/core/numeric-input/playground";
+import NumericInputPrecision from "@/examples/core/numeric-input/precision";
+import NumericInputStepSizes from "@/examples/core/numeric-input/step-sizes";
+
+export const metadata = { title: "Numeric input" };
+
+# Numeric input
+
+A **NumericInput** takes a number. Buttons and arrow keys step the value up and down.
+
+## Usage
+
+```tsx
+import { NumericInput } from "@clawscale/react";
+```
+
+```tsx
+<NumericInput aria-label="Retention in days" min={1} onValueChange={(valueAsNumber) => setDays(valueAsNumber)} />
+```
+
+Name it with `aria-label`, and show a visible label with a [FormGroup](/docs/core/form-group/) without `labelFor`. Do not pass `id`: the step buttons keep `aria-controls` on an id that Blueprint generates.
+
+## Interactions
+
+Hold a modifier key while you press an arrow key or click a button.
+
+| Modifier | Step | Default |
+| --- | --- | --- |
+| None | `stepSize` | 1 |
+| Shift | `majorStepSize` | 10 |
+| Alt | `minorStepSize` | 0.1 |
+
+## Examples
+
+### Basic
+
+**NumericInput** is uncontrolled by default. `onValueChange` reports the value as a number and as a string.
+
+<Example name="core/numeric-input/basic">
+  <NumericInputBasic />
+</Example>
+
+### Min, max and step sizes
+
+`min` and `max` stop the buttons and arrow keys at the bounds. Set a step size to `null` to turn off its modifier.
+
+<Example name="core/numeric-input/step-sizes">
+  <NumericInputStepSizes />
+</Example>
+
+### Button position
+
+`buttonPosition` puts the buttons on the **right** (default) or **left**, or hides them with **none**. Arrow keys still work without buttons.
+
+<Example name="core/numeric-input/button-position">
+  <NumericInputButtonPosition />
+</Example>
+
+### Controlled
+
+Store the value as a string and update it from the second argument of `onValueChange`. A number would drop partial input such as `0.` or `-`.
+
+<Example name="core/numeric-input/controlled">
+  <NumericInputControlled />
+</Example>
+
+### Precision and clamping
+
+Steps round to the decimals of `minorStepSize`, or of `stepSize` when `minorStepSize` is `null`. `clampValueOnBlur` pulls a typed value back into range on blur. Format the value for display yourself, here with `Intl.NumberFormat`.
+
+<Example name="core/numeric-input/precision">
+  <NumericInputPrecision />
+</Example>
+
+## Interactive playground
+
+<Example name="core/numeric-input/playground" variant="playground">
+  <NumericInputPlayground />
+</Example>
+
+## Props interface
+
+**NumericInput** also accepts the HTML attributes of an `<input>`.
+
+<PropsTable name="NumericInputProps" />

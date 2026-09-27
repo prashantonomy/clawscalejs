@@ -1,0 +1,105 @@
+import TagBasic from "@/examples/core/tag/basic";
+import TagIcons from "@/examples/core/tag/icons";
+import TagIntent from "@/examples/core/tag/intent";
+import TagInteractive from "@/examples/core/tag/interactive";
+import TagMinimal from "@/examples/core/tag/minimal";
+import TagPlayground from "@/examples/core/tag/playground";
+import TagRemovable from "@/examples/core/tag/removable";
+import TagRound from "@/examples/core/tag/round";
+import TagSize from "@/examples/core/tag/size";
+
+export const metadata = { title: "Tag" };
+
+# Tag
+
+A **Tag** labels an item with a short piece of text, such as a status, a category or a filter. For key and value pairs, use a [Compound tag](/docs/core/compound-tag/).
+
+## Usage
+
+```tsx
+import { Tag } from "@clawscale/react";
+```
+
+```tsx
+<Tag intent="success" minimal>
+  Healthy
+</Tag>
+```
+
+## Examples
+
+### Basic
+
+Pass the text as children. Text that does not fit ends with an ellipsis, unless `multiline` is set.
+
+<Example name="core/tag/basic">
+  <TagBasic />
+</Example>
+
+### Intent
+
+`intent` gives the tag a meaning, such as a run status.
+
+<Example name="core/tag/intent">
+  <TagIntent />
+</Example>
+
+### Minimal
+
+`minimal` uses a light tint instead of a solid fill. Use it in dense tables and lists.
+
+<Example name="core/tag/minimal">
+  <TagMinimal />
+</Example>
+
+### Interactive
+
+`interactive` adds hover styles and keyboard support. A tag with `onClick` is interactive by default. `active` marks it as selected and applies only to interactive tags.
+
+<Example name="core/tag/interactive">
+  <TagInteractive />
+</Example>
+
+### Removable
+
+`onRemove` adds a remove button at the end of the tag.
+
+<Example name="core/tag/removable">
+  <TagRemovable />
+</Example>
+
+### Round
+
+`round` gives the tag fully rounded ends.
+
+<Example name="core/tag/round">
+  <TagRound />
+</Example>
+
+### Icons
+
+`icon` renders before the text and `endIcon` after it.
+
+<Example name="core/tag/icons">
+  <TagIcons />
+</Example>
+
+### Size
+
+`size` accepts **medium** (default) and **large**.
+
+<Example name="core/tag/size">
+  <TagSize />
+</Example>
+
+## Interactive playground
+
+<Example name="core/tag/playground" variant="playground">
+  <TagPlayground />
+</Example>
+
+## Props interface
+
+**Tag** renders a `<span>` and accepts its HTML attributes.
+
+<PropsTable name="TagProps" />

@@ -1,0 +1,64 @@
+/* Cards, card lists and sections. Elevation shadows come from the bridged tokens. */
+
+.bp6-card {
+  background-color: var(--cs-color-surface);
+  color: var(--cs-color-text);
+}
+
+.bp6-card:not(.bp6-card-list > .bp6-card):not(.bp6-card-list) {
+  border-radius: var(--cs-radius-lg);
+}
+
+.bp6-card-list.bp6-card-list-bordered {
+  border-radius: var(--cs-radius-lg);
+}
+
+.bp6-card-list.bp6-card-list-bordered > .bp6-card:first-child {
+  border-top-left-radius: var(--cs-radius-lg);
+  border-top-right-radius: var(--cs-radius-lg);
+}
+
+.bp6-card-list.bp6-card-list-bordered > .bp6-card:last-child {
+  border-bottom-left-radius: var(--cs-radius-lg);
+  border-bottom-right-radius: var(--cs-radius-lg);
+}
+
+.bp6-card-list > .bp6-card:not(:last-child) {
+  border-bottom-color: var(--cs-color-border-subtle);
+}
+
+.bp6-card-list > .bp6-card.bp6-interactive:hover,
+.bp6-card-list > .bp6-card.bp6-interactive:active {
+  background-color: var(--cs-color-surface-sunken);
+}
+
+.bp6-card-list > .bp6-card.bp6-selected {
+  background-color: var(--cs-color-surface-selected);
+}
+
+/* Section */
+
+.bp6-section {
+  background-color: var(--cs-color-surface);
+}
+
+.bp6-section.bp6-card {
+  border-radius: var(--cs-radius-lg);
+}
+
+.bp6-section-header {
+  border-bottom-color: var(--cs-color-border);
+}
+
+.bp6-section-header .bp6-heading {
+  font-size: var(--cs-font-size-md);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-section-header .bp6-section-header-sub-title {
+  color: var(--cs-color-text-muted);
+}
+
+.bp6-section-card:not(:last-child) {
+  border-bottom-color: var(--cs-color-border);
+}

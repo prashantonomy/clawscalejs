@@ -1,0 +1,49 @@
+{
+  "name": "@clawscale/tokens",
+  "version": "0.1.0",
+  "description": "Clawscale design tokens as CSS variables and typed JavaScript values.",
+  "keywords": [
+    "clawscale",
+    "design-tokens",
+    "css-variables",
+    "design-system",
+    "data-dense"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://clawscale.github.io/clawscale/docs/core/tokens",
+  "bugs": "https://github.com/clawscale/clawscale/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clawscale/clawscale.git",
+    "directory": "packages/tokens"
+  },
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.json": "./dist/tokens.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && tsx scripts/build-css.ts",
+    "dev": "tsx scripts/dev.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^5.0.2"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

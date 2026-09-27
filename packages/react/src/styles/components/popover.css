@@ -1,0 +1,64 @@
+/* Popovers and tooltips. Tooltips and intent variants keep their own fills. */
+
+.bp6-popover:not(.bp6-tooltip) {
+  border-radius: var(--cs-radius-lg);
+  box-shadow: var(--cs-shadow-3);
+}
+
+.bp6-popover:not(.bp6-tooltip):not([class*="bp6-intent-"]) .bp6-popover-content {
+  background: var(--cs-color-surface-raised);
+  border-radius: var(--cs-radius-lg);
+  color: var(--cs-color-text);
+}
+
+.bp6-popover:not(.bp6-tooltip):not([class*="bp6-intent-"]) .bp6-popover-arrow-fill {
+  fill: var(--cs-color-surface-raised);
+}
+
+.bp6-popover:not(.bp6-tooltip) .bp6-popover-arrow-border {
+  fill: var(--cs-color-border-strong);
+  fill-opacity: 1;
+}
+
+.bp6-popover:not(.bp6-tooltip) .bp6-popover-arrow::before {
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.12);
+}
+
+.bp6-popover:not(.bp6-tooltip) .bp6-menu {
+  background: transparent;
+}
+
+/* Tooltip */
+
+.bp6-tooltip {
+  border-radius: var(--cs-radius-md);
+  box-shadow: var(--cs-shadow-2);
+}
+
+.bp6-tooltip:not([class*="bp6-intent-"]) .bp6-popover-content {
+  background: var(--cs-color-tooltip);
+  color: var(--cs-color-tooltip-text);
+}
+
+.bp6-tooltip .bp6-popover-content {
+  border-radius: var(--cs-radius-md);
+  font-size: var(--cs-font-size-sm);
+  line-height: var(--cs-line-height-tight);
+  padding: 6px 10px;
+}
+
+.bp6-tooltip.bp6-compact .bp6-popover-content {
+  padding: 3px 8px;
+}
+
+.bp6-tooltip:not([class*="bp6-intent-"]) .bp6-popover-arrow-fill {
+  fill: var(--cs-color-tooltip);
+}
+
+.bp6-tooltip .bp6-popover-arrow-border {
+  fill-opacity: 0;
+}
+
+.bp6-tooltip .bp6-popover-arrow::before {
+  box-shadow: none;
+}

@@ -1,0 +1,86 @@
+import TooltipBasic from "@/examples/core/tooltip/basic";
+import TooltipCompact from "@/examples/core/tooltip/compact";
+import TooltipDisabled from "@/examples/core/tooltip/disabled";
+import TooltipIconButtons from "@/examples/core/tooltip/icon-buttons";
+import TooltipIntent from "@/examples/core/tooltip/intent";
+import TooltipPlacement from "@/examples/core/tooltip/placement";
+
+export const metadata = { title: "Tooltip" };
+
+# Tooltip
+
+A **Tooltip** shows a short hint while the pointer is over its target or the target has focus. It is a hover-only [PopoverNext](/docs/core/popover/).
+
+## Usage
+
+```tsx
+import { Tooltip } from "@clawscale/react";
+```
+
+Pass the target as the only child and the hint as `content`. Keep it to a few words. Put interactive content in a popover instead.
+
+## Examples
+
+### Basic
+
+A tooltip opens 100 ms after the pointer enters the target and closes when it leaves. Keyboard focus opens it too.
+
+<Example name="core/tooltip/basic">
+  <TooltipBasic />
+</Example>
+
+### Placement
+
+`placement` sets the side. The tooltip flips when that side runs out of room.
+
+<Example name="core/tooltip/placement">
+  <TooltipPlacement />
+</Example>
+
+### Intent
+
+`intent` colors the tooltip, for example to match a status.
+
+<Example name="core/tooltip/intent">
+  <TooltipIntent />
+</Example>
+
+### Compact
+
+`compact` reduces the padding for dense screens.
+
+<Example name="core/tooltip/compact">
+  <TooltipCompact />
+</Example>
+
+### Icon buttons
+
+Icon-only buttons need a tooltip for sighted users and an `aria-label` for screen readers. Use the same text for both.
+
+<Example name="core/tooltip/icon-buttons">
+  <TooltipIconButtons />
+</Example>
+
+### Disabled buttons
+
+Some browsers send no mouse events to a disabled `<button>`, so its tooltip never opens. Use `AnchorButton`, which stays hoverable when disabled. Or wrap the button in a `span` and turn off the button's pointer events.
+
+<Example name="core/tooltip/disabled">
+  <TooltipDisabled />
+</Example>
+
+## With a popover
+
+A target can have both a tooltip and a popover. Put the Tooltip inside the PopoverNext. The tooltip then hides while the popover is open. Set `openOnTargetFocus={false}` so it does not reopen when focus returns to the target.
+
+```tsx
+<PopoverNext content={exportMenu} placement="bottom-start">
+  <Tooltip content="Export" openOnTargetFocus={false}>
+    <Button aria-label="Export" icon="export" />
+  </Tooltip>
+</PopoverNext>
+```
+
+## Props interface
+
+<PropsTable name="TooltipProps" />

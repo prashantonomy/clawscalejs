@@ -1,0 +1,115 @@
+import PopoverBasic from "@/examples/core/popover/basic";
+import PopoverControlled from "@/examples/core/popover/controlled";
+import PopoverDropdown from "@/examples/core/popover/dropdown";
+import PopoverInteraction from "@/examples/core/popover/interaction";
+import PopoverMatchTargetWidth from "@/examples/core/popover/match-target-width";
+import PopoverMinimal from "@/examples/core/popover/minimal";
+import PopoverPlacement from "@/examples/core/popover/placement";
+import PopoverPlayground from "@/examples/core/popover/playground";
+
+export const metadata = { title: "Popover" };
+
+# Popover
+
+**PopoverNext** shows floating content next to a target: menus, small forms and details. It positions with Floating UI and moves to stay on screen.
+
+## Usage
+
+```tsx
+import { PopoverNext } from "@clawscale/react";
+```
+
+```tsx
+<PopoverNext content={<Menu>{/* items */}</Menu>} placement="bottom-start">
+  <Button endIcon="caret-down" text="Export" />
+</PopoverNext>
+```
+
+Pass the target as the only child and the floating content as `content`. PopoverNext wraps the target in a `span`. To render the target yourself, without a wrapper, use `renderTarget` and spread the props it receives onto your element.
+
+## Examples
+
+### Basic
+
+A click on the target toggles the popover. `Classes.POPOVER_CONTENT_SIZING` pads the content. A click on an element with `Classes.POPOVER_DISMISS` closes it.
+
+<Example name="core/popover/basic">
+  <PopoverBasic />
+</Example>
+
+### Placement
+
+`placement` sets the side, optionally with a `-start` or `-end` alignment. The popover flips when that side runs out of room. Leave `placement` unset to pick the side with the most room.
+
+<Example name="core/popover/placement">
+  <PopoverPlacement />
+</Example>
+
+### Interaction kinds
+
+`interactionKind` sets what opens and closes the popover.
+
+- `click` (default): a click on the target opens it. A click anywhere else closes it.
+- `click-target`: only clicks on the target open and close it.
+- `hover`: opens on hover and stays open while the pointer is over the target or the popover.
+- `hover-target`: opens on hover and closes when the pointer leaves the target.
+
+<Example name="core/popover/interaction">
+  <PopoverInteraction />
+</Example>
+
+### Controlled
+
+Pass `isOpen` to control the popover. `onInteraction` reports the state the user asked for. Here submitting the form closes it.
+
+<Example name="core/popover/controlled">
+  <PopoverControlled />
+</Example>
+
+### Minimal
+
+`arrow={false}` removes the arrow and `animation="minimal"` makes the transition subtle. Use both for popovers that open often, such as menus.
+
+<Example name="core/popover/minimal">
+  <PopoverMinimal />
+</Example>
+
+### Dropdown menu
+
+Put a [Menu](/docs/core/menu/) in a minimal popover. A click on a menu item closes the popover, unless the item sets `shouldDismissPopover={false}`.
+
+<Example name="core/popover/dropdown">
+  <PopoverDropdown />
+</Example>
+
+### Match target width
+
+`matchTargetWidth` makes the popover as wide as its target. `fill` stretches the target to its container.
+
+<Example name="core/popover/match-target-width">
+  <PopoverMatchTargetWidth />
+</Example>
+
+## Interactive playground
+
+<Example name="core/popover/playground" variant="playground">
+  <PopoverPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="PopoverNextProps" />
+
+## Legacy Popover
+
+Blueprint deprecated `Popover` in favor of `PopoverNext`. It positions content with Popper.js and places it in the wrong spot under React 19. Blueprint's own Tooltip, MenuItem and Select already use PopoverNext.
+
+To migrate, rename these props:
+
+| Popover | PopoverNext |
+| --- | --- |
+| `position="bottom-left"` | `placement="bottom-start"` |
+| `minimal` | `arrow={false}` and `animation="minimal"` |
+| `modifiers` | `middleware` |
+
+`shouldReturnFocusOnClose` now defaults to `true`. `popoverPropsToNextProps` converts a legacy props object.

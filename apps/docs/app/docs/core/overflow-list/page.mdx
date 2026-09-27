@@ -1,0 +1,50 @@
+import OverflowListBasic from "@/examples/core/overflow-list/basic";
+import OverflowListCollapseFrom from "@/examples/core/overflow-list/collapse-from";
+
+export const metadata = { title: "Overflow list" };
+
+# Overflow list
+
+An **OverflowList** renders as many items as fit in its container and passes the rest to an overflow renderer. It recomputes when its size changes.
+
+## Usage
+
+```tsx
+import { OverflowList } from "@clawscale/react";
+```
+
+```tsx
+<OverflowList
+  items={stages}
+  visibleItemRenderer={(stage) => <Button key={stage} style={{ flexShrink: 0 }} text={stage} />}
+  overflowRenderer={(hidden) => <Tag minimal>{hidden.length} more</Tag>}
+/>
+```
+
+`visibleItemRenderer` runs once per visible item. Set a `key` on the element it returns. `overflowRenderer` runs once with all hidden items.
+
+Items must keep their width. Buttons and tags shrink by default, which hides the overflow from the list. Give them `flexShrink: 0`.
+
+## Examples
+
+### Collapse into a menu
+
+Hidden items go into a menu behind a button. `collapseFrom={Boundary.END}` hides items from the end. Drag the lower right corner of the box to resize it.
+
+<Example name="core/overflow-list/basic">
+  <OverflowListBasic />
+</Example>
+
+### Collapse from the start
+
+Items collapse from the start by default, and the overflow renders before the visible items. Here the newest runs stay visible. `minVisibleItems` sets how many items never collapse.
+
+<Example name="core/overflow-list/collapse-from">
+  <OverflowListCollapseFrom />
+</Example>
+
+## Props interface
+
+**OverflowList** measures itself with `ResizeObserver`. Set `observeParents` when a parent can resize without resizing the list.
+
+<PropsTable name="OverflowListProps" />

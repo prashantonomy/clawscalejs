@@ -1,0 +1,49 @@
+import DateRangeInputBasic from "@/examples/datetime/date-range-input/basic";
+import DateRangeInputControlled from "@/examples/datetime/date-range-input/controlled";
+import DateRangeInputShortcuts from "@/examples/datetime/date-range-input/shortcuts";
+
+export const metadata = { title: "Date range input" };
+
+# Date range input
+
+A **DateRangeInput** is a pair of text fields for the start and end of a range, with a [Date range picker](/docs/datetime/date-range-picker/) in a popover. Its value is a `DateRange` of `Date` objects.
+
+## Usage
+
+```tsx
+import { type DateRange, DateRangeInput } from "@clawscale/react/datetime";
+```
+
+```tsx
+<DateRangeInput dateFnsFormat="yyyy-MM-dd" value={range} onChange={setRange} />
+```
+
+## Examples
+
+### Basic
+
+`dateFnsFormat` sets how both fields format and parse dates, here `"MMM d, yyyy"`. For full control, pass `formatDate` and `parseDate` instead. The popover closes once both ends are set. Set `closeOnSelection={false}` to keep it open.
+
+<Example name="datetime/date-range-input/basic">
+  <DateRangeInputBasic />
+</Example>
+
+### Shortcuts
+
+Shortcuts are on by default. Pass an array of `{ label, dateRange }` objects for your own ranges, such as sprints, or `false` to hide them.
+
+<Example name="datetime/date-range-input/shortcuts">
+  <DateRangeInputShortcuts />
+</Example>
+
+### Controlled
+
+Pass `value` and `onChange` to control the range. `[null, null]` empties both fields. Typed dates that are invalid, out of range or overlapping call `onError` instead of `onChange`.
+
+<Example name="datetime/date-range-input/controlled">
+  <DateRangeInputControlled />
+</Example>
+
+## Props interface
+
+<PropsTable name="DateRangeInputProps" />

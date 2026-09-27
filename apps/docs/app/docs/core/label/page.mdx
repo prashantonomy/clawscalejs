@@ -1,0 +1,56 @@
+import LabelBasic from "@/examples/core/label/basic";
+import LabelHtmlFor from "@/examples/core/label/html-for";
+import LabelInline from "@/examples/core/label/inline";
+
+export const metadata = { title: "Label" };
+
+# Label
+
+A **Label** names a form control. It renders a `<label>` element with `Classes.LABEL`.
+
+<Callout intent="primary" title="Prefer FormGroup">
+  [FormGroup](/docs/core/form-group/) renders the same label and adds helper text, intent and disabled styles. Use it to build forms.
+</Callout>
+
+## Usage
+
+```tsx
+import { Label } from "@clawscale/react";
+```
+
+```tsx
+<Label>
+  Dataset
+  <input className={Classes.INPUT} />
+</Label>
+```
+
+## Examples
+
+### Wrapping a control
+
+Put the control inside the label. A click anywhere on the label focuses it. Wrap secondary text in `Classes.TEXT_MUTED`.
+
+<Example name="core/label/basic">
+  <LabelBasic />
+</Example>
+
+### Separate label
+
+When the label cannot wrap the control, set `htmlFor` to the control's `id`.
+
+<Example name="core/label/html-for">
+  <LabelHtmlFor />
+</Example>
+
+### Inline
+
+Add `Classes.INLINE` to keep the text and the control on one line.
+
+<Example name="core/label/inline">
+  <LabelInline />
+</Example>
+
+## Props interface
+
+**Label** has no props of its own. It accepts the HTML attributes of a `<label>`.

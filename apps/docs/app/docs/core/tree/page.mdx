@@ -1,0 +1,33 @@
+import TreeDatasets from "@/examples/core/tree/datasets";
+
+export const metadata = { title: "Tree" };
+
+# Tree
+
+A **Tree** shows hierarchical data, such as folders of datasets. It holds no state: you pass the nodes and handle expansion and selection.
+
+## Usage
+
+```tsx
+import { Tree, type TreeNodeInfo } from "@clawscale/react";
+```
+
+Each node needs a unique `id` and a `label`. `childNodes` makes it expandable. More than one top-level node makes a tree with several roots.
+
+## Examples
+
+### Dataset browser
+
+Keep the expanded ids and the selected id in state, and set `isExpanded` and `isSelected` from them. `icon` and `secondaryLabel` add context to each row.
+
+<Example name="core/tree/datasets">
+  <TreeDatasets />
+</Example>
+
+## Props interface
+
+Every callback receives the node, its path and the mouse event. The path lists indexes from the root: `[1, 0]` is the first child of the second top-level node.
+
+<PropsTable name="TreeProps" />
+
+<PropsTable name="TreeNodeInfo" />

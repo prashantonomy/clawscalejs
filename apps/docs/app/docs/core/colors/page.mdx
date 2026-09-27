@@ -1,0 +1,75 @@
+import { ChartSwatches, ColorSwatches } from "@/examples/core/colors/_swatch";
+
+export const metadata = { title: "Colors" };
+
+# Colors
+
+Clawscale colors are semantic tokens with a light and a dark value. Use them instead of raw hex values, so both themes work.
+
+## Usage
+
+Use the CSS variable. It switches with the theme.
+
+```css
+.run-failed {
+  background: var(--cs-color-danger-subtle);
+  color: var(--cs-color-danger-text);
+}
+```
+
+Where CSS variables do not reach, such as canvas charts, import the values from `@clawscale/tokens`.
+
+```tsx
+import { dark, light } from "@clawscale/tokens";
+
+light.color["danger-text"]; // "#C22F2F"
+dark.color["danger-text"]; // "#FF8585"
+```
+
+Each swatch shows the light value on the left and the dark value on the right. [Tokens](/docs/core/tokens/) lists every color.
+
+## Surfaces
+
+Backgrounds, from the page `canvas` to raised panels. Hover, active and selected fills are translucent and sit on a surface.
+
+<ColorSwatches group="surfaces" />
+
+## Borders
+
+`border` separates regions. `border-strong` adds emphasis. `border-subtle` divides rows in tables and lists.
+
+<ColorSwatches group="borders" />
+
+## Text
+
+`text-muted` and `text-subtle` pass WCAG AA on every surface. Use `text-disabled` only for disabled controls.
+
+<ColorSwatches group="text" />
+
+## Intents
+
+Each intent has a solid fill, a `-subtle` fill for tinted backgrounds and a `-text` color that stays readable on surfaces and on the subtle fill. Text on the solid fill uses the `-on` token.
+
+<ColorSwatches group="intents" />
+
+## Chart palette
+
+Eight categorical colors for chart series, `--cs-chart-1` to `--cs-chart-8`. Their order is validated for color vision deficiency: neighboring slots stay distinct.
+
+- Assign slots in order: the first series gets slot 1.
+- Never reorder, skip or cycle the slots.
+- With more than eight series, group the smallest into one.
+
+<ChartSwatches />
+
+Chart libraries that take an array can use `chartPalette`. It holds the same eight colors, in order.
+
+```tsx
+import { useTheme } from "@clawscale/react";
+import { chartPalette } from "@clawscale/tokens";
+
+const { resolvedTheme } = useTheme();
+const colors = chartPalette[resolvedTheme];
+```
+
+For status in charts, use `--cs-chart-good`, `--cs-chart-warning`, `--cs-chart-serious` and `--cs-chart-critical`, always with an icon and a label. For magnitude, such as heatmaps, use the sequential ramp `--cs-chart-seq-100` to `--cs-chart-seq-700`. See [Tokens](/docs/core/tokens/#chart).

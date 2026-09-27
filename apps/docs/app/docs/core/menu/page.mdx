@@ -1,0 +1,94 @@
+import MenuBasic from "@/examples/core/menu/basic";
+import MenuDividers from "@/examples/core/menu/dividers";
+import MenuDropdown from "@/examples/core/menu/dropdown";
+import MenuIcons from "@/examples/core/menu/icons";
+import MenuIntent from "@/examples/core/menu/intent";
+import MenuPlayground from "@/examples/core/menu/playground";
+import MenuSubmenus from "@/examples/core/menu/submenus";
+
+export const metadata = { title: "Menu" };
+
+# Menu
+
+A **Menu** lists actions. Put it in a popover to build a dropdown. For right-click menus, see [Context menu](/docs/core/context-menu/).
+
+## Usage
+
+```tsx
+import { Menu, MenuDivider, MenuItem } from "@clawscale/react";
+```
+
+```tsx
+<Menu>
+  <MenuItem icon="play" text="Run pipeline" onClick={runPipeline} />
+  <MenuItem icon="duplicate" text="Duplicate" onClick={duplicate} />
+</Menu>
+```
+
+## Examples
+
+### Basic
+
+Every **MenuItem** needs `text`. Add `onClick` or `href` to make it act. `disabled` turns an item off.
+
+<Example name="core/menu/basic">
+  <MenuBasic />
+</Example>
+
+### Icons and labels
+
+`icon` renders before the text. `label` renders right-aligned text, such as a hotkey or a count. Pass an element with `labelElement`.
+
+<Example name="core/menu/icons">
+  <MenuIcons />
+</Example>
+
+### Submenus
+
+Nest **MenuItem** elements to build a submenu. It opens on hover to the right and flips left when space runs out.
+
+<Example name="core/menu/submenus">
+  <MenuSubmenus />
+</Example>
+
+### Dividers
+
+**MenuDivider** separates groups of items. Its optional `title` labels the group below it.
+
+<Example name="core/menu/dividers">
+  <MenuDividers />
+</Example>
+
+### Intent
+
+`intent` colors an item. Keep **danger** for destructive actions.
+
+<Example name="core/menu/intent">
+  <MenuIntent />
+</Example>
+
+### Dropdown menu
+
+A **Menu** does not open or close by itself. Pass it as the `content` of a [PopoverNext](/docs/core/popover/). Clicking an item closes the popover, unless the item sets `shouldDismissPopover={false}`.
+
+<Example name="core/menu/dropdown">
+  <MenuDropdown />
+</Example>
+
+## Interactive playground
+
+<Example name="core/menu/playground" variant="playground">
+  <MenuPlayground />
+</Example>
+
+## Props interface
+
+**Menu** renders a `<ul>` and accepts its HTML attributes.
+
+<PropsTable name="MenuProps" />
+
+**MenuItem** renders an `<li>` that wraps an `<a>`. HTML attributes go to the `<a>`. The ref goes to the `<li>`.
+
+<PropsTable name="MenuItemProps" />
+
+<PropsTable name="MenuDividerProps" />

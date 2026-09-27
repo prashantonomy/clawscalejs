@@ -1,0 +1,126 @@
+/* Navbar, tabs, breadcrumbs and tree */
+
+.bp6-navbar {
+  background-color: var(--cs-color-surface);
+  box-shadow: inset 0 -1px 0 var(--cs-color-border);
+  color: var(--cs-color-text);
+}
+
+.bp6-navbar-heading {
+  font-size: var(--cs-font-size-lg);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-navbar-divider {
+  border-left-color: var(--cs-color-border);
+}
+
+/* Tabs */
+
+.bp6-tab {
+  color: var(--cs-color-text-muted);
+  font-weight: var(--cs-font-weight-medium);
+}
+
+.bp6-tab:not([aria-disabled="true"]):hover {
+  color: var(--cs-color-text);
+}
+
+.bp6-tab[aria-selected="true"] {
+  color: var(--cs-color-text);
+}
+
+.bp6-tab[aria-disabled="true"] {
+  color: var(--cs-color-text-disabled);
+}
+
+.bp6-tabs:not(.bp6-vertical) .bp6-tab-indicator-wrapper .bp6-tab-indicator {
+  background-color: var(--cs-color-primary);
+  border-radius: 2px;
+}
+
+/* Vertical tabs draw the indicator as a block behind the selected tab. */
+.bp6-tabs.bp6-vertical .bp6-tab-indicator-wrapper .bp6-tab-indicator {
+  background-color: var(--cs-color-primary-subtle);
+  border-radius: var(--cs-radius-sm);
+}
+
+.bp6-tabs.bp6-vertical .bp6-tab[aria-selected="true"] {
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-tab .bp6-tag:not([class*="bp6-intent-"]) {
+  background-color: var(--cs-color-surface-active);
+  color: var(--cs-color-text-muted);
+}
+
+/* Breadcrumbs: sized for dense screens */
+
+.bp6-breadcrumbs {
+  height: 26px;
+}
+
+.bp6-breadcrumb,
+.bp6-breadcrumb-current,
+.bp6-breadcrumbs-collapsed {
+  font-size: var(--cs-font-size-md);
+}
+
+.bp6-breadcrumb {
+  color: var(--cs-color-text-muted);
+}
+
+a.bp6-breadcrumb:hover {
+  color: var(--cs-color-text);
+}
+
+.bp6-breadcrumb-current {
+  color: var(--cs-color-text);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-breadcrumbs > li::after {
+  opacity: 0.6;
+}
+
+/* Tree */
+
+.bp6-tree-node-content {
+  border-radius: var(--cs-radius-sm);
+  height: 28px;
+}
+
+.bp6-tree-node-content:hover {
+  background-color: var(--cs-color-surface-hover);
+}
+
+.bp6-tree-node-caret,
+.bp6-tree-node-icon {
+  color: var(--cs-color-text-subtle);
+}
+
+.bp6-tree-node-caret:hover {
+  color: var(--cs-color-text);
+}
+
+.bp6-tree-node-secondary-label {
+  color: var(--cs-color-text-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+.bp6-tree-node.bp6-tree-node-selected > .bp6-tree-node-content {
+  background-color: var(--cs-color-primary-subtle);
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-tree-node.bp6-tree-node-selected > .bp6-tree-node-content .bp6-icon,
+.bp6-tree-node.bp6-tree-node-selected > .bp6-tree-node-content .bp6-icon-standard,
+.bp6-tree-node.bp6-tree-node-selected > .bp6-tree-node-content .bp6-icon-large,
+.bp6-tree-node.bp6-tree-node-selected > .bp6-tree-node-content .bp6-tree-node-caret,
+.bp6-tree-node.bp6-tree-node-selected > .bp6-tree-node-content .bp6-tree-node-secondary-label {
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-tree-node.bp6-tree-node-selected > .bp6-tree-node-content .bp6-tree-node-caret::before {
+  color: var(--cs-color-primary-text);
+}

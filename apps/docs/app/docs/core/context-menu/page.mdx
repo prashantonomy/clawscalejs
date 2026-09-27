@@ -1,0 +1,74 @@
+import ContextMenuBasic from "@/examples/core/context-menu/basic";
+import ContextMenuImperative from "@/examples/core/context-menu/imperative";
+import ContextMenuTable from "@/examples/core/context-menu/table";
+
+export const metadata = { title: "Context menu" };
+
+# Context menu
+
+A **ContextMenu** opens a menu of actions where the user right-clicks. It wraps a target element and shows a [PopoverNext](/docs/core/popover/) at the pointer.
+
+## Usage
+
+```tsx
+import { ContextMenu, Menu, MenuItem } from "@clawscale/react";
+```
+
+ContextMenu renders a `div` around its children and passes extra props to it. Change the element with `tagName`.
+
+## Examples
+
+### Basic
+
+Pass a [Menu](/docs/core/menu/) as `content`. Right-click the card.
+
+<Example name="core/context-menu/basic">
+  <ContextMenuBasic />
+</Example>
+
+### Table rows
+
+`tagName="tr"` makes each row its own target. Right-click a row.
+
+<Example name="core/context-menu/table" align="start">
+  <ContextMenuTable />
+</Example>
+
+### Imperative API
+
+`showContextMenu` opens a menu at any position, for example from a canvas or chart event handler. `hideContextMenu` closes it. The menu renders in a separate React root, so it cannot read your React context.
+
+<Example name="core/context-menu/imperative">
+  <ContextMenuImperative />
+</Example>
+
+## Without a wrapper
+
+To skip the wrapper element, pass a function as `children`. Spread its class name, handler and ref onto your element and render its `popover`.
+
+```tsx
+<ContextMenu content={menu}>
+  {(target) => (
+    <div className={target.className} onContextMenu={target.onContextMenu} ref={target.ref}>
+      {target.popover}
+      orders_daily
+    </div>
+  )}
+</ContextMenu>
+```
+
+`content` can also be a function. It receives `isOpen`, `targetOffset` and `mouseEvent`, for menus that depend on where the user clicked.
+
+## Theme
+
+Menus follow the dark theme through the `bp6-dark` class that [ClawscaleProvider](/docs/core/clawscale-provider/) puts on `<html>`.
+
+## Props interface
+
+<PropsTable name="ContextMenuProps" />
+
+**ContextMenuPopover** is the lower-level popover that ContextMenu and `showContextMenu` render. It is controlled with `isOpen` and `targetOffset`.
+
+<PropsTable name="ContextMenuPopoverProps" />
+
+<PropsTable name="ShowContextMenuOptions" />

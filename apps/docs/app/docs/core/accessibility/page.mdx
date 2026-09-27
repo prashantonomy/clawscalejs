@@ -1,0 +1,67 @@
+import AccessibilityFocus from "@/examples/core/accessibility/focus";
+import AccessibilityIconButtons from "@/examples/core/accessibility/icon-buttons";
+import AccessibilityReducedMotion from "@/examples/core/accessibility/reduced-motion";
+
+export const metadata = { title: "Accessibility" };
+
+# Accessibility
+
+Blueprint builds keyboard support and ARIA attributes into its components, and Clawscale keeps them. This page covers what your app still owns: focus, contrast, labels and motion.
+
+## Focus rings
+
+The focused element gets a 2px ring in `--cs-color-focus`. `ClawscaleProvider` shows it for keyboard focus only, so mouse clicks leave no ring. Pass `focusRings="always"` to show it for every focus, as Blueprint does by default. `FocusStyleManager` switches the same behavior at runtime.
+
+Turn off the switch, click a button, then press Tab.
+
+<Example name="core/accessibility/focus">
+  <AccessibilityFocus />
+</Example>
+
+`--cs-color-focus` keeps at least 3:1 contrast against every surface in both themes. Use it for focus styles in your own components.
+
+```css
+.run-row:focus-visible {
+  outline: 2px solid var(--cs-color-focus);
+  outline-offset: 2px;
+}
+```
+
+## Color contrast
+
+Unit tests check the color tokens against WCAG AA in both themes. They live in [`packages/tokens/test/tokens.test.ts`](https://github.com/clawscale/clawscale/blob/main/packages/tokens/test/tokens.test.ts) and run in CI.
+
+| Pair | Minimum ratio |
+| --- | --- |
+| `text`, `text-muted` and `text-subtle` on every surface | 4.5:1 |
+| `text` on hover, active and selected rows | 4.5:1 |
+| `text` on controls in every state | 4.5:1 |
+| Intent `-on` text on its solid fill, at rest, hover and active | 4.5:1 |
+| Intent `-text` on `surface` and on its `-subtle` fill | 4.5:1 |
+| `neutral-on` on neutral fills | 4.5:1 |
+| `tooltip-text` on `tooltip` | 4.5:1 |
+| `focus` on every surface | 3:1 |
+
+`text-disabled` is exempt: WCAG does not require contrast for disabled controls. If you override a color token, check its pairs again.
+
+Never show status by color alone. Pair an intent with an icon or a label.
+
+## Icon-only buttons
+
+A button with only an icon has no text for screen readers. Give it an `aria-label`. Wrap it in a `Tooltip` with the same text for mouse users. The tooltip also opens on keyboard focus.
+
+<Example name="core/accessibility/icon-buttons">
+  <AccessibilityIconButtons />
+</Example>
+
+## Icons and inputs
+
+Blueprint hides icons from screen readers by default. Pass `title` to an `Icon` that carries meaning on its own. Label every input with `FormGroup` and `labelFor`, or with `aria-label`.
+
+## Reduced motion
+
+Clawscale stops the skeleton pulse when the system asks for reduced motion. Blueprint's other animations ignore that setting. Read `prefers-reduced-motion` and stop motion you do not need, such as progress bar stripes.
+
+<Example name="core/accessibility/reduced-motion">
+  <AccessibilityReducedMotion />
+</Example>

@@ -1,0 +1,54 @@
+/* Callouts get a hairline border in their intent color. */
+
+.bp6-callout:not(.bp6-minimal) {
+  border-radius: var(--cs-radius-lg);
+}
+
+.bp6-callout:not(.bp6-minimal):not([class*="bp6-intent-"]) {
+  background-color: var(--cs-color-surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--cs-color-border);
+}
+
+.bp6-callout:not(.bp6-minimal).bp6-intent-primary {
+  background-color: var(--cs-color-primary-subtle);
+  box-shadow: inset 0 0 0 1px var(--cs-color-primary-border);
+}
+
+.bp6-callout:not(.bp6-minimal).bp6-intent-success {
+  background-color: var(--cs-color-success-subtle);
+  box-shadow: inset 0 0 0 1px var(--cs-color-success-border);
+}
+
+.bp6-callout:not(.bp6-minimal).bp6-intent-warning {
+  background-color: var(--cs-color-warning-subtle);
+  box-shadow: inset 0 0 0 1px var(--cs-color-warning-border);
+}
+
+.bp6-callout:not(.bp6-minimal).bp6-intent-danger {
+  background-color: var(--cs-color-danger-subtle);
+  box-shadow: inset 0 0 0 1px var(--cs-color-danger-border);
+}
+
+.bp6-callout .bp6-heading {
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-callout:not([class*="bp6-intent-"]) .bp6-heading {
+  color: var(--cs-color-text);
+}
+
+.bp6-callout.bp6-intent-primary .bp6-heading {
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-callout.bp6-intent-success .bp6-heading {
+  color: var(--cs-color-success-text);
+}
+
+.bp6-callout.bp6-intent-warning .bp6-heading {
+  color: var(--cs-color-warning-text);
+}
+
+.bp6-callout.bp6-intent-danger .bp6-heading {
+  color: var(--cs-color-danger-text);
+}

@@ -1,0 +1,58 @@
+import DateRangePickerBasic from "@/examples/datetime/date-range-picker/basic";
+import DateRangePickerShortcuts from "@/examples/datetime/date-range-picker/shortcuts";
+import DateRangePickerSingleDay from "@/examples/datetime/date-range-picker/single-day";
+import DateRangePickerSingleMonth from "@/examples/datetime/date-range-picker/single-month";
+
+export const metadata = { title: "Date range picker" };
+
+# Date range picker
+
+A **DateRangePicker** selects a range of days on inline calendars. Its value is a `DateRange`: `[start, end]`, where either end can be `null`. To pick a range from text fields, use [Date range input](/docs/datetime/date-range-input/).
+
+## Usage
+
+```tsx
+import { type DateRange, DateRangePicker } from "@clawscale/react/datetime";
+```
+
+```tsx
+<DateRangePicker value={range} onChange={setRange} />
+```
+
+## Examples
+
+### Basic
+
+The first click sets one end of the range and the second click sets the other. While the range is incomplete, one end is `null`. Shortcuts are on by default, so this example turns them off.
+
+<Example name="datetime/date-range-picker/basic">
+  <DateRangePickerBasic />
+</Example>
+
+### Shortcuts
+
+The default shortcuts are ranges ending today, from **Past week** to **Past 2 years**. Pass an array of `{ label, dateRange }` objects for your own, such as the last 7 days. Ranges built from the current date are safe on server-rendered pages, since only the labels are rendered.
+
+<Example name="datetime/date-range-picker/shortcuts">
+  <DateRangePickerShortcuts />
+</Example>
+
+### Single month
+
+The two calendars show consecutive months. `singleMonthOnly` shows one calendar, for popovers and side panels. `contiguousCalendarMonths={false}` keeps two calendars but lets each move on its own.
+
+<Example name="datetime/date-range-picker/single-month">
+  <DateRangePickerSingleMonth />
+</Example>
+
+### Single day ranges
+
+By default, clicking the same day twice clears the selection. With `allowSingleDayRange`, it makes a one-day range, and the default shortcuts add **Today** and **Yesterday**.
+
+<Example name="datetime/date-range-picker/single-day">
+  <DateRangePickerSingleDay />
+</Example>
+
+## Props interface
+
+<PropsTable name="DateRangePickerProps" />

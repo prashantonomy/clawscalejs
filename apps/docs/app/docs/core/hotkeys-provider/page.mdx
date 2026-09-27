@@ -1,0 +1,56 @@
+import HotkeysProviderOpenDialog from "@/examples/core/hotkeys-provider/open-dialog";
+
+export const metadata = { title: "Hotkeys provider" };
+
+# Hotkeys provider
+
+**HotkeysProvider** keeps track of the hotkeys that components register with [useHotkeys](/docs/core/use-hotkeys/) and renders the hotkeys dialog. [ClawscaleProvider](/docs/core/clawscale-provider/) includes it.
+
+## Usage
+
+```tsx
+import { HotkeysProvider } from "@clawscale/react";
+```
+
+Apps that use ClawscaleProvider never render it themselves.
+
+## Hotkeys dialog
+
+Press `?` on a page with hotkeys to open a dialog that lists them. Hotkeys appear under their `group`. Global hotkeys without a group appear under Global.
+
+## Examples
+
+### Open the dialog
+
+The dialog state lives in `HotkeysContext`. Dispatch `OPEN_DIALOG` to open it from a button or a menu. It lists the global hotkeys of these docs.
+
+<Example name="core/hotkeys-provider/open-dialog">
+  <HotkeysProviderOpenDialog />
+</Example>
+
+## Customize the dialog
+
+Pass dialog props through ClawscaleProvider. `globalGroupName` renames the Global group.
+
+```tsx
+<ClawscaleProvider hotkeysProviderDialogProps={{ title: "Keyboard shortcuts", globalGroupName: "Workspace" }}>
+  {children}
+</ClawscaleProvider>
+```
+
+`hotkeysProviderRenderDialog` replaces the dialog. It receives the provider state, with `hotkeys` and `isDialogOpen`, and a `handleDialogClose` action.
+
+## More than one React root
+
+Use one HotkeysProvider per app. If part of the app renders in its own React root, such as a plugin, render a HotkeysProvider there and pass the root context as `value`. Hotkeys then register with the root provider, and the app keeps a single dialog.
+
+```tsx
+const hotkeysContext = useContext(HotkeysContext);
+
+// In the other React root:
+<HotkeysProvider value={hotkeysContext}>{plugin}</HotkeysProvider>;
+```
+
+## Props interface
+
+<PropsTable name="HotkeysProviderProps" />

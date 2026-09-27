@@ -1,0 +1,96 @@
+import InputGroupAsyncControl from "@/examples/core/input-group/async-control";
+import InputGroupDisabled from "@/examples/core/input-group/disabled";
+import InputGroupIntent from "@/examples/core/input-group/intent";
+import InputGroupLeftIcon from "@/examples/core/input-group/left-icon";
+import InputGroupPlayground from "@/examples/core/input-group/playground";
+import InputGroupRightElement from "@/examples/core/input-group/right-element";
+import InputGroupSearch from "@/examples/core/input-group/search";
+import InputGroupSize from "@/examples/core/input-group/size";
+
+export const metadata = { title: "Input group" };
+
+# Input group
+
+An **InputGroup** is a single-line text input with an optional icon on the left and an element on the right, such as a button or a tag. Use [TextArea](/docs/core/text-area/) for multiline text.
+
+## Usage
+
+```tsx
+import { InputGroup } from "@clawscale/react";
+```
+
+```tsx
+<InputGroup leftIcon="filter" placeholder="Filter pipelines" value={query} onValueChange={setQuery} />
+```
+
+Use it like an `<input>`, controlled or uncontrolled. `onValueChange` receives the string value directly.
+
+## Examples
+
+### Left icon
+
+`leftIcon` renders an icon inside the input, before the text.
+
+<Example name="core/input-group/left-icon">
+  <InputGroupLeftIcon />
+</Example>
+
+### Right element
+
+`rightElement` holds one element after the text, usually a minimal button or a tag. The input pads its text to fit the element.
+
+<Example name="core/input-group/right-element">
+  <InputGroupRightElement />
+</Example>
+
+### Search
+
+`type="search"` gives the input round ends. Some browsers also clear it on Escape.
+
+<Example name="core/input-group/search">
+  <InputGroupSearch />
+</Example>
+
+### Intent
+
+`intent` colors the border and focus ring. Pair it with helper text in a [FormGroup](/docs/core/form-group/) to explain the state.
+
+<Example name="core/input-group/intent">
+  <InputGroupIntent />
+</Example>
+
+### Size
+
+`size` accepts **small**, **medium** (default) and **large**.
+
+<Example name="core/input-group/size">
+  <InputGroupSize />
+</Example>
+
+### Disabled
+
+`disabled` blocks the input but not its `rightElement`, so disable that too. Use `readOnly` for a value that users can still select and copy.
+
+<Example name="core/input-group/disabled">
+  <InputGroupDisabled />
+</Example>
+
+### Async control
+
+Set `asyncControl` when `value` changes after the change event, for example through a store that applies updates asynchronously. The cursor then stays in place while the user types.
+
+<Example name="core/input-group/async-control">
+  <InputGroupAsyncControl />
+</Example>
+
+## Interactive playground
+
+<Example name="core/input-group/playground" variant="playground">
+  <InputGroupPlayground />
+</Example>
+
+## Props interface
+
+**InputGroup** also accepts the HTML attributes of an `<input>`.
+
+<PropsTable name="InputGroupProps" />

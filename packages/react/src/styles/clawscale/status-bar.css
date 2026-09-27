@@ -1,0 +1,40 @@
+/* StatusBar */
+
+.cs-status-bar {
+  align-items: center;
+  background-color: var(--cs-color-surface);
+  border-top: 1px solid var(--cs-color-border);
+  color: var(--cs-color-text-muted);
+  display: flex;
+  font-size: var(--cs-font-size-xs);
+  gap: var(--cs-space-1);
+  height: 26px;
+  padding: 0 var(--cs-space-2);
+  white-space: nowrap;
+}
+
+.cs-status-bar-item {
+  align-items: center;
+  background: none;
+  border: 0;
+  border-radius: var(--cs-radius-sm);
+  color: inherit;
+  display: inline-flex;
+  font: inherit;
+  gap: 5px;
+  height: 20px;
+  padding: 0 6px;
+}
+
+button.cs-status-bar-item {
+  cursor: pointer;
+}
+
+button.cs-status-bar-item:hover {
+  background-color: var(--cs-color-surface-hover);
+  color: var(--cs-color-text);
+}
+
+.cs-status-bar-spacer {
+  flex: 1 1 auto;
+}

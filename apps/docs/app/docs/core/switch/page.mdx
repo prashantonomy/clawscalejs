@@ -1,0 +1,76 @@
+import SwitchAlignment from "@/examples/core/switch/alignment";
+import SwitchBasic from "@/examples/core/switch/basic";
+import SwitchDisabled from "@/examples/core/switch/disabled";
+import SwitchInnerLabels from "@/examples/core/switch/inner-labels";
+import SwitchPlayground from "@/examples/core/switch/playground";
+import SwitchSize from "@/examples/core/switch/size";
+
+export const metadata = { title: "Switch" };
+
+# Switch
+
+A **Switch** turns a setting on or off, and the change applies at once. Use a [Checkbox](/docs/core/checkbox/) for choices that a form submits later.
+
+## Usage
+
+```tsx
+import { Switch } from "@clawscale/react";
+```
+
+```tsx
+<Switch checked={paused} label="Pause ingestion" onChange={(event) => setPaused(event.currentTarget.checked)} />
+```
+
+## Examples
+
+### Basic
+
+Pass `checked` and `onChange` to control the switch, or `defaultChecked` to leave it uncontrolled. The whole label is clickable.
+
+<Example name="core/switch/basic">
+  <SwitchBasic />
+</Example>
+
+### Inner labels
+
+`innerLabel` shows text inside the track while the switch is off. `innerLabelChecked` replaces it while the switch is on.
+
+<Example name="core/switch/inner-labels">
+  <SwitchInnerLabels />
+</Example>
+
+### Alignment
+
+`alignIndicator="end"` moves the switch after the label. Use it in settings lists with a fixed width.
+
+<Example name="core/switch/alignment">
+  <SwitchAlignment />
+</Example>
+
+### Size
+
+`size` accepts **medium** (default) and **large**.
+
+<Example name="core/switch/size">
+  <SwitchSize />
+</Example>
+
+### Disabled
+
+`disabled` blocks changes in both states.
+
+<Example name="core/switch/disabled">
+  <SwitchDisabled />
+</Example>
+
+## Interactive playground
+
+<Example name="core/switch/playground" variant="playground">
+  <SwitchPlayground />
+</Example>
+
+## Props interface
+
+**Switch** also accepts the HTML attributes of an `<input>`.
+
+<PropsTable name="SwitchProps" />

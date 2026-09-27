@@ -1,0 +1,89 @@
+export const metadata = { title: "Next.js" };
+
+# Next.js
+
+Clawscale works with the Next.js App Router. Components render on the server and hydrate on the client.
+
+## Setup
+
+Add the styles, the theme script and a client provider to your root layout.
+
+```tsx
+// app/layout.tsx
+import "@clawscale/react/styles.css";
+import "@clawscale/react/fonts.css";
+import { ThemeScript } from "@clawscale/react";
+import { Providers } from "./providers";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+```
+
+```tsx
+// app/providers.tsx
+"use client";
+
+import "@clawscale/react/sync-icons";
+import { ClawscaleProvider } from "@clawscale/react";
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return <ClawscaleProvider>{children}</ClawscaleProvider>;
+}
+```
+
+`suppressHydrationWarning` is needed because the theme script sets a class on `<html>` before React hydrates.
+
+## Server components
+
+Every component export carries `"use client"`, so you can render Clawscale in server components. Props must be serializable. Event handlers need a client component.
+
+```tsx
+// app/page.tsx
+import { Callout } from "@clawscale/react";
+
+export default function Page() {
+  return (
+    <Callout intent="primary" title="Pipelines paused">
+      Maintenance ends at 14:00 UTC.
+    </Callout>
+  );
+}
+```
+
+Constants such as `Classes` and `Intent` are client references in server components, so you cannot read their fields there. Import them from `@clawscale/react/common` instead.
+
+```tsx
+import { Classes } from "@clawscale/react/common";
+
+<div className={Classes.RUNNING_TEXT}>...</div>;
+```
+
+## Icons
+
+Blueprint loads icon paths asynchronously. Server-rendered HTML then shows empty icons until they load. Import `@clawscale/react/sync-icons` once in a client module that wraps your app, as in `providers.tsx` above. Every string icon then renders on the server. It adds about 190 kB gzipped to your bundle. See [Loading icons](/docs/icons/loading-icons/).
+
+## Theme without a flash
+
+`ThemeScript` applies the saved theme before the first paint. If you change `storageKey` or `defaultTheme` on the provider, pass the same values to `ThemeScript`.
+
+## Static export
+
+Clawscale works with `output: "export"`. This site is a static export.
+
+## Key combos
+
+`KeyComboTag` renders PC keys on the server, then the visitor's platform after hydration. Blueprint's own version reads the build machine's platform, so a page built on Linux fails to hydrate for Mac visitors. Clawscale exports the safe version under the same name.
+
+## Known warnings
+
+Some Blueprint components generate ids with a counter, so React logs attribute mismatch warnings in development. They are harmless and never appear in production. Pass explicit ids where a component accepts one, for example `id` on `NumericInput` and `name` on `RadioGroup`.

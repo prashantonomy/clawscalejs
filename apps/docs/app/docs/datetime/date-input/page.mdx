@@ -1,0 +1,60 @@
+import DateInputBasic from "@/examples/datetime/date-input/basic";
+import DateInputControlled from "@/examples/datetime/date-input/controlled";
+import DateInputShortcuts from "@/examples/datetime/date-input/shortcuts";
+import DateInputTimePrecision from "@/examples/datetime/date-input/time-precision";
+
+export const metadata = { title: "Date input" };
+
+# Date input
+
+A **DateInput** is a text field with a calendar popover. Users type a date or pick one. Its value is an ISO 8601 string.
+
+## Usage
+
+```tsx
+import { DateInput } from "@clawscale/react/datetime";
+```
+
+```tsx
+<DateInput dateFnsFormat="yyyy-MM-dd" value={value} onChange={setValue} />
+```
+
+## Examples
+
+### Basic
+
+`formatDate` turns a `Date` into the text in the field. `parseDate` turns typed text back into a `Date`, or returns `false` for invalid text. For a [date-fns format](https://date-fns.org/docs/format), pass `dateFnsFormat` instead, such as `"dd MMM yyyy"`. Without either, the field uses `yyyy-MM-dd`.
+
+<Example name="datetime/date-input/basic">
+  <DateInputBasic />
+</Example>
+
+### Time precision
+
+`timePrecision` adds a time picker to the popover and the time to the text. `onChange` then receives an ISO string with an offset, such as `"2026-08-17T02:30+00:00"`. `showTimezoneSelect` adds a timezone menu to the field.
+
+`defaultTimezone` sets the first timezone. Without it, the field uses the user's timezone, which can differ between the server and the browser. Set it on server-rendered pages.
+
+<Example name="datetime/date-input/time-precision">
+  <DateInputTimePrecision />
+</Example>
+
+### Shortcuts
+
+`shortcuts` adds presets to the popover: **Today**, **Yesterday**, **1 week ago** and more. Pass an array of `{ label, date }` objects for your own.
+
+<Example name="datetime/date-input/shortcuts">
+  <DateInputShortcuts />
+</Example>
+
+### Controlled value
+
+Pass `value` and `onChange` to control the field. `value` is an ISO string, or `null` for an empty field. `onChange` receives `null` when the user clears the field. Text that does not parse calls `onError` instead.
+
+<Example name="datetime/date-input/controlled">
+  <DateInputControlled />
+</Example>
+
+## Props interface
+
+<PropsTable name="DateInputProps" />

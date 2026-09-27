@@ -1,0 +1,133 @@
+import ChartsBarChart from "@/examples/patterns/charts/bar-chart";
+import ChartsLineChart from "@/examples/patterns/charts/line-chart";
+import ChartsPalette from "@/examples/patterns/charts/palette";
+import ChartsSequential from "@/examples/patterns/charts/sequential";
+import ChartsStatus from "@/examples/patterns/charts/status";
+
+export const metadata = { title: "Charts" };
+
+# Charts
+
+Clawscale ships chart tokens, not a chart library. Use them with the chart library you already have, or draw small charts in SVG.
+
+## Usage
+
+In SVG and CSS, read the tokens as CSS variables. They follow the theme.
+
+```tsx
+<path d={line} fill="none" stroke="var(--cs-chart-1)" strokeWidth={2} />
+```
+
+Libraries that need color values import them from `@clawscale/tokens`.
+
+```tsx
+import { chartPalette } from "@clawscale/tokens";
+```
+
+## Categorical palette
+
+Eight slots, `--cs-chart-1` to `--cs-chart-8`, tell series apart. Each theme has its own values, tuned for its surface.
+
+<Example name="patterns/charts/palette" align="start">
+  <ChartsPalette />
+</Example>
+
+- Assign slots in order: the first series gets slot 1, the second slot 2. The order keeps neighboring colors distinct for color-blind readers.
+- Never skip, reorder or cycle slots. A ninth series folds into Other, or the chart splits into small multiples.
+- Color follows the series, not its rank. When a filter hides a series, the others keep their colors.
+- One series uses slot 1 and needs no legend. The title names it.
+- Two or more series need a legend. Up to four also get direct labels.
+- In the light theme, slots 3, 4 and 5 fall below 3:1 contrast on the surface. Label those series directly or offer a table.
+
+## Status colors
+
+`--cs-chart-good`, `--cs-chart-warning`, `--cs-chart-serious` and `--cs-chart-critical` show state, never series identity. They are the same in both themes. Warning and serious are low contrast on light surfaces by design, so always show a status color with an icon and a label.
+
+<Example name="patterns/charts/status">
+  <ChartsStatus />
+</Example>
+
+## Grid and axis
+
+`--cs-chart-grid` draws hairline gridlines and `--cs-chart-axis` draws the baseline. Both stay quiet so the data leads. Axis labels and values use text tokens such as `--cs-color-text-muted`, never a series color.
+
+## Sequential ramp
+
+`--cs-chart-seq-100` to `--cs-chart-seq-700` step one blue hue from light to dark. Use it for magnitude, such as heatmap cells. In the light theme, map values near zero to 100. In the dark theme, reverse the ramp so low values stay close to the surface.
+
+<Example name="patterns/charts/sequential" align="start">
+  <ChartsSequential />
+</Example>
+
+## Rules for hand-built charts
+
+- One y axis. Two measures with different scales get two charts.
+- Lines are 2px. Bars sit 2px apart, with 4px rounded corners at the data end and a square base.
+- Gridlines are solid hairlines in `--cs-chart-grid`.
+- Labels and values use text colors. The colored mark next to a label carries identity.
+- Numbers use tabular figures: add `ClawscaleClasses.NUMERIC` to the `svg`.
+- Every mark has a native `<title>`, which the browser shows on hover.
+- Every chart has a visually hidden data table or an `aria-label` summary for screen readers.
+
+## Examples
+
+### Bar chart
+
+One series in slot 1. The title names it, so there is no legend. Only the peak has a value label: hover a bar for the others. The `aria-label` lists every value for screen readers.
+
+<Example name="patterns/charts/bar-chart" align="start">
+  <ChartsBarChart />
+</Example>
+
+### Line chart
+
+Three series in slots 1, 2 and 3, with a legend and a label at the end of each line. Hover a point for its value. A visually hidden table holds the data for screen readers. It comes from the `_chart-table.tsx` helper next to the example.
+
+<Example name="patterns/charts/line-chart" align="start">
+  <ChartsLineChart />
+</Example>
+
+## Chart libraries
+
+SVG libraries such as Recharts accept CSS variables, so `stroke="var(--cs-chart-1)"` works there too. Canvas renderers such as ECharts, and libraries that compute colors such as Vega, need color values. Read the theme with [useTheme](/docs/core/use-theme/) and pass `chartPalette[resolvedTheme]`.
+
+```tsx
+"use client";
+
+import { useTheme } from "@clawscale/react";
+import { chartPalette } from "@clawscale/tokens";
+
+export function useChartPalette() {
+  const { resolvedTheme } = useTheme();
+  return chartPalette[resolvedTheme];
+}
+```
+
+Index the palette by each series' position in the full list, not in the filtered one, so colors never shift.
+
+```tsx
+// Recharts
+const palette = useChartPalette();
+
+<LineChart data={throughput}>
+  {regions.map((region, index) => (
+    <Line key={region} dataKey={region} stroke={palette[index]} strokeWidth={2} dot={false} />
+  ))}
+</LineChart>;
+```
+
+```tsx
+// ECharts
+const palette = useChartPalette();
+
+chart.setOption({ color: [...palette], series });
+```
+
+```tsx
+// Vega-Lite
+const palette = useChartPalette();
+
+const spec = { ...throughputSpec, config: { range: { category: [...palette] } } };
+```
+
+Grid, axis and status colors for each theme are in `light.chart` and `dark.chart`. The sequential ramp is `sequentialBlue`. All three come from `@clawscale/tokens`.

@@ -1,0 +1,69 @@
+import CalloutBasic from "@/examples/core/callout/basic";
+import CalloutCompact from "@/examples/core/callout/compact";
+import CalloutIntent from "@/examples/core/callout/intent";
+import CalloutMinimal from "@/examples/core/callout/minimal";
+import CalloutPlayground from "@/examples/core/callout/playground";
+
+export const metadata = { title: "Callout" };
+
+# Callout
+
+A **Callout** highlights information the reader should not miss. It holds an optional title, an icon and any content.
+
+## Usage
+
+```tsx
+import { Callout } from "@clawscale/react";
+```
+
+```tsx
+<Callout intent="warning" title="Quota at 85%">
+  The warehouse throttles queries above 100%.
+</Callout>
+```
+
+## Examples
+
+### Basic
+
+`title` renders a heading above the content.
+
+<Example name="core/callout/basic" align="start">
+  <CalloutBasic />
+</Example>
+
+### Intent
+
+`intent` sets the color and a matching icon. Set `icon` to replace the icon, or `icon={null}` to remove it.
+
+<Example name="core/callout/intent" align="start">
+  <CalloutIntent />
+</Example>
+
+### Compact
+
+`compact` reduces the padding. Use it in dense panels and forms.
+
+<Example name="core/callout/compact" align="start">
+  <CalloutCompact />
+</Example>
+
+### Minimal
+
+`minimal` removes the background fill, for notes that should not compete with the content around them.
+
+<Example name="core/callout/minimal" align="start">
+  <CalloutMinimal />
+</Example>
+
+## Interactive playground
+
+<Example name="core/callout/playground" variant="playground">
+  <CalloutPlayground />
+</Example>
+
+## Props interface
+
+**Callout** also accepts the HTML attributes of a `div`.
+
+<PropsTable name="CalloutProps" />

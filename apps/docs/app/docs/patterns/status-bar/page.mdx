@@ -1,0 +1,70 @@
+import StatusBarAppFrame from "@/examples/patterns/status-bar/app-frame";
+import StatusBarClickable from "@/examples/patterns/status-bar/clickable";
+import StatusBarConnection from "@/examples/patterns/status-bar/connection";
+import StatusBarWithSpacer from "@/examples/patterns/status-bar/spacer";
+
+export const metadata = { title: "Status bar" };
+
+# Status bar
+
+A **StatusBar** is a thin bar along the bottom of an app. It shows connection state, counts and quick settings.
+
+## Usage
+
+```tsx
+import { StatusBar, StatusBarItem, StatusBarSpacer } from "@clawscale/react";
+```
+
+```tsx
+<StatusBar>
+  <StatusBarItem icon="tick-circle" intent="success">
+    Connected
+  </StatusBarItem>
+</StatusBar>
+```
+
+## Examples
+
+### Connection state
+
+`icon` and `intent` show state at a glance. Use a different icon for each state and always add text, so color is never the only signal.
+
+<Example name="patterns/status-bar/connection" align="start">
+  <StatusBarConnection />
+</Example>
+
+### Spacer
+
+`StatusBarSpacer` pushes the items after it to the right edge.
+
+<Example name="patterns/status-bar/spacer" align="start">
+  <StatusBarWithSpacer />
+</Example>
+
+### Clickable items
+
+An item with `onClick` renders a button with a hover state. Use it for quick settings and trays. Click the time zone or the notification count.
+
+<Example name="patterns/status-bar/clickable" align="start">
+  <StatusBarClickable />
+</Example>
+
+### App frame
+
+Make the bar the last child of a full-height flex column, and give the content `flex: 1` and `overflow: auto`. The bar stays at the bottom and long content scrolls above it.
+
+<Example name="patterns/status-bar/app-frame" align="start">
+  <StatusBarAppFrame />
+</Example>
+
+## Accessibility
+
+The bar is a plain `div`. Give items that change on their own, such as the connection state, `role="status"` so screen readers announce the change. Items with only an icon or a number need an `aria-label`.
+
+## Props interface
+
+StatusBar accepts the HTML attributes of a `div`. StatusBarItem renders a `span`, or a `button` when it has `onClick`, and accepts their HTML attributes.
+
+<PropsTable name="StatusBarProps" />
+
+<PropsTable name="StatusBarItemProps" />

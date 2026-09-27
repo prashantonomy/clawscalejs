@@ -1,0 +1,67 @@
+import CardBasic from "@/examples/core/card/basic";
+import CardCompact from "@/examples/core/card/compact";
+import CardElevation from "@/examples/core/card/elevation";
+import CardInteractive from "@/examples/core/card/interactive";
+import CardPlayground from "@/examples/core/card/playground";
+
+export const metadata = { title: "Card" };
+
+# Card
+
+A **Card** is a bounded surface that groups related content. [Card list](/docs/core/card-list/), [Control card](/docs/core/control-card/) and [Section](/docs/core/section/) build on it.
+
+## Usage
+
+```tsx
+import { Card } from "@clawscale/react";
+```
+
+```tsx
+<Card>1,204,331 rows loaded</Card>
+```
+
+## Examples
+
+### Basic
+
+A card adds padding and a surface color around any content.
+
+<Example name="core/card/basic">
+  <CardBasic />
+</Example>
+
+### Interactive
+
+`interactive` adds hover styles and a pointer cursor. Pair it with `onClick`, and set `selected` on the chosen card.
+
+<Example name="core/card/interactive">
+  <CardInteractive />
+</Example>
+
+### Elevation
+
+`elevation` sets the shadow depth from 0 to 4. Keep cards that sit on the page at 0 or 1. `Classes.ELEVATION_0` to `Classes.ELEVATION_4` apply the same shadows to any element.
+
+<Example name="core/card/elevation">
+  <CardElevation />
+</Example>
+
+### Compact
+
+`compact` reduces the padding.
+
+<Example name="core/card/compact">
+  <CardCompact />
+</Example>
+
+## Interactive playground
+
+<Example name="core/card/playground" variant="playground">
+  <CardPlayground />
+</Example>
+
+## Props interface
+
+**Card** also accepts the HTML attributes of a `div`.
+
+<PropsTable name="CardProps" />

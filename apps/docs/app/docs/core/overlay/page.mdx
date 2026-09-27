@@ -1,0 +1,60 @@
+import OverlayBasic from "@/examples/core/overlay/basic";
+import OverlayPlayground from "@/examples/core/overlay/playground";
+
+export const metadata = { title: "Overlay" };
+
+# Overlay
+
+**Overlay2** renders content above the page, with an optional backdrop, focus management and escape handling. Dialog, Drawer, Alert and Popover are built on it. Use it directly only when none of them fits.
+
+<Callout intent="warning" title="Overlay is deprecated">
+  Blueprint deprecated the original `Overlay` component. Use `Overlay2`.
+</Callout>
+
+## Usage
+
+```tsx
+import { Overlay2 } from "@clawscale/react";
+```
+
+Overlay2 is controlled. It renders its children while `isOpen` is true and calls `onClose` when the user presses escape or clicks outside. Update your state there to close it.
+
+It needs an [OverlaysProvider](/docs/core/overlays-provider/) above it. [ClawscaleProvider](/docs/core/clawscale-provider/) renders one.
+
+## Examples
+
+### Basic
+
+Overlay content is `position: fixed`. Place it with your own styles.
+
+<Example name="core/overlay/basic">
+  <OverlayBasic />
+</Example>
+
+## Scrolling
+
+Content taller than the viewport is clipped. Add `Classes.OVERLAY_SCROLL_CONTAINER` to make the overlay scroll. Dialog adds it for you.
+
+```tsx
+<Overlay2 className={Classes.OVERLAY_SCROLL_CONTAINER} isOpen={isOpen} onClose={close}>
+  <Card>{/* long content */}</Card>
+</Overlay2>
+```
+
+## Child refs
+
+Overlay2 attaches a ref to each child to run its enter and exit transitions. Children must be DOM elements or components that forward their ref, like Card.
+
+- A single child without its own `ref` needs nothing.
+- If the child has a `ref`, pass the same ref object to `childRef`.
+- With several children, pass `childRefs`, keyed by each child's `key`.
+
+## Interactive playground
+
+<Example name="core/overlay/playground" variant="playground">
+  <OverlayPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="Overlay2Props" />

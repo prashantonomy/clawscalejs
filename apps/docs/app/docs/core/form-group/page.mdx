@@ -1,0 +1,87 @@
+import FormGroupBasic from "@/examples/core/form-group/basic";
+import FormGroupDisabled from "@/examples/core/form-group/disabled";
+import FormGroupHelperText from "@/examples/core/form-group/helper-text";
+import FormGroupInline from "@/examples/core/form-group/inline";
+import FormGroupIntent from "@/examples/core/form-group/intent";
+import FormGroupLabelInfo from "@/examples/core/form-group/label-info";
+import FormGroupPlayground from "@/examples/core/form-group/playground";
+
+export const metadata = { title: "Form group" };
+
+# Form group
+
+A **FormGroup** gives a form control a label, helper text and consistent spacing. Use it for every labeled field, from a plain [InputGroup](/docs/core/input-group/) to a [ControlGroup](/docs/core/control-group/).
+
+## Usage
+
+```tsx
+import { FormGroup } from "@clawscale/react";
+```
+
+```tsx
+<FormGroup label="Pipeline name" labelFor="pipeline-name">
+  <InputGroup id="pipeline-name" />
+</FormGroup>
+```
+
+## Examples
+
+### Basic
+
+Set `labelFor` to the control's `id`. A click on the label then focuses the control.
+
+<Example name="core/form-group/basic">
+  <FormGroupBasic />
+</Example>
+
+### Label info
+
+`labelInfo` adds muted text after the label. `subLabel` adds a line between the label and the control.
+
+<Example name="core/form-group/label-info">
+  <FormGroupLabelInfo />
+</Example>
+
+### Helper text
+
+`helperText` renders below the control. Use it for formats, limits and consequences.
+
+<Example name="core/form-group/helper-text">
+  <FormGroupHelperText />
+</Example>
+
+### Intent
+
+`intent` colors the helper text only. Set the same `intent` on the control.
+
+<Example name="core/form-group/intent">
+  <FormGroupIntent />
+</Example>
+
+### Inline
+
+`inline` puts the label and the control on one line. Use it in toolbars and dense settings panels.
+
+<Example name="core/form-group/inline">
+  <FormGroupInline />
+</Example>
+
+### Disabled
+
+`disabled` dims the label and helper text. Disable the control separately.
+
+<Example name="core/form-group/disabled">
+  <FormGroupDisabled />
+</Example>
+
+## Interactive playground
+
+<Example name="core/form-group/playground" variant="playground">
+  <FormGroupPlayground />
+</Example>
+
+## Props interface
+
+**FormGroup** also accepts the HTML attributes of a `<div>`.
+
+<PropsTable name="FormGroupProps" />

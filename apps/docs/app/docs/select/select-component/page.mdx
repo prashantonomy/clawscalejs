@@ -1,0 +1,74 @@
+import SelectBasic from "@/examples/select/select-component/basic";
+import SelectCreate from "@/examples/select/select-component/create";
+import SelectDisabled from "@/examples/select/select-component/disabled";
+import SelectFilterable from "@/examples/select/select-component/filterable";
+import SelectPlayground from "@/examples/select/select-component/playground";
+
+export const metadata = { title: "Select" };
+
+# Select
+
+**Select** picks one item from a list. Its child, usually a button, opens a popover with a filter input and the list.
+
+## Usage
+
+```tsx
+import { Select } from "@clawscale/react/select";
+```
+
+```tsx
+<Select<Dataset>
+  items={datasets}
+  itemPredicate={filterDataset}
+  itemRenderer={renderDataset}
+  onItemSelect={setDataset}
+>
+  <Button endIcon="caret-down" text={dataset?.name ?? "Select a dataset"} />
+</Select>
+```
+
+The [item model](/docs/select/#item-model) explains how `items`, `itemRenderer` and `itemPredicate` work together.
+
+## Examples
+
+### Basic
+
+Select does not store the choice. Keep it in state from `onItemSelect` and show it in the button text. `noResults` renders when the query matches nothing.
+
+<Example name="select/select-component/basic">
+  <SelectBasic />
+</Example>
+
+### Without filtering
+
+`filterable={false}` drops the filter input. Use it for short, fixed lists. The `selected` prop of `MenuItem` ticks the current choice.
+
+<Example name="select/select-component/filterable">
+  <SelectFilterable />
+</Example>
+
+### Create new items
+
+`createNewItemFromQuery` turns the query into a new item, and `createNewItemRenderer` renders the option that creates it. Add the new item to `items` in `onItemSelect`. `itemsEqual="name"` hides the option when the name already exists.
+
+<Example name="select/select-component/create">
+  <SelectCreate />
+</Example>
+
+### Disabled items
+
+`itemDisabled` takes a property name or a function. Here archived datasets are dimmed, and the arrow keys skip them. To disable the whole control, set `disabled` on Select and on its button.
+
+<Example name="select/select-component/disabled">
+  <SelectDisabled />
+</Example>
+
+## Interactive playground
+
+<Example name="select/select-component/playground" variant="playground">
+  <SelectPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="SelectProps" />

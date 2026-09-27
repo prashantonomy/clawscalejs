@@ -1,0 +1,79 @@
+import HtmlTableBasic from "@/examples/core/html-table/basic";
+import HtmlTableBordered from "@/examples/core/html-table/bordered";
+import HtmlTableCompact from "@/examples/core/html-table/compact";
+import HtmlTableInteractive from "@/examples/core/html-table/interactive";
+import HtmlTablePlayground from "@/examples/core/html-table/playground";
+import HtmlTableStriped from "@/examples/core/html-table/striped";
+
+export const metadata = { title: "HTML table" };
+
+# HTML table
+
+**HTMLTable** styles a native `table` element. Use it for small, static tables. For large or editable data, use the [Table](/docs/table/) package.
+
+## Usage
+
+```tsx
+import { HTMLTable } from "@clawscale/react";
+```
+
+```tsx
+<HTMLTable compact striped>
+  <thead>{/* header row */}</thead>
+  <tbody>{/* data rows */}</tbody>
+</HTMLTable>
+```
+
+## Examples
+
+### Basic
+
+Render `thead` and `tbody` as children. Right-align number columns and add the `cs-numeric` class: it switches to tabular figures, so digits line up.
+
+<Example name="core/html-table/basic" align="start">
+  <HtmlTableBasic />
+</Example>
+
+### Compact
+
+`compact` reduces the cell padding.
+
+<Example name="core/html-table/compact" align="start">
+  <HtmlTableCompact />
+</Example>
+
+### Striped
+
+`striped` shades every other row, which helps the eye follow long rows.
+
+<Example name="core/html-table/striped" align="start">
+  <HtmlTableStriped />
+</Example>
+
+### Bordered
+
+`bordered` adds lines between columns.
+
+<Example name="core/html-table/bordered" align="start">
+  <HtmlTableBordered />
+</Example>
+
+### Interactive
+
+`interactive` highlights the row under the pointer. Use it when rows respond to clicks.
+
+<Example name="core/html-table/interactive" align="start">
+  <HtmlTableInteractive />
+</Example>
+
+## Interactive playground
+
+<Example name="core/html-table/playground" variant="playground">
+  <HtmlTablePlayground />
+</Example>
+
+## Props interface
+
+**HTMLTable** also accepts the HTML attributes of a `table`.
+
+<PropsTable name="HTMLTableProps" />

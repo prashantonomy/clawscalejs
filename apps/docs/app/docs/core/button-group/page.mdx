@@ -1,0 +1,79 @@
+import ButtonGroupBasic from "@/examples/core/button-group/basic";
+import ButtonGroupFill from "@/examples/core/button-group/fill";
+import ButtonGroupPlayground from "@/examples/core/button-group/playground";
+import ButtonGroupTooltips from "@/examples/core/button-group/tooltips";
+import ButtonGroupVariant from "@/examples/core/button-group/variant";
+import ButtonGroupVertical from "@/examples/core/button-group/vertical";
+
+export const metadata = { title: "Button group" };
+
+# Button group
+
+A **ButtonGroup** joins related [buttons](/docs/core/buttons/) into one control. Props set on the group, such as `variant` and `size`, apply to every button in it.
+
+## Usage
+
+```tsx
+import { Button, ButtonGroup } from "@clawscale/react";
+```
+
+```tsx
+<ButtonGroup>
+  <Button text="Edit" />
+  <Button text="Duplicate" />
+</ButtonGroup>
+```
+
+## Examples
+
+### Basic
+
+Wrap buttons in a **ButtonGroup** to join them in a row.
+
+<Example name="core/button-group/basic">
+  <ButtonGroupBasic />
+</Example>
+
+### Variant
+
+`variant` styles every button in the group: **solid** (default), **outlined** or **minimal**. A button cannot override it.
+
+<Example name="core/button-group/variant">
+  <ButtonGroupVariant />
+</Example>
+
+### Vertical
+
+`vertical` stacks the buttons. They take the width of the widest one, and `alignText` lines up their content.
+
+<Example name="core/button-group/vertical">
+  <ButtonGroupVertical />
+</Example>
+
+### Fill
+
+`fill` stretches the group to its container and shares the space between buttons. Add `Classes.FIXED` to a button to keep its natural width.
+
+<Example name="core/button-group/fill">
+  <ButtonGroupFill />
+</Example>
+
+### Icons with tooltips
+
+Icon-only buttons make a compact toolbar. Give each one an `aria-label` and wrap it in a [Tooltip](/docs/core/tooltip/) to name it on hover.
+
+<Example name="core/button-group/tooltips">
+  <ButtonGroupTooltips />
+</Example>
+
+## Interactive playground
+
+<Example name="core/button-group/playground" variant="playground">
+  <ButtonGroupPlayground />
+</Example>
+
+## Props interface
+
+**ButtonGroup** also accepts the HTML attributes of a `div`.
+
+<PropsTable name="ButtonGroupProps" />

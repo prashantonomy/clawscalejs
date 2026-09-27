@@ -1,0 +1,80 @@
+import HtmlBlockquote from "@/examples/core/html/blockquote";
+import HtmlCode from "@/examples/core/html/code";
+import HtmlHeadings from "@/examples/core/html/headings";
+import HtmlLists from "@/examples/core/html/lists";
+
+export const metadata = { title: "HTML elements" };
+
+# HTML elements
+
+Clawscale leaves most HTML elements unstyled, so it does not clash with your own CSS. These components render an element with the Clawscale styles applied.
+
+## Usage
+
+```tsx
+import { Blockquote, Code, H1, OL, Pre, UL } from "@clawscale/react";
+```
+
+| Component | Element | `Classes` constant |
+| --- | --- | --- |
+| `H1` to `H6` | `h1` to `h6` | `HEADING` |
+| `Blockquote` | `blockquote` | `BLOCKQUOTE` |
+| `Code` | `code` | `CODE` |
+| `Pre` | `pre` | `CODE_BLOCK` |
+| `UL` | `ul` | `LIST` |
+| `OL` | `ol` | `LIST` |
+| `Label` | `label` | `LABEL`, see [Label](/docs/core/label/) |
+| `HTMLTable` | `table` | `HTML_TABLE`, see [HTML table](/docs/core/html-table/) |
+
+Each component accepts the attributes of its element and forwards `ref`. To style an element you render yourself, add the class instead:
+
+```tsx
+<h1 className={Classes.HEADING}>Revenue report</h1>
+```
+
+## Examples
+
+### Headings
+
+`H1` to `H6` set the size, weight and color of each level.
+
+<Example name="core/html/headings" align="start">
+  <HtmlHeadings />
+</Example>
+
+### Blockquote
+
+**Blockquote** sets a quote apart with a rule on its left.
+
+<Example name="core/html/blockquote" align="start">
+  <HtmlBlockquote />
+</Example>
+
+### Code
+
+**Code** marks inline code and **Pre** a block of code. Both use the monospace font.
+
+<Example name="core/html/code" align="start">
+  <HtmlCode />
+</Example>
+
+### Lists
+
+**UL** renders a bulleted list and **OL** a numbered one.
+
+<Example name="core/html/lists">
+  <HtmlLists />
+</Example>
+
+## Running text
+
+Generated markup, such as rendered Markdown, has no classes. Wrap it in an element with `Classes.RUNNING_TEXT` and the plain elements inside get the same styles. See [Typography](/docs/core/typography/).
+
+```tsx
+<div className={Classes.RUNNING_TEXT}>
+  <h2>Retention</h2>
+  <p>
+    Partitions older than <code>retention_days</code> are dropped.
+  </p>
+</div>
+```

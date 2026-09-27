@@ -1,0 +1,59 @@
+import ControlGroupBasic from "@/examples/core/control-group/basic";
+import ControlGroupFill from "@/examples/core/control-group/fill";
+import ControlGroupVertical from "@/examples/core/control-group/vertical";
+
+export const metadata = { title: "Control group" };
+
+# Control group
+
+A **ControlGroup** joins several form controls into one unit, such as a filter bar. Each child stays a separate control.
+
+<Callout intent="primary" title="Control group or input group">
+  An [InputGroup](/docs/core/input-group/) is one control: a button inside it acts on that input only. When a button acts on several controls, put them in a **ControlGroup**.
+</Callout>
+
+## Usage
+
+```tsx
+import { ControlGroup } from "@clawscale/react";
+```
+
+```tsx
+<ControlGroup>
+  <HTMLSelect options={["Owner", "Status"]} />
+  <InputGroup placeholder="Filter pipelines" />
+  <Button icon="arrow-right" />
+</ControlGroup>
+```
+
+## Examples
+
+### Filter bar
+
+Buttons, inputs, selects and numeric inputs sit side by side with a small gap. Give controls without a visible label an `aria-label`.
+
+<Example name="core/control-group/basic">
+  <ControlGroupBasic />
+</Example>
+
+### Fill
+
+`fill` stretches the group to its container and grows every child equally. Add `Classes.FIXED` to a child to keep its natural width.
+
+<Example name="core/control-group/fill" align="start">
+  <ControlGroupFill />
+</Example>
+
+### Vertical
+
+`vertical` stacks the controls in a column.
+
+<Example name="core/control-group/vertical">
+  <ControlGroupVertical />
+</Example>
+
+## Props interface
+
+**ControlGroup** also accepts the HTML attributes of a `<div>`.
+
+<PropsTable name="ControlGroupProps" />

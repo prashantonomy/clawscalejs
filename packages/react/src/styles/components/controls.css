@@ -1,0 +1,175 @@
+/* Checkbox, radio, switch, segmented control, slider, progress bar and spinner */
+
+.bp6-control .bp6-control-indicator {
+  box-shadow: inset 0 0 0 1px var(--cs-color-control-border-hover);
+}
+
+.bp6-control:hover .bp6-control-indicator {
+  background-color: var(--cs-color-surface-hover);
+}
+
+.bp6-control input:checked ~ .bp6-control-indicator,
+.bp6-control input:indeterminate ~ .bp6-control-indicator {
+  background-color: var(--cs-color-primary);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  color: var(--cs-color-primary-on);
+}
+
+.bp6-control:hover input:checked ~ .bp6-control-indicator,
+.bp6-control:hover input:indeterminate ~ .bp6-control-indicator {
+  background-color: var(--cs-color-primary-hover);
+}
+
+.bp6-control input:disabled ~ .bp6-control-indicator {
+  background-color: var(--cs-color-surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--cs-color-border);
+}
+
+.bp6-control input:disabled:checked ~ .bp6-control-indicator,
+.bp6-control input:disabled:indeterminate ~ .bp6-control-indicator {
+  background-color: var(--cs-color-primary-disabled);
+  box-shadow: none;
+}
+
+.bp6-control.bp6-disabled {
+  color: var(--cs-color-text-disabled);
+}
+
+/* Switch */
+
+.bp6-control.bp6-switch .bp6-control-indicator {
+  background-color: var(--cs-color-border-strong);
+}
+
+.bp6-control.bp6-switch:hover .bp6-control-indicator {
+  background-color: var(--cs-color-control-border-hover);
+}
+
+.bp6-control.bp6-switch input:checked ~ .bp6-control-indicator {
+  background: var(--cs-color-primary);
+}
+
+.bp6-control.bp6-switch:hover input:checked ~ .bp6-control-indicator {
+  background: var(--cs-color-primary-hover);
+}
+
+.bp6-control.bp6-switch input:disabled ~ .bp6-control-indicator {
+  background: var(--cs-color-surface-active);
+}
+
+.bp6-control.bp6-switch input:disabled:checked ~ .bp6-control-indicator {
+  background: var(--cs-color-primary-disabled);
+}
+
+.bp6-control.bp6-switch .bp6-control-indicator::before {
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* Segmented control */
+
+.bp6-segmented-control {
+  background-color: var(--cs-color-surface-sunken);
+  border-radius: var(--cs-radius-md);
+  box-shadow: inset 0 0 0 1px var(--cs-color-border);
+}
+
+.bp6-segmented-control > .bp6-button:not(.bp6-minimal):not(.bp6-intent-primary) {
+  background-color: var(--cs-color-control);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border),
+    var(--cs-shadow-control);
+}
+
+.bp6-segmented-control > .bp6-button.bp6-minimal {
+  color: var(--cs-color-text-muted);
+}
+
+.bp6-segmented-control > .bp6-button.bp6-minimal:hover {
+  color: var(--cs-color-text);
+}
+
+.bp6-segmented-control > .bp6-button.bp6-minimal:disabled {
+  color: var(--cs-color-text-disabled);
+}
+
+/* Slider */
+
+.bp6-slider-track {
+  border-radius: var(--cs-radius-full);
+}
+
+.bp6-slider-progress {
+  background: var(--cs-color-surface-active);
+}
+
+.bp6-slider-progress.bp6-intent-primary {
+  background-color: var(--cs-color-primary);
+}
+
+.bp6-slider-progress.bp6-intent-success {
+  background-color: var(--cs-color-success);
+}
+
+.bp6-slider-progress.bp6-intent-warning {
+  background-color: var(--cs-color-warning);
+}
+
+.bp6-slider-progress.bp6-intent-danger {
+  background-color: var(--cs-color-danger);
+}
+
+.bp6-slider-handle {
+  background-color: var(--cs-color-control);
+  border-radius: var(--cs-radius-full);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border-hover),
+    0 1px 3px rgba(0, 0, 0, 0.18);
+}
+
+.bp6-slider-handle:hover {
+  background-color: var(--cs-color-control-hover);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border-hover),
+    0 1px 3px rgba(0, 0, 0, 0.22);
+}
+
+.bp6-slider-handle.bp6-active {
+  background-color: var(--cs-color-control-active);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-primary),
+    0 0 0 3px color-mix(in srgb, var(--cs-color-primary) 22%, transparent);
+}
+
+.bp6-slider-handle .bp6-slider-label {
+  background: var(--cs-color-tooltip);
+  border-radius: var(--cs-radius-sm);
+  box-shadow: var(--cs-shadow-2);
+  color: var(--cs-color-tooltip-text);
+  font-weight: var(--cs-font-weight-medium);
+}
+
+.bp6-slider-axis .bp6-slider-label {
+  color: var(--cs-color-text-subtle);
+  font-size: var(--cs-font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Progress bar and spinner */
+
+.bp6-progress-bar {
+  background: var(--cs-color-surface-active);
+  height: 6px;
+}
+
+.bp6-progress-bar:not([class*="bp6-intent-"]) .bp6-progress-meter {
+  background-color: var(--cs-color-neutral);
+}
+
+.bp6-spinner .bp6-spinner-track {
+  stroke: var(--cs-color-surface-active);
+}
+
+.bp6-spinner:not([class*="bp6-intent-"]) .bp6-spinner-head {
+  stroke: var(--cs-color-text-muted);
+}

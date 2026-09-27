@@ -1,0 +1,38 @@
+{
+  "name": "clawscale-monorepo",
+  "private": true,
+  "description": "Clawscale: a React UI system for data-dense software, built on Blueprint.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "packageManager": "pnpm@11.5.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter \"./packages/*\" run build",
+    "build:docs": "pnpm --filter @clawscale/docs run build",
+    "dev": "pnpm build && pnpm -r --parallel run dev",
+    "clean": "rm -rf apps/docs/.next apps/docs/out apps/docs/generated apps/docs/test-results apps/docs/playwright-report packages/*/dist",
+    "generate": "pnpm -r run generate",
+    "lint": "biome check . && node scripts/lint-prose.mjs",
+    "lint:fix": "biome check --write . && node scripts/lint-prose.mjs",
+    "lint:commits": "node scripts/lint-commits.mjs",
+    "typecheck": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "test:e2e": "pnpm --filter @clawscale/docs run test:e2e",
+    "test:audit": "pnpm --filter @clawscale/docs run test:audit",
+    "check": "pnpm lint && pnpm build && pnpm typecheck && pnpm test",
+    "verify": "pnpm check && pnpm build:docs && pnpm test:e2e",
+    "changeset": "changeset",
+    "version-packages": "changeset version && pnpm install --lockfile-only",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@types/node": "^26.6.3",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3"
+  }
+}

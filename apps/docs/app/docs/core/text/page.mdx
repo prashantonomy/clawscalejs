@@ -1,0 +1,33 @@
+import TextEllipsize from "@/examples/core/text/ellipsize";
+
+export const metadata = { title: "Text" };
+
+# Text
+
+**Text** with `ellipsize` cuts a line that overflows its container and ends it with an ellipsis. When it cuts the text, it adds a `title` so the full text shows on hover.
+
+## Usage
+
+```tsx
+import { Text } from "@clawscale/react";
+```
+
+```tsx
+<Text ellipsize>{dataset.path}</Text>
+```
+
+## Examples
+
+### Ellipsize
+
+Give the container a fixed width. Hover a cut path to read all of it. Short paths get no `title`.
+
+<Example name="core/text/ellipsize">
+  <TextEllipsize />
+</Example>
+
+## Props interface
+
+**Text** renders a `<div>`. Set `tagName="span"` inside inline content.
+
+<PropsTable name="TextProps" />

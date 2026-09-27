@@ -1,0 +1,74 @@
+import DatePickerActionsBar from "@/examples/datetime/date-picker/actions-bar";
+import DatePickerBasic from "@/examples/datetime/date-picker/basic";
+import DatePickerMinMax from "@/examples/datetime/date-picker/min-max";
+import DatePickerPlayground from "@/examples/datetime/date-picker/playground";
+import DatePickerShortcuts from "@/examples/datetime/date-picker/shortcuts";
+import DatePickerTimePrecision from "@/examples/datetime/date-picker/time-precision";
+
+export const metadata = { title: "Date picker" };
+
+# Date picker
+
+A **DatePicker** is an inline calendar for one day, with an optional time. To pick a date from a text field, use [Date input](/docs/datetime/date-input/).
+
+## Usage
+
+```tsx
+import { DatePicker } from "@clawscale/react/datetime";
+```
+
+```tsx
+<DatePicker defaultValue={new Date(2026, 7, 17)} onChange={(date) => setReleaseDate(date)} />
+```
+
+## Examples
+
+### Basic
+
+Pass `value` and `onChange` to control the selection. Clicking the selected day again clears it and calls `onChange` with `null`. Set `canClearSelection={false}` to prevent that.
+
+<Example name="datetime/date-picker/basic">
+  <DatePickerBasic />
+</Example>
+
+### Shortcuts
+
+`shortcuts` adds a menu beside the calendar. `true` shows presets relative to today, such as **Yesterday** and **1 week ago**. An array of `{ label, date }` objects shows your own.
+
+<Example name="datetime/date-picker/shortcuts">
+  <DatePickerShortcuts />
+</Example>
+
+### Minimum and maximum dates
+
+`minDate` and `maxDate` limit the days a user can pick. Days outside the range are disabled, and the month and year menus only list months inside it. The defaults are January 1st, 20 years ago, and 6 months from today.
+
+<Example name="datetime/date-picker/min-max">
+  <DatePickerMinMax />
+</Example>
+
+### Time precision
+
+`timePrecision` adds a time picker under the calendar: **minute**, **second** or **millisecond**. Picking another day keeps the time. Configure the time picker with `timePickerProps`, for example `{ useAmPm: true }`.
+
+<Example name="datetime/date-picker/time-precision">
+  <DatePickerTimePrecision />
+</Example>
+
+### Footer actions
+
+`showActionsBar` adds **Today** and **Clear** buttons under the calendar. Rename them with `todayButtonText` and `clearButtonText`. For other content, pass an element to `footerElement`.
+
+<Example name="datetime/date-picker/actions-bar">
+  <DatePickerActionsBar />
+</Example>
+
+## Interactive playground
+
+<Example name="datetime/date-picker/playground" variant="playground">
+  <DatePickerPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="DatePickerProps" />

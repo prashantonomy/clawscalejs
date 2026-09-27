@@ -1,0 +1,29 @@
+import IconsGallery from "@/examples/icons/icons-list/gallery";
+
+export const metadata = { title: "Icons list" };
+
+# Icons list
+
+Every icon in `@clawscale/react/icons`, by name. Filter the list, then click a name to select it for copying.
+
+## Usage
+
+Pass a name to [Icon](/docs/core/icon/) or to any `icon` prop. Each icon also has a component: `data-lineage` is `DataLineageIcon`. See [Icons](/docs/icons/) for both.
+
+```tsx
+import { Icon } from "@clawscale/react";
+import { DataLineageIcon } from "@clawscale/react/icons";
+```
+
+```tsx
+<Icon icon="data-lineage" size={20} />
+<DataLineageIcon size={20} />
+```
+
+## All icons
+
+The list shows the 20px paths. Names are the same at every size.
+
+<Example name="icons/icons-list/gallery" align="start">
+  <IconsGallery />
+</Example>

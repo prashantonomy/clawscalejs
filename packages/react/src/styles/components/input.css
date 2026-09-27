@@ -1,0 +1,251 @@
+/*
+ * Text inputs, tag inputs, HTML selects and file inputs.
+ * Borders are inset box-shadows, like Blueprint, so intent and focus states
+ * are restated here in full.
+ */
+
+.bp6-input,
+.bp6-tag-input {
+  background: var(--cs-color-control);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border),
+    var(--cs-shadow-control);
+  color: var(--cs-color-text);
+  transition: box-shadow var(--cs-duration-fast) var(--cs-ease-standard);
+}
+
+.bp6-input::placeholder,
+.bp6-tag-input .bp6-input-ghost::placeholder {
+  color: var(--cs-color-text-subtle);
+}
+
+.bp6-input:not(:disabled):not(.bp6-disabled):not([readonly]):hover,
+.bp6-tag-input:not(.bp6-disabled):hover {
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border-hover),
+    var(--cs-shadow-control);
+}
+
+.bp6-input:focus,
+.bp6-input.bp6-active,
+.bp6-input:not(:disabled):not(.bp6-disabled):not([readonly]):focus:hover,
+.bp6-tag-input.bp6-active,
+.bp6-tag-input.bp6-active:hover {
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-primary),
+    0 0 0 3px color-mix(in srgb, var(--cs-color-primary) 22%, transparent);
+}
+
+.bp6-input[readonly] {
+  background: var(--cs-color-surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--cs-color-border);
+}
+
+.bp6-input:disabled,
+.bp6-input.bp6-disabled,
+.bp6-tag-input.bp6-disabled {
+  background: var(--cs-color-surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--cs-color-border);
+  color: var(--cs-color-text-disabled);
+}
+
+/* Intents. InputGroup puts the intent class on the input and on its wrapper. */
+
+.bp6-input.bp6-intent-primary,
+.bp6-input-group.bp6-intent-primary > .bp6-input,
+.bp6-tag-input.bp6-intent-primary {
+  box-shadow: inset 0 0 0 1px var(--cs-color-primary);
+}
+.bp6-input.bp6-intent-primary:focus,
+.bp6-input-group.bp6-intent-primary > .bp6-input:focus,
+.bp6-tag-input.bp6-intent-primary.bp6-active {
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-primary),
+    0 0 0 3px color-mix(in srgb, var(--cs-color-primary) 22%, transparent);
+}
+
+.bp6-input.bp6-intent-success,
+.bp6-input-group.bp6-intent-success > .bp6-input,
+.bp6-tag-input.bp6-intent-success {
+  box-shadow: inset 0 0 0 1px var(--cs-color-success);
+}
+.bp6-input.bp6-intent-success:focus,
+.bp6-input-group.bp6-intent-success > .bp6-input:focus,
+.bp6-tag-input.bp6-intent-success.bp6-active {
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-success),
+    0 0 0 3px color-mix(in srgb, var(--cs-color-success) 22%, transparent);
+}
+
+.bp6-input.bp6-intent-warning,
+.bp6-input-group.bp6-intent-warning > .bp6-input,
+.bp6-tag-input.bp6-intent-warning {
+  box-shadow: inset 0 0 0 1px var(--cs-color-warning-hover);
+}
+.bp6-input.bp6-intent-warning:focus,
+.bp6-input-group.bp6-intent-warning > .bp6-input:focus,
+.bp6-tag-input.bp6-intent-warning.bp6-active {
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-warning-hover),
+    0 0 0 3px color-mix(in srgb, var(--cs-color-warning) 28%, transparent);
+}
+
+.bp6-input.bp6-intent-danger,
+.bp6-input-group.bp6-intent-danger > .bp6-input,
+.bp6-tag-input.bp6-intent-danger {
+  box-shadow: inset 0 0 0 1px var(--cs-color-danger);
+}
+.bp6-input.bp6-intent-danger:focus,
+.bp6-input-group.bp6-intent-danger > .bp6-input:focus,
+.bp6-tag-input.bp6-intent-danger.bp6-active {
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-danger),
+    0 0 0 3px color-mix(in srgb, var(--cs-color-danger) 22%, transparent);
+}
+
+/* Icons inside input groups */
+
+.bp6-input-group > .bp6-icon,
+.bp6-input-group .bp6-input-left-container > .bp6-icon {
+  color: var(--cs-color-text-subtle);
+}
+
+/* HTML select looks like a default button */
+
+.bp6-html-select select,
+.bp6-select select {
+  background-color: var(--cs-color-control);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border),
+    var(--cs-shadow-control);
+  color: var(--cs-color-text);
+}
+
+.bp6-html-select select:hover,
+.bp6-select select:hover {
+  background-color: var(--cs-color-control-hover);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border-hover),
+    var(--cs-shadow-control);
+}
+
+.bp6-html-select select:active,
+.bp6-select select:active {
+  background-color: var(--cs-color-control-active);
+}
+
+.bp6-html-select select:disabled,
+.bp6-select select:disabled {
+  background-color: var(--cs-color-surface-sunken);
+  box-shadow: inset 0 0 0 1px var(--cs-color-border);
+  color: var(--cs-color-text-disabled);
+}
+
+.bp6-html-select.bp6-minimal select,
+.bp6-select.bp6-minimal select {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.bp6-html-select.bp6-minimal select:hover,
+.bp6-select.bp6-minimal select:hover {
+  background-color: var(--cs-color-surface-hover);
+}
+
+.bp6-html-select .bp6-icon,
+.bp6-select .bp6-icon {
+  color: var(--cs-color-text-muted);
+}
+
+/* File input */
+
+.bp6-file-upload-input {
+  background: var(--cs-color-control);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border),
+    var(--cs-shadow-control);
+  color: var(--cs-color-text-subtle);
+}
+
+.bp6-file-input-has-selection .bp6-file-upload-input {
+  color: var(--cs-color-text);
+}
+
+.bp6-file-upload-input::after {
+  background-color: var(--cs-color-surface-sunken);
+  border-radius: var(--cs-radius-sm);
+  box-shadow: inset 0 0 0 1px var(--cs-color-control-border);
+  color: var(--cs-color-text);
+  font-weight: var(--cs-font-weight-medium);
+}
+
+.bp6-file-upload-input:hover::after {
+  background-color: var(--cs-color-control-hover);
+}
+
+/* Numeric input steppers */
+
+.bp6-numeric-input .bp6-button-group.bp6-vertical > .bp6-button {
+  min-height: 0;
+}
+
+/* Form group helper text: Blueprint colors it with the intent solid, which is too light for text */
+
+/*
+ * Blueprint's dark theme derives the label color by lightening its default gray.
+ * Clawscale's neutral switches with the theme already, so use the text token.
+ * (Dark text colors derived from typography tokens are fixed in generated/dark-text.css.)
+ */
+.bp6-dark label.bp6-label:not(.bp6-disabled) {
+  color: var(--cs-color-text);
+}
+
+.bp6-form-group.bp6-intent-primary .bp6-form-helper-text {
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-form-group.bp6-intent-success .bp6-form-helper-text {
+  color: var(--cs-color-success-text);
+}
+
+.bp6-form-group.bp6-intent-warning .bp6-form-helper-text {
+  color: var(--cs-color-warning-text);
+}
+
+.bp6-form-group.bp6-intent-danger .bp6-form-helper-text {
+  color: var(--cs-color-danger-text);
+}
+
+/* Intent text on white needs the readable -text tokens, not Blueprint's intent solids */
+
+.bp6-input-group.bp6-intent-primary > .bp6-icon,
+.bp6-html-select.bp6-minimal select.bp6-intent-primary,
+.bp6-select.bp6-minimal select.bp6-intent-primary,
+.bp6-html-select.bp6-minimal select.bp6-intent-primary:hover,
+.bp6-select.bp6-minimal select.bp6-intent-primary:hover {
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-input-group.bp6-intent-success > .bp6-icon,
+.bp6-html-select.bp6-minimal select.bp6-intent-success,
+.bp6-select.bp6-minimal select.bp6-intent-success,
+.bp6-html-select.bp6-minimal select.bp6-intent-success:hover,
+.bp6-select.bp6-minimal select.bp6-intent-success:hover {
+  color: var(--cs-color-success-text);
+}
+
+.bp6-input-group.bp6-intent-warning > .bp6-icon,
+.bp6-html-select.bp6-minimal select.bp6-intent-warning,
+.bp6-select.bp6-minimal select.bp6-intent-warning,
+.bp6-html-select.bp6-minimal select.bp6-intent-warning:hover,
+.bp6-select.bp6-minimal select.bp6-intent-warning:hover {
+  color: var(--cs-color-warning-text);
+}
+
+.bp6-input-group.bp6-intent-danger > .bp6-icon,
+.bp6-html-select.bp6-minimal select.bp6-intent-danger,
+.bp6-select.bp6-minimal select.bp6-intent-danger,
+.bp6-html-select.bp6-minimal select.bp6-intent-danger:hover,
+.bp6-select.bp6-minimal select.bp6-intent-danger:hover {
+  color: var(--cs-color-danger-text);
+}

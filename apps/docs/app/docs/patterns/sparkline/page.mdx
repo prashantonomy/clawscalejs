@@ -1,0 +1,82 @@
+import SparklineArea from "@/examples/patterns/sparkline/area";
+import SparklineColors from "@/examples/patterns/sparkline/colors";
+import SparklineFixedWidth from "@/examples/patterns/sparkline/fixed-width";
+import SparklineFluid from "@/examples/patterns/sparkline/fluid";
+import SparklineRange from "@/examples/patterns/sparkline/range";
+import SparklineTable from "@/examples/patterns/sparkline/table";
+
+export const metadata = { title: "Sparkline" };
+
+# Sparkline
+
+A **Sparkline** is a word-sized trend line for tables, metrics and dense layouts. It shows the shape of a trend, not exact values.
+
+## Usage
+
+```tsx
+import { Sparkline } from "@clawscale/react";
+```
+
+```tsx
+<Sparkline data={[412, 438, 425, 461, 490]} width={96} label="Requests per minute" />
+```
+
+## Examples
+
+### Fixed width
+
+Set `width` and `height` in pixels. `data` runs oldest first, and a dot marks the last point unless `showLastPoint` is false.
+
+<Example name="patterns/sparkline/fixed-width">
+  <SparklineFixedWidth />
+</Example>
+
+### Fluid width
+
+Leave `width` unset to fill the container. The line keeps its stroke width as it stretches. Drag the corner of the box to try it.
+
+<Example name="patterns/sparkline/fluid">
+  <SparklineFluid />
+</Example>
+
+### Area
+
+`area` fills the space under the line with a light wash of its color. Set `min={0}` so the filled area starts at zero.
+
+<Example name="patterns/sparkline/area">
+  <SparklineArea />
+</Example>
+
+### Colors
+
+`color` takes any CSS color. Use the chart tokens in slot order: the first series gets `--cs-chart-1`, the second `--cs-chart-2`. See [Charts](/docs/patterns/charts/).
+
+<Example name="patterns/sparkline/colors">
+  <SparklineColors />
+</Example>
+
+### Value range
+
+By default the line spans the smallest to the largest value, which magnifies small changes. Set `min` and `max` to put sparklines on a fixed scale, such as 0 to 100 for percentages.
+
+<Example name="patterns/sparkline/range">
+  <SparklineRange />
+</Example>
+
+### In a table
+
+Put a fixed-width sparkline in its own column, next to the number it summarizes. Each sparkline scales to its own data, so the number column carries the magnitude.
+
+<Example name="patterns/sparkline/table" align="start">
+  <SparklineTable />
+</Example>
+
+## Accessibility
+
+The SVG has `role="img"` and a generated label with the low, high and last values. Pass `label` to say what the data is, for example "Requests per minute, last hour".
+
+## Props interface
+
+Sparkline also accepts SVG attributes.
+
+<PropsTable name="SparklineProps" />

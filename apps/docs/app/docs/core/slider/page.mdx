@@ -1,0 +1,75 @@
+import SliderBasic from "@/examples/core/slider/basic";
+import SliderLabelRenderer from "@/examples/core/slider/label-renderer";
+import SliderMulti from "@/examples/core/slider/multi";
+import SliderRange from "@/examples/core/slider/range";
+import SliderVertical from "@/examples/core/slider/vertical";
+
+export const metadata = { title: "Slider" };
+
+# Slider
+
+A **Slider** picks a number from a range. A **RangeSlider** picks a start and an end, and a **MultiSlider** takes any number of handles.
+
+## Usage
+
+```tsx
+import { MultiSlider, MultiSliderHandle, RangeSlider, Slider } from "@clawscale/react";
+```
+
+```tsx
+<Slider max={32} value={workers} onChange={setWorkers} />
+```
+
+Sliders are controlled. Pass `value` and update it in `onChange`. `onRelease` fires once when the user lets go of a handle.
+
+## Examples
+
+### Single value
+
+`min`, `max` and `stepSize` define the scale, and `labelStepSize` spaces the labels. Name the handle with `handleHtmlProps`.
+
+<Example name="core/slider/basic" align="start">
+  <SliderBasic />
+</Example>
+
+### Range
+
+**RangeSlider** takes a `[start, end]` pair and fills the track between the two handles.
+
+<Example name="core/slider/range" align="start">
+  <SliderRange />
+</Example>
+
+### Multiple handles
+
+**MultiSlider** renders one **MultiSliderHandle** per value. `intentBefore` and `intentAfter` color the track on each side of a handle, which suits threshold bands.
+
+<Example name="core/slider/multi" align="start">
+  <SliderMulti />
+</Example>
+
+### Vertical
+
+`vertical` draws the track from bottom to top.
+
+<Example name="core/slider/vertical">
+  <SliderVertical />
+</Example>
+
+### Label renderer
+
+`labelRenderer` formats labels, for example as a percentage or in milliseconds. Its second argument tells you when the label is the handle's own tooltip.
+
+<Example name="core/slider/label-renderer" align="start">
+  <SliderLabelRenderer />
+</Example>
+
+## Props interface
+
+<PropsTable name="SliderProps" />
+
+<PropsTable name="RangeSliderProps" />
+
+<PropsTable name="MultiSliderProps" />
+
+<PropsTable name="HandleProps" />

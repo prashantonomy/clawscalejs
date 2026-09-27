@@ -1,0 +1,42 @@
+import CollapseBasic from "@/examples/core/collapse/basic";
+import CollapseKeepMounted from "@/examples/core/collapse/keep-mounted";
+
+export const metadata = { title: "Collapse" };
+
+# Collapse
+
+**Collapse** shows and hides content with a sliding animation. Use it for details, logs and advanced settings.
+
+## Usage
+
+```tsx
+import { Collapse } from "@clawscale/react";
+```
+
+```tsx
+<Collapse isOpen={isOpen}>
+  <RunLog />
+</Collapse>
+```
+
+## Examples
+
+### Basic
+
+`isOpen` controls visibility. Keep the content in normal flow, because **Collapse** measures its height to animate. Set `aria-expanded` on the toggle.
+
+<Example name="core/collapse/basic">
+  <CollapseBasic />
+</Example>
+
+### Keep children mounted
+
+Closed content unmounts by default. `keepChildrenMounted` keeps it in the DOM, so state such as typed text survives. Type a filter, hide the panel and show it again.
+
+<Example name="core/collapse/keep-mounted">
+  <CollapseKeepMounted />
+</Example>
+
+## Props interface
+
+<PropsTable name="CollapseProps" />

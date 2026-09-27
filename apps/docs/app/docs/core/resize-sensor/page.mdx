@@ -1,0 +1,31 @@
+import ResizeSensorBasic from "@/examples/core/resize-sensor/basic";
+
+export const metadata = { title: "Resize sensor" };
+
+# Resize sensor
+
+A **ResizeSensor** calls `onResize` when its child element changes size. It wraps the browser's `ResizeObserver` API.
+
+## Usage
+
+```tsx
+import { ResizeSensor } from "@clawscale/react";
+```
+
+- The child must be a single DOM element, or a component that forwards its ref to one.
+- If you attach your own ref to the child, pass the same ref as `targetRef`.
+- `onResize` runs asynchronously, at most once per frame.
+
+## Examples
+
+### Observed width
+
+Drag the lower right corner of the box. `onResize` receives a list of `ResizeObserverEntry` objects. `contentRect.width` is the width inside the padding.
+
+<Example name="core/resize-sensor/basic">
+  <ResizeSensorBasic />
+</Example>
+
+## Props interface
+
+<PropsTable name="ResizeSensorProps" />

@@ -1,0 +1,51 @@
+import LinkBasic from "@/examples/core/link/basic";
+import LinkColor from "@/examples/core/link/color";
+import LinkUnderline from "@/examples/core/link/underline";
+
+export const metadata = { title: "Link" };
+
+# Link
+
+**Link** renders an `a` element with themed color and underline styles. Use it for navigation in text, tables and panels.
+
+## Usage
+
+```tsx
+import { Link } from "@clawscale/react";
+```
+
+```tsx
+<Link href="/datasets/orders_daily">orders_daily</Link>
+```
+
+## Examples
+
+### Basic
+
+Pass an `href` and children. For external links, add `target="_blank"` and `rel="noreferrer"`.
+
+<Example name="core/link/basic">
+  <LinkBasic />
+</Example>
+
+### Color
+
+`color` takes an intent: **primary** (default), **success**, **warning** or **danger**. **inherit** takes the color of the surrounding text.
+
+<Example name="core/link/color">
+  <LinkColor />
+</Example>
+
+### Underline
+
+`underline` sets when the underline shows: **always** (default), **hover** or **none**. Keep **always** in running text, so links do not rely on color alone.
+
+<Example name="core/link/underline">
+  <LinkUnderline />
+</Example>
+
+## Props interface
+
+The props are exported as `LinkComponentProps`, because `LinkProps` names the `href` and `target` pair that other components share. **Link** also accepts the HTML attributes of an `a`.
+
+<PropsTable name="LinkComponentProps" />

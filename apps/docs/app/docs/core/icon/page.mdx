@@ -1,0 +1,69 @@
+import IconBasic from "@/examples/core/icon/basic";
+import IconComponents from "@/examples/core/icon/components";
+import IconIntent from "@/examples/core/icon/intent";
+import IconSizes from "@/examples/core/icon/size";
+import IconStatic from "@/examples/core/icon/static";
+
+export const metadata = { title: "Icon" };
+
+# Icon
+
+**Icon** renders a Blueprint UI icon as an SVG. Browse every icon in the [Icons list](/docs/icons/icons-list/).
+
+## Usage
+
+```tsx
+import { Icon } from "@clawscale/react";
+```
+
+```tsx
+<Icon icon="database" />
+```
+
+## Examples
+
+### Basic
+
+Pass an icon name to `icon`. Names are type checked. An icon without a `title` is hidden from screen readers, so add one when the icon carries meaning on its own.
+
+<Example name="core/icon/basic">
+  <IconBasic />
+</Example>
+
+### Size
+
+Each icon is drawn on a 16px and a 20px grid. A `size` below 20 uses the 16px drawing, and 20 or more uses the 20px one. `IconSize.STANDARD` and `IconSize.LARGE` name the two sizes.
+
+<Example name="core/icon/size">
+  <IconSizes />
+</Example>
+
+### Intent
+
+`intent` colors the icon. Without it, the icon takes the text color. `color` sets any fill and overrides `intent`.
+
+<Example name="core/icon/intent">
+  <IconIntent />
+</Example>
+
+### Inside other components
+
+Components with an `icon` prop, such as [Button](/docs/core/buttons/) and [Tag](/docs/core/tag/), take an icon name or an element. Pass an **Icon** element to give it its own intent.
+
+<Example name="core/icon/components">
+  <IconComponents />
+</Example>
+
+### Icon components
+
+Each icon also ships as a component in `@clawscale/react/icons`, such as `DatabaseIcon`. Its paths come with the import, so it renders without an async load. Icon components take `size`, `color` and `title`, but not `intent`. See [Loading icons](/docs/icons/loading-icons/).
+
+<Example name="core/icon/static">
+  <IconStatic />
+</Example>
+
+## Props interface
+
+**Icon** renders a `span` around the SVG. `tagName` changes it, and other DOM attributes go to it.
+
+<PropsTable name="IconProps" />

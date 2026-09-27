@@ -1,0 +1,49 @@
+import AlertBasic from "@/examples/core/alert/basic";
+import AlertDismiss from "@/examples/core/alert/dismiss";
+import AlertLoading from "@/examples/core/alert/loading";
+
+export const metadata = { title: "Alert" };
+
+# Alert
+
+An **Alert** makes the user confirm or acknowledge something before they continue. Use it for destructive actions and critical notices. For everything else, use a [Dialog](/docs/core/dialog/).
+
+## Usage
+
+```tsx
+import { Alert } from "@clawscale/react";
+```
+
+Alert is controlled with `isOpen`. Handle `onConfirm` and `onCancel` separately, or both in `onClose`, which receives `true` when the user confirmed.
+
+By default, only the buttons close an alert. Escape and clicks outside do nothing.
+
+## Examples
+
+### Confirm a destructive action
+
+`cancelButtonText` adds a cancel button. `intent` colors the confirm button and the icon.
+
+<Example name="core/alert/basic">
+  <AlertBasic />
+</Example>
+
+### Loading
+
+`loading` puts the confirm button in its loading state and disables the cancel button. Keep the alert open until the request finishes.
+
+<Example name="core/alert/loading">
+  <AlertLoading />
+</Example>
+
+### Escape and outside clicks
+
+`canEscapeKeyCancel` and `canOutsideClickCancel` let users dismiss the alert with escape or a click outside. Both count as a cancel.
+
+<Example name="core/alert/dismiss">
+  <AlertDismiss />
+</Example>
+
+## Props interface
+
+<PropsTable name="AlertProps" />

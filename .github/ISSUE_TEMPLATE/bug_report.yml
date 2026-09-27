@@ -1,0 +1,47 @@
+name: Bug report
+description: Something looks or works wrong.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for the report. Search existing issues first.
+  - type: input
+    id: version
+    attributes:
+      label: Clawscale version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Component behavior
+        - Styles or theme
+        - Next.js or server rendering
+        - Tokens
+        - Docs
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Include the expected result and screenshots for visual bugs.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: A minimal code sample or a link to a repository.
+      render: tsx
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: "React 19.3, Next.js 16.3, Chrome 142, macOS"

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://unpkg.com/@changesets/config@4.0.1/schema.json",
+  "changelog": ["@changesets/changelog-github", { "repo": "clawscale/clawscale" }],
+  "commit": false,
+  "format": false,
+  "access": "public",
+  "baseBranch": "main",
+  "updateInternalDependencies": "patch",
+  "fixed": [["@clawscale/react", "@clawscale/tokens"]],
+  "linked": [],
+  "ignore": ["@clawscale/docs"],
+  "privatePackages": { "version": false, "tag": false }
+}

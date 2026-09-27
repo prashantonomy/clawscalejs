@@ -1,0 +1,81 @@
+import IconsBasic from "@/examples/icons/overview/basic";
+import IconsComponents from "@/examples/icons/overview/components";
+import IconsIconNames from "@/examples/icons/overview/icon-names";
+import IconsIntent from "@/examples/icons/overview/intent";
+import IconsPlayground from "@/examples/icons/overview/playground";
+import IconsSizes from "@/examples/icons/overview/sizes";
+
+export const metadata = { title: "Icons" };
+
+# Icons
+
+`@clawscale/react/icons` holds Blueprint's UI icons, drawn on a 16px and a 20px grid. Render one by name with the [Icon](/docs/core/icon/) component, or import it as a component of its own.
+
+## Usage
+
+```tsx
+import { Icon } from "@clawscale/react";
+import { DatabaseIcon, IconNames } from "@clawscale/react/icons";
+```
+
+```tsx
+<Icon icon="database" />
+```
+
+Browse every name in the [Icons list](/docs/icons/icons-list/). To render icons on the server, read [Loading icons](/docs/icons/loading-icons/).
+
+## Examples
+
+### Basic
+
+`icon` takes an icon name. Names are typed, so editors complete them and typos fail to compile. Components with an `icon` prop, such as Button and Tag, take the same names. Screen readers skip an icon unless you give it a `title`.
+
+<Example name="icons/overview/basic">
+  <IconsBasic />
+</Example>
+
+### Sizes
+
+`size` sets the width and height in pixels, 16 by default. Below 20, an icon uses its 16px paths. From 20 up, it uses its 20px paths, which have more detail. `IconSize.STANDARD` is 16 and `IconSize.LARGE` is 20.
+
+<Example name="icons/overview/sizes">
+  <IconsSizes />
+</Example>
+
+### Intent and color
+
+`intent` colors an icon like any other component. `color` takes any CSS color, tokens included, and overrides `intent`. Without either, an icon takes the text color.
+
+<Example name="icons/overview/intent">
+  <IconsIntent />
+</Example>
+
+### Icon components
+
+Every icon is also a component, named after it with an `Icon` suffix: `database` is `DatabaseIcon`. Its paths ship inside the component, so it renders without loading anything, and tree-shaking bundlers keep only the icons you import. Pass it to any `icon` prop. Icon components take `size`, `color` and `title`, but not `intent`. The names without the suffix, such as `Database`, are deprecated.
+
+<Example name="icons/overview/components">
+  <IconsComponents />
+</Example>
+
+### Icon name constants
+
+`IconNames` maps constants to names: `IconNames.DataLineage` is `"data-lineage"`. Use it when you build icon maps in code. Uppercase keys, such as `IconNames.DATA_LINEAGE`, are the older style.
+
+<Example name="icons/overview/icon-names">
+  <IconsIconNames />
+</Example>
+
+## Interactive playground
+
+<Example name="icons/overview/playground" variant="playground">
+  <IconsPlayground />
+</Example>
+
+## Props interface
+
+<PropsTable name="IconProps" />
+
+The per-icon components, such as `DatabaseIcon`, take these props.
+
+<PropsTable name="SVGIconProps" />

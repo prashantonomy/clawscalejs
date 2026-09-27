@@ -1,0 +1,56 @@
+import PortalBasic from "@/examples/core/portal/basic";
+import PortalContainer from "@/examples/core/portal/container";
+
+export const metadata = { title: "Portal" };
+
+# Portal
+
+**Portal** renders its children into a new element outside the current DOM tree, at the end of `document.body` by default. Overlays use it to escape `overflow: hidden` and stacking contexts. Most apps never render it directly.
+
+## Usage
+
+```tsx
+import { Portal } from "@clawscale/react";
+```
+
+Portal creates its element after mount, so it renders nothing on the server. React events from portal content still bubble through the React tree, not the DOM tree.
+
+## Examples
+
+### Basic
+
+The status card renders at the end of `document.body`, outside the example frame.
+
+<Example name="core/portal/basic">
+  <PortalBasic />
+</Example>
+
+### Container
+
+`container` sets the element that receives the portal. The tags are declared in the editor and render in the inspector.
+
+<Example name="core/portal/container" align="start">
+  <PortalContainer />
+</Example>
+
+## Where portals render
+
+Portal picks its parent element in this order:
+
+1. The `container` prop.
+2. `portalContainer` from the closest [PortalProvider](/docs/core/portal-provider/).
+3. `document.body`.
+
+The new element gets the `bp6-portal` class, your `className` and the `portalClassName` of the closest PortalProvider. It is absolutely positioned at the top of its parent.
+
+## Options for the whole app
+
+ClawscaleProvider renders a PortalProvider. Pass portal options to ClawscaleProvider to change the portals of every popover, tooltip, dialog and drawer.
+
+```tsx
+<ClawscaleProvider portalClassName="app-portal">{children}</ClawscaleProvider>
+```
+
+## Props interface
+
+<PropsTable name="PortalProps" />

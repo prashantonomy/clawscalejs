@@ -1,0 +1,60 @@
+export const metadata = { title: "Migrating from Blueprint" };
+
+# Migrating from Blueprint
+
+Clawscale uses Blueprint's API. Moving over is mostly an import change.
+
+## 1. Swap the packages
+
+```bash
+npm uninstall @blueprintjs/core @blueprintjs/icons @blueprintjs/select @blueprintjs/datetime @blueprintjs/table normalize.css
+npm install @clawscale/react
+```
+
+Do not keep Blueprint installed next to Clawscale. Clawscale pins the Blueprint version its styles were built for.
+
+## 2. Replace imports
+
+| Blueprint | Clawscale |
+| --- | --- |
+| `@blueprintjs/core` | `@clawscale/react` |
+| `@blueprintjs/select` | `@clawscale/react/select` |
+| `@blueprintjs/datetime` | `@clawscale/react/datetime` |
+| `@blueprintjs/table` | `@clawscale/react/table` |
+| `@blueprintjs/icons` | `@clawscale/react/icons` |
+
+One command does it:
+
+```bash
+grep -rl "@blueprintjs/" src | xargs sed -i '' -E \
+  -e 's#@blueprintjs/core#@clawscale/react#g' \
+  -e 's#@blueprintjs/(select|datetime|table|icons)#@clawscale/react/\1#g'
+```
+
+On Linux, use `sed -i` without the empty quotes.
+
+## 3. Replace the stylesheets
+
+Remove imports of `normalize.css` and every Blueprint stylesheet. Import one file instead:
+
+```tsx
+import "@clawscale/react/styles.css";
+```
+
+## 4. Use ClawscaleProvider
+
+Replace `BlueprintProvider` with `ClawscaleProvider`. It renders `BlueprintProvider` for you and adds theme management.
+
+## 5. Let the provider handle dark mode
+
+If you toggled `Classes.DARK` yourself, use `useTheme` instead. Existing `Classes.DARK` wrappers keep working.
+
+## 6. Check your custom CSS
+
+Your selectors for `.bp6-` classes still apply. Unlayered CSS beats both Clawscale layers, so your overrides still win.
+
+## What looks different
+
+- The default font is Inter at 13px.
+- Buttons, inputs, menus, dialogs and tables use Clawscale's tokens.
+- Blueprint's legacy `Popover` is deprecated. Use `PopoverNext`.

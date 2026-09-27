@@ -1,0 +1,42 @@
+import DividerBasic from "@/examples/core/divider/basic";
+import DividerVertical from "@/examples/core/divider/vertical";
+
+export const metadata = { title: "Divider" };
+
+# Divider
+
+A **Divider** draws a thin line between blocks of content. It turns vertical in a flex row, with no extra styles.
+
+## Usage
+
+```tsx
+import { Divider } from "@clawscale/react";
+```
+
+```tsx
+<Divider />
+```
+
+## Examples
+
+### Basic
+
+In block layout, a divider spans the width of its container. `compact` removes its margin.
+
+<Example name="core/divider/basic">
+  <DividerBasic />
+</Example>
+
+### Vertical
+
+In a flex row, such as a toolbar or [Button group](/docs/core/button-group/), a divider becomes a vertical line between items.
+
+<Example name="core/divider/vertical">
+  <DividerVertical />
+</Example>
+
+## Props interface
+
+**Divider** also accepts the HTML attributes of its element.
+
+<PropsTable name="DividerProps" />

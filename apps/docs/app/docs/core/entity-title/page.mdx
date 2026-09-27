@@ -1,0 +1,58 @@
+import EntityTitleBasic from "@/examples/core/entity-title/basic";
+import EntityTitleHeadings from "@/examples/core/entity-title/headings";
+import EntityTitleSubtitle from "@/examples/core/entity-title/subtitle";
+import EntityTitleTags from "@/examples/core/entity-title/tags";
+
+export const metadata = { title: "Entity title" };
+
+# Entity title
+
+**EntityTitle** renders the name of an object with an icon, a subtitle and tags. Use it for headers of datasets, pipelines and other entities.
+
+## Usage
+
+```tsx
+import { EntityTitle } from "@clawscale/react";
+```
+
+```tsx
+<EntityTitle icon="th" title="orders_daily" />
+```
+
+## Examples
+
+### Basic
+
+Pass a `title` and an `icon`. `titleURL` turns the title into a link that opens in a new tab.
+
+<Example name="core/entity-title/basic">
+  <EntityTitleBasic />
+</Example>
+
+### Subtitle
+
+`subtitle` adds muted text below the title.
+
+<Example name="core/entity-title/subtitle">
+  <EntityTitleSubtitle />
+</Example>
+
+### Tags
+
+`tags` renders after the title. Pass one [Tag](/docs/core/tag/), or several in a fragment.
+
+<Example name="core/entity-title/tags">
+  <EntityTitleTags />
+</Example>
+
+### Heading sizes
+
+`heading` sets the component that renders the title. The default, [Text](/docs/core/text/), inherits the font size. Pass `H1` to `H6` for larger titles; spacing and subtitle size follow the level.
+
+<Example name="core/entity-title/headings">
+  <EntityTitleHeadings />
+</Example>
+
+## Props interface
+
+<PropsTable name="EntityTitleProps" />

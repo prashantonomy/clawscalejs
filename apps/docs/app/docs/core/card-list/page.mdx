@@ -1,0 +1,63 @@
+import CardListBasic from "@/examples/core/card-list/basic";
+import CardListBordered from "@/examples/core/card-list/bordered";
+import CardListCompact from "@/examples/core/card-list/compact";
+import CardListSection from "@/examples/core/card-list/section";
+
+export const metadata = { title: "Card list" };
+
+# Card list
+
+A **CardList** stacks [cards](/docs/core/card/) into one list, with a divider between rows. Use it for lists of entities, settings or results.
+
+## Usage
+
+```tsx
+import { Card, CardList } from "@clawscale/react";
+```
+
+```tsx
+<CardList>
+  <Card>orders_daily</Card>
+  <Card>customers</Card>
+</CardList>
+```
+
+## Examples
+
+### Basic
+
+Each **Card** inside a **CardList** becomes a row. Rows are flex containers, so you can align content inside them.
+
+<Example name="core/card-list/basic">
+  <CardListBasic />
+</Example>
+
+### Bordered
+
+`bordered={false}` removes the outer border and radius, so the list can sit flush inside another container.
+
+<Example name="core/card-list/bordered">
+  <CardListBordered />
+</Example>
+
+### Compact
+
+`compact` reduces the padding of every card in the list. You do not need to set it on each card.
+
+<Example name="core/card-list/compact">
+  <CardListCompact />
+</Example>
+
+### Inside a section
+
+Put the list in a [Section](/docs/core/section/) to give it a title. Set `padded={false}` on the **SectionCard** and `bordered={false}` on the list so the rows meet the section edges.
+
+<Example name="core/card-list/section">
+  <CardListSection />
+</Example>
+
+## Props interface
+
+**CardList** also accepts the HTML attributes of a `div`.
+
+<PropsTable name="CardListProps" />

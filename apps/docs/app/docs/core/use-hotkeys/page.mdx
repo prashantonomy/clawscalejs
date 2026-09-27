@@ -1,0 +1,62 @@
+import UseHotkeysGlobal from "@/examples/core/use-hotkeys/global";
+import UseHotkeysLocal from "@/examples/core/use-hotkeys/local";
+
+export const metadata = { title: "useHotkeys" };
+
+# useHotkeys
+
+**useHotkeys** registers keyboard shortcuts for a component and lists them in the hotkeys dialog. Global hotkeys work anywhere on the page. Local hotkeys work while focus is inside an element you choose.
+
+## Usage
+
+```tsx
+import { useHotkeys } from "@clawscale/react";
+```
+
+```tsx
+const hotkeys = useMemo(() => [{ combo: "mod+s", global: true, label: "Save view", onKeyDown: saveView }], [saveView]);
+const { handleKeyDown, handleKeyUp } = useHotkeys(hotkeys);
+```
+
+The hook needs a [HotkeysProvider](/docs/core/hotkeys-provider/), which ClawscaleProvider includes. Memoize the hotkeys array, or the hook binds them again on every render.
+
+Each hotkey is either `global` or has a `group`, the heading it appears under in the dialog. Hotkeys do not fire while a text field has focus, unless they set `allowInInput`.
+
+## Examples
+
+### Global hotkeys
+
+`global: true` binds the hotkey to the whole document. Press `R` anywhere on this page.
+
+<Example name="core/use-hotkeys/global">
+  <UseHotkeysGlobal />
+</Example>
+
+### Local hotkeys
+
+Other hotkeys fire only for key events that reach `handleKeyDown` and `handleKeyUp`. Attach both to a focusable element.
+
+<Example name="core/use-hotkeys/local">
+  <UseHotkeysLocal />
+</Example>
+
+## Hotkeys dialog
+
+Press `?` to open a dialog that lists the hotkeys of this page, grouped by `group`. `showDialogKeyCombo` changes the key, and `false` turns it off. [Hotkeys provider](/docs/core/hotkeys-provider/) shows how to customize the dialog.
+
+## Key combos
+
+A combo is zero or more modifiers and one key, joined with `+`, such as `shift+r` or `mod+k`. Letters are case-insensitive. Spaces are ignored.
+
+| Kind | Values |
+| --- | --- |
+| Modifiers | `shift`, `alt` or `option`, `ctrl`, `meta` or `cmd`, `mod` |
+| Named keys | `enter`, `esc`, `space`, `tab`, `backspace`, `del`, `home`, `end`, `pageup`, `pagedown`, `up`, `down`, `left`, `right`, `plus`, `minus` |
+
+`mod` is `cmd` on macOS and `ctrl` elsewhere.
+
+## Props interface
+
+<PropsTable name="UseHotkeysOptions" />
+
+<PropsTable name="HotkeyConfig" />

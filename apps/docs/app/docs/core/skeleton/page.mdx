@@ -1,0 +1,31 @@
+import SkeletonBasic from "@/examples/core/skeleton/basic";
+
+export const metadata = { title: "Skeleton" };
+
+# Skeleton
+
+A skeleton is a placeholder shown while data loads. It is a CSS class, not a component: add `Classes.SKELETON` to any element.
+
+## Usage
+
+```tsx
+import { Classes } from "@clawscale/react";
+```
+
+```tsx
+<H5 className={loading ? Classes.SKELETON : undefined}>orders_daily</H5>
+```
+
+In a React Server Component, import `Classes` from `@clawscale/react/common`.
+
+The element keeps its size, so the layout does not shift when the data arrives. Its content is hidden, it glows, and it ignores the pointer. The glow stops for users who prefer reduced motion.
+
+## Examples
+
+### Loading state
+
+Toggle the switch. The first card puts the class on its heading, text and button, which keeps the shape of the content. The second card takes the class itself and shows one block.
+
+<Example name="core/skeleton/basic">
+  <SkeletonBasic />
+</Example>

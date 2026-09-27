@@ -1,0 +1,140 @@
+import { TokenTable } from "@/examples/core/tokens/_token-table";
+import TokensCustomElement from "@/examples/core/tokens/custom-element";
+
+export const metadata = { title: "Tokens" };
+
+# Tokens
+
+Tokens are CSS variables named `--cs-*`. Clawscale's styles read them, so one override restyles every component that uses the token.
+
+## Usage
+
+### CSS
+
+`@clawscale/react/styles.css` declares every token for both themes. Read them with `var()`.
+
+```css
+.queue-panel {
+  background: var(--cs-color-surface);
+  border: 1px solid var(--cs-color-border);
+  border-radius: var(--cs-radius-lg);
+  padding: var(--cs-space-4);
+}
+```
+
+Elements styled with tokens follow the theme. Press Shift + D to switch it and watch this panel.
+
+<Example name="core/tokens/custom-element">
+  <TokensCustomElement />
+</Example>
+
+### JavaScript
+
+Install `@clawscale/tokens` to read the values in code, for example for a canvas chart.
+
+```bash
+npm install @clawscale/tokens
+```
+
+```tsx
+import { dark, light, shared } from "@clawscale/tokens";
+
+light.color.surface; // "#FFFFFF"
+dark.color.surface; // "#16171B"
+shared.radius.md; // "6px"
+```
+
+`light` and `dark` hold `color`, `shadow` and `chart`. `shared` holds the groups that do not change with the theme. `chartPalette` and `sequentialBlue` hold chart colors. `themeVariables(theme)` and `sharedVariables()` return the values keyed by variable name, such as `"--cs-radius-md"`.
+
+### Without Clawscale styles
+
+`@clawscale/tokens/tokens.css` declares the variables alone, outside any cascade layer: light values on `:root`, dark values under `[data-cs-theme="dark"]`. Use it on pages that do not load `@clawscale/react/styles.css`. `@clawscale/tokens/tokens.json` holds the same values for other tools.
+
+```css
+@import "@clawscale/tokens/tokens.css";
+```
+
+## Override a token
+
+Set the variable in your own CSS. Unlayered CSS beats both Clawscale layers, so you never need `!important`.
+
+```css
+:root {
+  --cs-radius-md: 4px;
+  --cs-color-primary-text: #0b6b5c;
+}
+
+[data-cs-theme="dark"] {
+  --cs-color-primary-text: #4fd1b8;
+}
+```
+
+Color, shadow and chart tokens differ per theme. Give them a dark value too, or your light value applies in both themes. [Theming](/docs/theming/) covers brand colors and scoped overrides.
+
+## Reference
+
+### Color
+
+Surfaces, borders, text, controls and intents. [Colors](/docs/core/colors/) shows them as swatches.
+
+<TokenTable group="color" />
+
+### Shadow
+
+`0` to `4` are elevation levels. `control` sits under buttons and inputs.
+
+<TokenTable group="shadow" />
+
+### Chart
+
+Slots `1` to `8` are the categorical palette, in fixed order. `grid` and `axis` draw chart chrome. The status colors are the same in both themes.
+
+<TokenTable group="chart" />
+
+The sequential ramp shows magnitude, such as heatmap cells. The lightest step means near zero. It is the same in both themes.
+
+<TokenTable group="chart-seq" />
+
+### Font
+
+Font stacks. `@clawscale/react/fonts.css` loads the first family of each.
+
+<TokenTable group="font" />
+
+### Font size
+
+The type scale. Body text uses `md`.
+
+<TokenTable group="font-size" />
+
+### Font weight
+
+<TokenTable group="font-weight" />
+
+### Line height
+
+<TokenTable group="line-height" />
+
+### Radius
+
+<TokenTable group="radius" />
+
+### Space
+
+A 4px grid. Use it for padding, margins and gaps.
+
+<TokenTable group="space" />
+
+### Control height
+
+The heights of Blueprint's small, medium and large buttons and inputs. Use them to size your own controls to match.
+
+<TokenTable group="control-height" />
+
+### Duration
+
+<TokenTable group="duration" />
+
+### Ease
+
+<TokenTable group="ease" />

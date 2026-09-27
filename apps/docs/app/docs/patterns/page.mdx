@@ -1,0 +1,55 @@
+import PatternsMetricRow from "@/examples/patterns/overview/metric-row";
+
+export const metadata = { title: "Patterns" };
+
+# Patterns
+
+Patterns are original Clawscale components for dense screens: headline numbers, changes, trends, key and value lists and status bars. Blueprint has no equivalent for them.
+
+## Usage
+
+```tsx
+import {
+  Delta,
+  Metric,
+  PropertyList,
+  PropertyListItem,
+  Sparkline,
+  StatusBar,
+  StatusBarItem,
+  StatusBarSpacer,
+} from "@clawscale/react";
+```
+
+## Example
+
+A row of metrics, each in a card with a change and a trend.
+
+<Example name="patterns/overview/metric-row" align="start">
+  <PatternsMetricRow />
+</Example>
+
+## Components
+
+| Component | Use it for |
+| --- | --- |
+| [Metric](/docs/patterns/metric/) | A labeled headline number with a change and a trend |
+| [Delta](/docs/patterns/delta/) | A signed change, colored by whether it is good or bad |
+| [Sparkline](/docs/patterns/sparkline/) | A word-sized trend line in tables and tiles |
+| [Property list](/docs/patterns/property-list/) | Key and value pairs in inspectors and detail panels |
+| [Status bar](/docs/patterns/status-bar/) | Connection state and counts along the bottom of an app |
+| [Charts](/docs/patterns/charts/) | Chart tokens for your chart library or hand-built SVG |
+
+## Built on tokens
+
+Patterns read the same `--cs-*` tokens as every Blueprint component. They follow the light and dark themes, and a token override changes them too. Sparklines draw with the chart slots, `--cs-chart-1` by default. See [Tokens](/docs/core/tokens/).
+
+## Server rendered
+
+Patterns keep no state and measure nothing. The server sends finished HTML, and sparklines arrive as SVG paths, so nothing shifts after hydration. Status bar icons render on the server once you import `@clawscale/react/sync-icons`.
+
+Use patterns in server components. Function props, such as `format` on Delta and `onClick` on StatusBarItem, need a client component. See [Next.js](/docs/nextjs/).
+
+## Class names
+
+Pattern class names start with `cs-`. `ClawscaleClasses` has constants for them, such as `ClawscaleClasses.METRIC_VALUE`. Two utilities work in your own markup too: `ClawscaleClasses.NUMERIC` sets tabular numbers and `ClawscaleClasses.MONOSPACE` sets the monospace font. In server components, import `ClawscaleClasses` from `@clawscale/react/common`.

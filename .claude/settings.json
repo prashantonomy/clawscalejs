@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(pnpm install:*)",
+      "Bash(pnpm build:*)",
+      "Bash(pnpm dev:*)",
+      "Bash(pnpm generate:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm typecheck:*)",
+      "Bash(pnpm test:*)",
+      "Bash(pnpm check:*)",
+      "Bash(pnpm verify:*)",
+      "Bash(pnpm changeset:*)",
+      "Bash(pnpm --filter:*)",
+      "Bash(pnpm exec vitest:*)",
+      "Bash(pnpm exec tsc:*)",
+      "Bash(pnpm exec biome:*)",
+      "Bash(pnpm exec playwright:*)",
+      "Bash(node scripts/lint-prose.mjs:*)",
+      "Bash(node scripts/lint-commits.mjs:*)",
+      "Bash(node scripts/check-blueprint.mjs:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)"
+    ],
+    "deny": ["Bash(pnpm publish:*)", "Bash(npm publish:*)", "Bash(pnpm release:*)", "Bash(git push --force:*)"]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/scripts/lint-prose.mjs\" --hook"
+          }
+        ]
+      }
+    ]
+  }
+}

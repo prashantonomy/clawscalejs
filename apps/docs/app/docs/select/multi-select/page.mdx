@@ -1,0 +1,47 @@
+import MultiSelectClear from "@/examples/select/multi-select/clear";
+import MultiSelectTagProps from "@/examples/select/multi-select/tag-props";
+import MultiSelectTags from "@/examples/select/multi-select/tags";
+
+export const metadata = { title: "Multi select" };
+
+# Multi select
+
+**MultiSelect** picks several items from a list. The chosen items show as tags in a [Tag input](/docs/core/tag-input/), which also filters the list.
+
+## Usage
+
+```tsx
+import { MultiSelect } from "@clawscale/react/select";
+```
+
+MultiSelect takes the shared [item props](/docs/select/#item-model), plus `selectedItems` and `tagRenderer`.
+
+## Examples
+
+### Tags
+
+MultiSelect is controlled. Keep `selectedItems` in state, toggle an item in `onItemSelect` and drop it in `onRemove`. `tagRenderer` sets the tag content. In the item renderer, `selected` ticks chosen items and `shouldDismissPopover={false}` keeps the list open between picks.
+
+<Example name="select/multi-select/tags">
+  <MultiSelectTags />
+</Example>
+
+### Clear button
+
+`onClear` adds a button that removes every tag at once. It shows while at least one item is selected.
+
+<Example name="select/multi-select/clear">
+  <MultiSelectClear />
+</Example>
+
+### Tag props
+
+`tagInputProps.tagProps` styles the tags. As a function, it receives the rendered tag and its index, and the index points into `selectedItems`. Here datasets over one billion rows get a warning tag, since scans on them are slow.
+
+<Example name="select/multi-select/tag-props">
+  <MultiSelectTagProps />
+</Example>
+
+## Props interface
+
+<PropsTable name="MultiSelectProps" />

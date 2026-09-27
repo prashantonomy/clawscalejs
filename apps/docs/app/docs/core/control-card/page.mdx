@@ -1,0 +1,64 @@
+import ControlCardList from "@/examples/core/control-card/card-list";
+import ControlCardCheckbox from "@/examples/core/control-card/checkbox";
+import ControlCardRadio from "@/examples/core/control-card/radio";
+import ControlCardSwitch from "@/examples/core/control-card/switch";
+
+export const metadata = { title: "Control card" };
+
+# Control card
+
+A control card is a [Card](/docs/core/card/) with a switch, checkbox or radio inside. A click anywhere on the card toggles the control.
+
+## Usage
+
+```tsx
+import { CheckboxCard, RadioCard, SwitchCard } from "@clawscale/react";
+```
+
+```tsx
+<SwitchCard defaultChecked>Alert on failed runs</SwitchCard>
+```
+
+## Examples
+
+### Switch card
+
+**SwitchCard** places a [Switch](/docs/core/switch/) at the end of the card. Pass the label as children or as `label`. A checked card looks selected; set `showAsSelectedWhenChecked={false}` to turn that off.
+
+<Example name="core/control-card/switch">
+  <ControlCardSwitch />
+</Example>
+
+### Checkbox card
+
+**CheckboxCard** places a [Checkbox](/docs/core/checkbox/) at the start of the card. `alignIndicator` moves the control to either side.
+
+<Example name="core/control-card/checkbox">
+  <ControlCardCheckbox />
+</Example>
+
+### Radio card
+
+**RadioCard** goes inside a [RadioGroup](/docs/core/radio/), which tracks the selected value.
+
+<Example name="core/control-card/radio">
+  <ControlCardRadio />
+</Example>
+
+### Card list
+
+Control cards work as rows in a [Card list](/docs/core/card-list/).
+
+<Example name="core/control-card/card-list">
+  <ControlCardList />
+</Example>
+
+## Props interface
+
+The three components share one set of props.
+
+<PropsTable name="SwitchCardProps" />
+
+<PropsTable name="CheckboxCardProps" />
+
+<PropsTable name="RadioCardProps" />

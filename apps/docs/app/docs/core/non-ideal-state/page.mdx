@@ -1,0 +1,47 @@
+import NonIdealStateEmptySearch from "@/examples/core/non-ideal-state/empty-search";
+import NonIdealStateError from "@/examples/core/non-ideal-state/error";
+import NonIdealStateLayout from "@/examples/core/non-ideal-state/layout";
+
+export const metadata = { title: "Non-ideal state" };
+
+# Non-ideal state
+
+A **NonIdealState** explains why content is missing and what to do next. Use it for empty results, errors and views with no data yet.
+
+## Usage
+
+```tsx
+import { NonIdealState } from "@clawscale/react";
+```
+
+The component renders `icon`, `title`, `description`, `action` and `children`, in that order. For a loading state, pass a [Spinner](/docs/core/spinner/) as `icon`.
+
+## Examples
+
+### Empty search
+
+Say what matched nothing and offer a way out. `action` renders below the description.
+
+<Example name="core/non-ideal-state/empty-search">
+  <NonIdealStateEmptySearch />
+</Example>
+
+### Error with action
+
+Say what failed and give one clear next step.
+
+<Example name="core/non-ideal-state/error">
+  <NonIdealStateError />
+</Example>
+
+### Layout
+
+`layout` is **vertical** by default. **horizontal** puts the icon beside the text, for wide and short containers.
+
+<Example name="core/non-ideal-state/layout">
+  <NonIdealStateLayout />
+</Example>
+
+## Props interface
+
+<PropsTable name="NonIdealStateProps" />

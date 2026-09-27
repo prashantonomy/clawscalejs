@@ -1,0 +1,82 @@
+import DeltaBasic from "@/examples/patterns/delta/basic";
+import DeltaFormat from "@/examples/patterns/delta/format";
+import DeltaGoodDirection from "@/examples/patterns/delta/good-direction";
+import DeltaHideIcon from "@/examples/patterns/delta/hide-icon";
+import DeltaNeutral from "@/examples/patterns/delta/neutral";
+import DeltaTable from "@/examples/patterns/delta/table";
+
+export const metadata = { title: "Delta" };
+
+# Delta
+
+A **Delta** shows a signed change with an arrow. Its color says whether the change is good or bad.
+
+## Usage
+
+```tsx
+import { Delta } from "@clawscale/react";
+```
+
+```tsx
+<Delta value={4.2} />
+```
+
+## Examples
+
+### Basic
+
+Positive values point up and read as good, negative values point down and read as bad, and zero is flat and muted.
+
+<Example name="patterns/delta/basic">
+  <DeltaBasic />
+</Example>
+
+### Good direction
+
+Set `goodDirection="down"` when a rise is bad, as for latency, cost or error rates.
+
+<Example name="patterns/delta/good-direction">
+  <DeltaGoodDirection />
+</Example>
+
+### Custom format
+
+`format` receives the absolute value and Delta adds the sign. Use it for absolute changes, such as rows, milliseconds or dollars. It is a function, so set it in a client component.
+
+<Example name="patterns/delta/format">
+  <DeltaFormat />
+</Example>
+
+### Neutral
+
+`neutral` keeps muted text whatever the direction. Use it for changes that are neither good nor bad, such as traffic moving between regions.
+
+<Example name="patterns/delta/neutral">
+  <DeltaNeutral />
+</Example>
+
+### Hide icon
+
+`hideIcon` drops the arrow and shows a plus or minus sign instead. It saves space in narrow columns.
+
+<Example name="patterns/delta/hide-icon">
+  <DeltaHideIcon />
+</Example>
+
+### Table cells
+
+Delta is inline and uses tabular numbers, so it fits table cells. Right-align the column to line the values up.
+
+<Example name="patterns/delta/table" align="start">
+  <DeltaTable />
+</Example>
+
+## Accessibility
+
+The arrow is hidden from screen readers, and the sign is read with the value, for example "+4.2%". Direction never depends on color: the arrow and the sign show it. Only the color says whether a change is good, so keep the metric name next to it.
+
+## Props interface
+
+Delta also accepts the HTML attributes of a `span`.
+
+<PropsTable name="DeltaProps" />
