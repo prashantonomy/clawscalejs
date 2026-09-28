@@ -62,7 +62,7 @@ Using Next.js? Follow the [Next.js guide](https://prashantonomy.github.io/clawsc
 
 ## How it works
 
-Clawscale is a layer on top of Blueprint, not a fork:
+Clawscale is a layer on top of Blueprint, NOT a fork:
 
 1. `@clawscale/react` re-exports Blueprint and adds `"use client"` entry points.
 2. `styles.css` puts Blueprint's CSS in `@layer blueprint` and Clawscale's in `@layer clawscale`, so Clawscale wins without specificity tricks and your own CSS wins over both.
