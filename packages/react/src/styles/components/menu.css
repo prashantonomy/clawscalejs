@@ -21,7 +21,9 @@
 }
 
 .bp6-menu-item.bp6-active .bp6-icon,
-.bp6-menu-item.bp6-selected .bp6-icon {
+.bp6-menu-item.bp6-selected .bp6-icon,
+.bp6-menu-item.bp6-active .bp6-menu-item-icon,
+.bp6-menu-item.bp6-selected .bp6-menu-item-icon {
   color: var(--cs-color-primary-text);
 }
 

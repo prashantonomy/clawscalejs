@@ -25,6 +25,7 @@
 @import "./components/navigation.css";
 @import "./components/html-table.css";
 @import "./components/feedback.css";
+@import "./components/intents.css";
 @import "./components/table.css";
 @import "./generated/table-borders.css";
 @import "./components/datetime.css";

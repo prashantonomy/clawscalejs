@@ -11,6 +11,11 @@ Add themes, starting with a futuristic theme. Light and dark are now color schem
 - New tokens: `--cs-corner-shape`, `--cs-label-transform` and `--cs-label-tracking`. Each color, shadow and chart token also has a `-light` and a `-dark` value to override.
 - `@clawscale/tokens` exports `themes`, `chartPalettes`, `renderThemeCss` and the `ThemeDefinition` type, and ships `themes/futuristic.css`.
 
+Fixes in every theme:
+
+- Intent icons, callout text, progress meters, spinners and editable text use Clawscale's intent colors instead of Blueprint's palette. Intent toasts keep Blueprint's fills, because Blueprint forces their button colors.
+- The label of an active menu item stays readable in dark.
+
 Breaking changes. The old names keep working until 1.0:
 
 - `theme`, `defaultTheme` and `onThemeChange` with light, dark or system become `colorScheme`, `defaultColorScheme` and `onColorSchemeChange`. Old values still set the color scheme and log a warning.
