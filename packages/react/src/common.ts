@@ -15,4 +15,9 @@ export { Intent } from "@blueprintjs/core/lib/cjs/common/intent.js";
 export { Position } from "@blueprintjs/core/lib/cjs/common/position.js";
 export { Size } from "@blueprintjs/core/lib/cjs/common/size.js";
 export { ClawscaleClasses } from "./components/classes.js";
-export { getThemeScript, type ThemeScriptOptions } from "./theme-script.js";
+export {
+  type ColorScheme,
+  type ColorSchemePreference,
+  getThemeScript,
+  type ThemeScriptOptions,
+} from "./theme-script.js";
