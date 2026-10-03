@@ -23,7 +23,8 @@
 Clawscale keeps [Blueprint](https://blueprintjs.com)'s components, APIs and principles, and gives them a refined look. It is built for dashboards, consoles and tools where a screen holds a lot of data.
 
 - **Every Blueprint component** from one package: core, select, datetime, table and icons.
-- **A token-driven theme** with light, dark and system modes, tested for WCAG AA contrast.
+- **Two themes.** Default is calm and neutral. Futuristic is a heads-up display: cut corners, cyan light, capital labels and glowing readouts.
+- **Light, dark and system color schemes** for every theme, tested for WCAG AA contrast.
 - **Next.js ready.** Components carry `"use client"`, render on the server and apply the theme before the first paint.
 - **Patterns for dense screens:** `Metric`, `Delta`, `Sparkline`, `PropertyList` and `StatusBar`.
 - **Chart tokens** with a categorical palette validated for color vision deficiency.
@@ -53,20 +54,34 @@ export function App() {
 
 Using Next.js? Follow the [Next.js guide](https://prashantonomy.github.io/clawscalejs/docs/nextjs/) for the theme script and server rendering.
 
+### The futuristic theme
+
+Load its stylesheet and pick it on the provider.
+
+```tsx
+import "@clawscale/react/styles.css";
+import "@clawscale/react/themes/futuristic.css";
+import "@clawscale/react/fonts.css";
+
+<ClawscaleProvider defaultTheme="futuristic">{children}</ClawscaleProvider>;
+```
+
+See [Themes](https://prashantonomy.github.io/clawscalejs/docs/themes/) to let people switch, scope a theme or build your own.
+
 ## Packages
 
 | Package | Contents |
 | --- | --- |
-| [`@clawscale/react`](packages/react) | Components, styles and patterns. Subpaths: `/select`, `/datetime`, `/table`, `/icons`, `/common`, `/sync-icons`. |
-| [`@clawscale/tokens`](packages/tokens) | Design tokens as CSS variables, JSON and TypeScript. |
+| [`@clawscale/react`](packages/react) | Components, styles, themes and patterns. Subpaths: `/select`, `/datetime`, `/table`, `/icons`, `/common`, `/sync-icons`. |
+| [`@clawscale/tokens`](packages/tokens) | Design tokens for every theme as CSS variables, JSON and TypeScript. |
 
 ## How it works
 
 Clawscale is a layer on top of Blueprint, NOT a fork:
 
 1. `@clawscale/react` re-exports Blueprint and adds `"use client"` entry points.
-2. `styles.css` puts Blueprint's CSS in `@layer blueprint` and Clawscale's in `@layer clawscale`, so Clawscale wins without specificity tricks and your own CSS wins over both.
-3. Blueprint's `--bp-*` tokens point at Clawscale's `--cs-*` tokens. Change a token and every component follows.
+2. `styles.css` puts Blueprint's CSS in `@layer blueprint` and Clawscale's in `@layer clawscale`, so Clawscale wins without specificity tricks and your own CSS wins over both. Theme stylesheets add a later sublayer.
+3. Blueprint's `--bp-*` tokens point at Clawscale's `--cs-*` tokens. Change a token, or the theme, and every component follows.
 
 Blueprint versions are pinned and upgraded together with the styles, so what you install is what was tested.
 

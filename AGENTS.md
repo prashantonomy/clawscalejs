@@ -7,8 +7,9 @@ Guide for AI agents (and humans) working on Clawscale. Read it fully before chan
 Clawscale is an open source React UI system for data-dense software. It is a **layer on top of Blueprint** (Palantir, Apache-2.0), never a fork:
 
 - `@clawscale/react` re-exports every Blueprint component, adds `"use client"` for Next.js and ships a stylesheet that restyles Blueprint.
-- `@clawscale/tokens` holds the design tokens (`--cs-*` CSS variables).
-- Blueprint renders every component. Clawscale owns the tokens, the style layer, the import paths and a few original patterns.
+- `@clawscale/tokens` holds the design tokens (`--cs-*` CSS variables) for every theme.
+- Blueprint renders every component. Clawscale owns the tokens, the style layer, the themes, the import paths and a few original patterns.
+- Two settings shape the look. The **theme** (`default`, `futuristic`) is the design language. The **color scheme** (`light`, `dark`, `system`) picks a theme's light or dark values. Before 0.2, "theme" meant the color scheme.
 
 ## Hard rules
 
@@ -23,15 +24,19 @@ Clawscale is an open source React UI system for data-dense software. It is a **l
 ## Repository map
 
 ```
-packages/tokens/          @clawscale/tokens: src/tokens.ts is the source of truth for every --cs-* variable
+packages/tokens/          @clawscale/tokens: the source of truth for every --cs-* variable
+  src/tokens.ts           Token types and the default theme
+  src/futuristic.ts       The futuristic theme. One file per theme, registered in src/themes.ts
+  src/css.ts              Renders token CSS: color scheme switches, theme values, final tokens
 packages/react/           @clawscale/react
   src/generated/          Generated "use client" re-exports of Blueprint. Do not edit. Run pnpm generate.
   src/components/         Clawscale components: provider, theme script, Metric, Delta, Sparkline, PropertyList, StatusBar
-  src/styles/             The clawscale CSS layer. index.css lists every file in order.
+  src/styles/             The clawscale.base layer. index.css lists every file in order.
+  src/styles/themes/      One folder per extra theme, built to dist/themes/<name>.css in the clawscale.themes layer
   src/styles/generated/   Generated from Blueprint CSS (table grid lines, dark text colors). Do not edit. Run pnpm generate.
   src/common.ts           Server-safe constants (Classes, Intent, ...) for React Server Components
   src/sync-icons.ts       Opt-in synchronous icon loading for server rendering
-  scripts/build-css.ts    Builds dist/styles.css: Blueprint in @layer blueprint, Clawscale in @layer clawscale
+  scripts/build-css.ts    Builds dist/styles.css (Blueprint, then clawscale.base) and dist/themes/<name>.css
 apps/docs/                Next.js 16 docs site (static export), showcase and gallery
   app/docs/**/page.mdx    Docs pages. lib/nav.ts orders them.
   examples/               One file per live example, shown with its source
@@ -60,48 +65,62 @@ scripts/lint-commits.mjs  Commit message and pull request lint (see "Commits and
 | `pnpm build:docs` | Static export of the docs to `apps/docs/out` |
 | `pnpm test:e2e` | Playwright against the static export (run `pnpm build:docs` first) |
 | `pnpm verify` | Everything above. CI runs this. |
-| `pnpm test:audit` | Slower audits of every page in the static export: accessibility with axe, and colors Blueprint derived for its own palette in both themes. Run after a restyle or a Blueprint upgrade. |
+| `pnpm test:audit` | Slower audits of every page in the static export, in both themes and both color schemes: accessibility with axe, and colors Blueprint derived for its own palette. Run after a restyle or a Blueprint upgrade. |
 | `pnpm clean` | Delete build output and caches. The Next.js dev cache in `apps/docs/.next` grows to several GB. |
 
 Use `pnpm --filter <package> <script>` to target one package, for example `pnpm --filter @clawscale/docs dev`.
 
 ## How the style layer works
 
-`dist/styles.css` declares two cascade layers: `blueprint` (normalize.css and all Blueprint CSS, unchanged) and then `clawscale`. A rule in a later layer beats every rule in an earlier layer, whatever the specificity.
+Every Clawscale stylesheet starts with `@layer blueprint, clawscale.base, clawscale.themes;`:
 
-That power cuts both ways. **Any rule in the clawscale layer beats every Blueprint rule**, including far more specific variant rules. So:
+- `blueprint`: normalize.css and all Blueprint CSS, unchanged.
+- `clawscale.base` (`dist/styles.css`): the tokens of the default theme, the bridge and every override.
+- `clawscale.themes` (`dist/themes/<name>.css`): a theme's tokens, then its own rules inside `@scope ([data-cs-theme="<name>"])`, which ends at a nested element of another theme.
+
+A rule in a later layer beats every rule in an earlier layer, whatever the specificity. Consumers who list `@layer blueprint, clawscale, app;` still win, because both Clawscale layers sit inside `clawscale`.
+
+That power cuts both ways. **Any rule in the clawscale layer beats every Blueprint rule**, and any theme rule beats every base rule, including far more specific variant rules. So:
 
 - Target Blueprint classes precisely. Restate variants instead of styling a base class broadly. Example: style `.bp6-button:not([class*="bp6-intent-"]):not(.bp6-minimal):not(.bp6-outlined)`, not `.bp6-button`.
 - Never set properties Blueprint varies by context (for example `border-radius` on `.bp6-button`, which button groups override). Change the token instead.
 - Never style bare elements that Blueprint components render (`a`, `button`, `input`, `li`, `table`). Exclude Blueprint classes, for example `a:not([class*="bp6-"])`.
-- Only use `--cs-*` tokens for values. Both themes then work with one rule.
+- Only use `--cs-*` tokens for values. Every theme and color scheme then works with one rule.
 - Blueprint's own `!important` declarations beat every clawscale rule, because layer order flips for important declarations. A normal override of such a property is dead code. Set the `--bp-*` variable it reads instead, or leave it.
 - Check third-party rules in Blueprint's sheets too. The datetime sheet includes react-day-picker's CSS, which fades days with `opacity`, not only `color`.
 - Watch for colors Blueprint derives with a lightness shift, such as `oklch(from var(--bp-intent-warning-rest) calc(l + 0.19) c h)`. The shift suits Blueprint's palette, not always ours. Examples: Clawscale's amber turned warning tags almost white, and Blueprint's dark rules lighten typography colors that the bridge already themes. `generated/dark-text.css` restates the dark typography rules without the shift, inside the blueprint layer. Fix any other case with an override. A computed color in `oklch()` on a page usually means a derived color leaked through: our tokens compute to `rgb()`.
 
 Order of precedence for a visual change:
 
-1. Change a token in `packages/tokens/src/tokens.ts`.
+1. Change a token in `packages/tokens/src/tokens.ts`, or in the theme's file such as `futuristic.ts`.
 2. Map a Blueprint token to a Clawscale token in `packages/react/src/styles/bridge.css`.
-3. Add an override in `packages/react/src/styles/components/<area>.css`.
+3. Add an override in `packages/react/src/styles/components/<area>.css`. It applies to every theme.
+4. For one theme only, add a rule in `packages/react/src/styles/themes/<name>/`.
 
-Consumers' own unlayered CSS always wins over both layers. That is a feature. Never use `!important`.
+Consumers' own unlayered CSS always wins over all layers. That is a feature. Never use `!important`.
 
-Dark mode: the `bp6-dark` class or `data-cs-theme="dark"` on an ancestor, usually `<html>`. `ClawscaleProvider` and `ThemeScript` manage both.
+How themes and color schemes reach the page:
+
+- `data-cs-theme="<name>"` and `data-cs-color-scheme="light|dark"` on an ancestor, usually `<html>`. `ClawscaleProvider` and `ThemeScript` manage both, plus Blueprint's `bp6-dark` class. Both attributes work on any element and nest.
+- Theme elements declare each color, shadow and chart token's light and dark value side by side (`--cs-color-canvas-light`, `--cs-color-canvas-dark`). Color scheme elements set two switches, `--cs-is-light` and `--cs-is-dark`. Every element that changes either axis picks the final token. `packages/tokens/src/css.ts` explains the mechanism.
+- So a token that references another token, like the bridge or a theme's `--cs-fx-*` helpers, must be declared on every axis element: `:root, .bp6-dark, [data-bp-color-scheme], [data-cs-theme], [data-cs-color-scheme]`.
+- Theme rules that vary by color scheme use `light-dark()`. The futuristic theme keeps its glows for dark and draws crisp lines in light.
+- Two token groups carry a theme's voice and shape: `--cs-label-transform` with `--cs-label-tracking` for short labels (`components/labels.css` lists them), and `--cs-corner-shape`, which every `bp6-` and `cs-` element follows. Never put a label token on text that shows data: tags, inputs, menu items, table cells, or buttons that carry `aria-haspopup` or sit right inside an element that does.
 
 ## Tasks
 
 ### Change a token
 
-1. Edit `packages/tokens/src/tokens.ts`.
-2. `pnpm --filter @clawscale/tokens test`. The tests enforce WCAG AA contrast for text and intents.
-3. `pnpm build`, then review `/gallery` in both themes (see "Visual review").
+1. Edit `packages/tokens/src/tokens.ts`. A new token needs a value in every theme: the tests check that all themes define the same tokens.
+2. `pnpm --filter @clawscale/tokens test`. The tests enforce WCAG AA contrast for text and intents in every theme and color scheme.
+3. `pnpm build`, then review `/gallery` in both themes and both color schemes (see "Visual review").
 
 ### Restyle a Blueprint component
 
 1. Find Blueprint's rules: `grep -o '[^}]*bp6-menu-item[^{]*{[^}]*}' packages/react/node_modules/@blueprintjs/core/lib/css/blueprint.css`.
 2. Add precise overrides to the matching file in `packages/react/src/styles/components/`. Add a new file to `src/styles/index.css` if needed.
-3. `pnpm build`, then review `/gallery` and the component's docs page in both themes.
+3. Check the futuristic theme's rules for the component in `src/styles/themes/futuristic/`. They sit in a later layer and win over yours.
+4. `pnpm build`, then review `/gallery` and the component's docs page in both themes and both color schemes.
 
 ### Add a Clawscale component
 
@@ -110,6 +129,17 @@ Dark mode: the `bp6-dark` class or `data-cs-theme="dark"` on an ancestor, usuall
 3. Tests in `packages/react/test/`.
 4. A docs page under `apps/docs/app/docs/patterns/`, an entry in `apps/docs/lib/nav.ts`, and a gallery entry.
 5. A changeset: `pnpm changeset`.
+
+### Add a theme
+
+A theme is a proposal first (see GOVERNANCE.md).
+
+1. Add `packages/tokens/src/<name>.ts` with a complete `ThemeDefinition`, and register it in `src/themes.ts`. Start from an existing theme so every token has a value.
+2. Choose its chart palette with the dataviz validator: adjacent CVD and normal-vision floors in both color schemes, one hue order for both.
+3. `pnpm --filter @clawscale/tokens test`. Contrast must pass in both color schemes.
+4. Add `packages/react/src/styles/themes/<name>/index.css` for rules tokens cannot express. Keep state filters in `:where()`, restate variants, and use `light-dark()` for anything that differs by color scheme. Keyframes are fine: the build lifts them out of `@scope`.
+5. Import `@clawscale/react/themes/<name>.css` in `apps/docs/app/layout.tsx`, add the theme to the docs theme switch and the e2e theme lists, and document it on the Themes page.
+6. `pnpm verify` and `pnpm test:audit`, then review every screen in both color schemes.
 
 ### Replace a Blueprint export
 
@@ -187,7 +217,7 @@ Rules for examples (`apps/docs/examples/<package>/<page>/<name>.tsx`):
 1. Bump every `@blueprintjs/*` version in `packages/react/package.json` together, exact versions only.
 2. `pnpm install && pnpm generate`.
 3. If Blueprint changed its class namespace (for example `bp6-` to `bp7-`), replace the prefix across `packages/react/src/styles` and the docs, then fix `test/styles.test.ts`.
-4. `pnpm verify`, then review `/gallery` and a few docs pages in both themes. Blueprint may have changed CSS we override.
+4. `pnpm verify`, then review `/gallery` and a few docs pages in both themes and both color schemes. Blueprint may have changed CSS we override.
 5. Add a changeset that names the Blueprint version.
 
 ### Release
@@ -196,9 +226,9 @@ Changesets drives versions. Add one with `pnpm changeset` for any user-facing ch
 
 ## Visual review
 
-Run `pnpm dev`, open http://localhost:3100/gallery/ and toggle the theme with the navbar button. Take full-page screenshots in light and dark and look at them. Wait two seconds after load: tables and sliders measure the DOM after mount.
+Run `pnpm dev`, open http://localhost:3100/gallery/ and switch the theme and the color scheme with the navbar controls (Shift + T and Shift + D in the docs). Take full-page screenshots of every combination and look at them. Wait two seconds after load: tables and sliders measure the DOM after mount.
 
-Without a browser tool: `pnpm build:docs && pnpm --filter @clawscale/docs screenshots` writes full-page PNGs of the gallery, showcase, landing page and a docs page in both themes to `apps/docs/screenshots/`. Open and inspect them.
+Without a browser tool: `pnpm build:docs && pnpm --filter @clawscale/docs screenshots` writes full-page PNGs of the gallery, showcase, landing page and a docs page, in both themes and both color schemes, to `apps/docs/screenshots/`. Open and inspect them.
 
 ## Commits and pull requests
 

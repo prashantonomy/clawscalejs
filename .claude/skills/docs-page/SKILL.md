@@ -11,6 +11,6 @@ description: Write or update a Clawscale docs page with live examples, an intera
 4. Write the page at `apps/docs/app/docs/<path>/page.mdx`: title, one or two sentences, Usage, Examples, an Interactive playground when the component has several visual props, Props interface.
 5. New page? Add it to `apps/docs/lib/nav.ts`.
 6. Run `pnpm --filter @clawscale/docs generate`, then `pnpm --filter @clawscale/docs test` and `pnpm --filter @clawscale/docs typecheck`.
-7. With `pnpm dev` running, open the page in both themes and read it once more for crisp text.
+7. With `pnpm dev` running, open the page in both themes and both color schemes and read it once more for crisp text.
 
 Never use em dashes, en dashes or mid-line dots. Use realistic data-dense content.
