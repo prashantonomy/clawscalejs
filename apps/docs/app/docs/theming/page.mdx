@@ -4,58 +4,71 @@ export const metadata = { title: "Theming" };
 
 # Theming
 
-Clawscale's look comes from design tokens. Change a token and every component follows.
+Clawscale's look comes from design tokens. Change a token and every component follows. To switch the whole look at once, pick a [theme](/docs/themes/).
 
 ## How it works
 
-The stylesheet has two cascade layers. Rules in a later layer win, whatever their specificity.
+The stylesheets use cascade layers. Rules in a later layer win, whatever their specificity.
 
 ```css
-@layer blueprint, clawscale;
+@layer blueprint, clawscale.base, clawscale.themes;
 
 @layer blueprint {
   /* normalize.css and Blueprint's CSS, unchanged */
 }
 
-@layer clawscale {
-  /* 1. tokens: --cs-* variables for light and dark */
+@layer clawscale.base {
+  /* 1. tokens: --cs-* variables for the default theme, light and dark */
   /* 2. bridge: Blueprint's --bp-* tokens point at --cs-* tokens */
   /* 3. overrides for what Blueprint hardcodes */
 }
+
+@layer clawscale.themes {
+  /* each theme stylesheet: its tokens, then its own rules */
+}
 ```
 
-Your own CSS is not in a layer, so it beats both. No `!important` needed.
+Your own CSS is not in a layer, so it beats all of them. No `!important` needed.
 
-## Dark theme
+## Color schemes
 
-`ClawscaleProvider` puts the `bp6-dark` class and `data-cs-theme` on `<html>`. It supports light, dark and system themes and saves the choice. Read or change it with [useTheme](/docs/core/use-theme/).
+Every theme has a light and a dark color scheme. `ClawscaleProvider` puts the `bp6-dark` class and `data-cs-color-scheme` on `<html>`. It supports light, dark and system, and saves the choice. Read or change it with [useTheme](/docs/core/use-theme/).
 
 ```tsx
-const { theme, resolvedTheme, setTheme } = useTheme();
+const { colorScheme, resolvedColorScheme, setColorScheme } = useTheme();
 ```
 
 ## Override tokens
 
-Set tokens in your own CSS. Declare dark values under the dark attribute.
+Each color, shadow and chart token has a light and a dark value side by side, such as `--cs-color-primary-light` and `--cs-color-primary-dark`. Set both, and every color scheme picks its value.
 
 ```css
 :root {
-  --cs-color-primary: #0e7c6b;
-  --cs-color-primary-hover: #0b6b5c;
-  --cs-color-primary-text: #0b6b5c;
+  --cs-color-primary-light: #0e7c6b;
+  --cs-color-primary-dark: #0e7c6b;
+  --cs-color-primary-text-light: #0b6b5c;
+  --cs-color-primary-text-dark: #4fd1b8;
   --cs-radius-md: 4px;
 }
+```
 
-[data-cs-theme="dark"] {
+You can also set the final token for the whole page, with its dark value under the dark attribute.
+
+```css
+:root {
+  --cs-color-primary-text: #0b6b5c;
+}
+
+[data-cs-color-scheme="dark"] {
   --cs-color-primary-text: #4fd1b8;
 }
 ```
 
 See [Tokens](/docs/core/tokens/) for every variable.
 
-## Scope a theme
+## Scope tokens
 
-`data-cs-theme` on any element re-applies the tokens for that subtree. Combine it with token overrides for a local brand color.
+`data-cs-theme` and `data-cs-color-scheme` work on any element. Each re-applies the tokens for its subtree, so token values set on the same element apply there. This card restates the current theme and sets a teal brand.
 
 <Example name="guides/theming/brand-color">
   <BrandColor />
@@ -63,7 +76,28 @@ See [Tokens](/docs/core/tokens/) for every variable.
 
 ## Fonts
 
-`@clawscale/react/fonts.css` loads Inter and JetBrains Mono. To use your own, set `--cs-font-sans` and `--cs-font-mono`.
+`@clawscale/react/fonts.css` loads Inter, JetBrains Mono and Oxanium, the futuristic theme's typeface. Browsers download only the fonts a page uses. To use your own, set `--cs-font-sans` and `--cs-font-mono`.
+
+## Labels and corners
+
+Two token groups describe a theme's voice and shape, so your own components can match it.
+
+- `--cs-label-transform` and `--cs-label-tracking` set short labels, such as card titles. The futuristic theme sets them in capitals.
+- `--cs-corner-shape` is `round` or `bevel`. Pair it with a radius token to cut corners where the browser supports it.
+
+```css
+.queue-title {
+  letter-spacing: var(--cs-label-tracking);
+  text-transform: var(--cs-label-transform);
+}
+
+.queue-panel {
+  border-radius: var(--cs-radius-lg);
+  corner-shape: var(--cs-corner-shape);
+}
+```
+
+`ClawscaleClasses.LABEL` applies the label tokens as a class.
 
 ## Density
 

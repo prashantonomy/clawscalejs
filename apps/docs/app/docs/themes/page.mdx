@@ -1,0 +1,123 @@
+import { ChartSwatches, ColorSwatches } from "@/examples/core/colors/_swatch";
+import ThemesPicker from "@/examples/guides/themes/picker";
+import ThemesPreview from "@/examples/guides/themes/preview";
+
+export const metadata = { title: "Themes" };
+
+# Themes
+
+<Lead>
+A theme sets the whole look: color, type, corners and light. Clawscale ships two themes, and each has a light and a dark color scheme. Components never need to know which one is active.
+</Lead>
+
+| Theme | Look |
+| --- | --- |
+| `default` | Calm and neutral, for tools people use all day. Inter, rounded corners, blue accents. |
+| `futuristic` | A heads-up display for mission control. Oxanium, cut corners, cyan light and glowing readouts. |
+
+<Example name="guides/themes/preview" align="start">
+  <ThemesPreview />
+</Example>
+
+## Use the futuristic theme
+
+Load its stylesheet after the main one.
+
+```tsx
+import "@clawscale/react/styles.css";
+import "@clawscale/react/themes/futuristic.css";
+import "@clawscale/react/fonts.css";
+```
+
+Pick it on the provider, and pass the same default to `ThemeScript` so the first paint matches.
+
+```tsx
+<ClawscaleProvider defaultTheme="futuristic">{children}</ClawscaleProvider>
+```
+
+```tsx
+<ThemeScript defaultTheme="futuristic" />
+```
+
+Without its stylesheet, a theme falls back to the default look, and the provider logs a warning.
+
+## Let people choose
+
+`useTheme` returns the theme and a setter. The choice is saved, like the color scheme. This picker changes the theme of these docs. So does Shift + T.
+
+<Example name="guides/themes/picker">
+  <ThemesPicker />
+</Example>
+
+## What the futuristic theme changes
+
+- **Type.** Oxanium for text and JetBrains Mono for numbers, breadcrumbs and tooltips. Buttons, tabs, column headers and section titles are set in capitals.
+- **Data keeps its case.** Tags, inputs, menu items, table cells and buttons that open a menu or a select never change case.
+- **Shape.** Corners are cut, not rounded. Radios, slider handles and switch knobs become diamonds.
+- **Light.** Primary actions, focus, the selected tab and metrics glow in the dark color scheme. The light color scheme draws crisp lines instead.
+- **Surfaces.** A faint grid on the page, a lit edge on cards, callouts and toasts, and progress bars that fill in segments.
+- **Color.** Luminous intent fills with dark text in the dark color scheme. Every text and intent color passes WCAG AA, as in the default theme.
+
+### Intents
+
+Each swatch shows the light color scheme on the left and the dark one on the right.
+
+<ColorSwatches group="intents" theme="futuristic" />
+
+### Chart palette
+
+Eight slots, in the same fixed order in both color schemes. Neighboring slots stay distinct for color-blind readers. In the light color scheme, slot 6 falls below 3:1 contrast on the surface, so label that series directly or offer a table.
+
+<ChartSwatches theme="futuristic" />
+
+Chart libraries that take an array can use `chartPalettes.futuristic`. See [Charts](/docs/patterns/charts/).
+
+## Themes and color schemes
+
+The theme and the color scheme are separate settings. `colorScheme` picks light, dark or system for any theme. See [Clawscale provider](/docs/core/clawscale-provider/).
+
+| Attribute on `<html>` | Values |
+| --- | --- |
+| `data-cs-theme` | `default`, `futuristic` or the name of your own theme |
+| `data-cs-color-scheme` | `light` or `dark` |
+
+## Scope a theme
+
+Set `data-cs-theme` on any element to give its subtree another theme, and `data-cs-color-scheme` for another color scheme. Both nest, and the closest one wins. The preview above shows both themes on one page.
+
+```tsx
+<Card data-cs-theme="futuristic">...</Card>
+```
+
+Overlays render in a portal on `<body>`, so they take the page's theme. Inside a scoped subtree, render them in place with `usePortal={false}`.
+
+## Browser support
+
+The futuristic theme uses `corner-shape`, `@scope` and `light-dark()`.
+
+- Browsers without `corner-shape` keep small rounded corners.
+- Browsers without `@scope` get the theme's tokens: its colors, fonts, corners and capital labels. They skip its glows, grid and panel accents.
+
+## Build your own theme
+
+A theme is data: a `ThemeDefinition` from `@clawscale/tokens` with shared tokens, a light and a dark color scheme and a sequential ramp. Start from a built-in theme, render its CSS with `renderThemeCss` and load the file after the Clawscale styles.
+
+```ts
+import { renderThemeCss, type ThemeDefinition, themes } from "@clawscale/tokens";
+
+const base = themes.default;
+
+export const harbor: ThemeDefinition = {
+  ...base,
+  name: "harbor",
+  label: "Harbor",
+  description: "The default theme with teal accents.",
+  light: { ...base.light, color: { ...base.light.color, primary: "#0E7C6B", "primary-text": "#0B6B5C" } },
+  dark: { ...base.dark, color: { ...base.dark.color, primary: "#0E7C6B", "primary-text": "#4FD1B8" } },
+};
+
+// At build time, write the CSS and load it after @clawscale/react/styles.css.
+const css = renderThemeCss(harbor);
+```
+
+Then pass `defaultTheme="harbor"`. Check every text and intent color with `contrastRatio` from `@clawscale/tokens`, as Clawscale's own tests do.
