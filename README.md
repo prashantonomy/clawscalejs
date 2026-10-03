@@ -18,6 +18,10 @@
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
+<p align="center">
+  <img src="apps/docs/public/images/futuristic-showcase.webp" width="900" alt="A pipeline console built with Clawscale in the futuristic theme" />
+</p>
+
 ---
 
 Clawscale keeps [Blueprint](https://blueprintjs.com)'s components, APIs and principles, and gives them a refined look. It is built for dashboards, consoles and tools where a screen holds a lot of data.

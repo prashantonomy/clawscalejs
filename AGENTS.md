@@ -228,6 +228,8 @@ Changesets drives versions. Add one with `pnpm changeset` for any user-facing ch
 
 Run `pnpm dev`, open http://localhost:3100/gallery/ and switch the theme and the color scheme with the navbar controls (Shift + T and Shift + D in the docs). Take full-page screenshots of every combination and look at them. Wait two seconds after load: tables and sliders measure the DOM after mount.
 
+The README shows `apps/docs/public/images/futuristic-showcase.webp`, the showcase in the futuristic theme in dark at 1600 by 1000. Replace it when that screen changes.
+
 Without a browser tool: `pnpm build:docs && pnpm --filter @clawscale/docs screenshots` writes full-page PNGs of the gallery, showcase, landing page and a docs page, in both themes and both color schemes, to `apps/docs/screenshots/`. Open and inspect them.
 
 ## Commits and pull requests
