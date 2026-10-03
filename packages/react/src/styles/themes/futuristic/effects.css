@@ -1,0 +1,51 @@
+/*
+ * Effect helpers. Declared wherever the color scheme can change, so each var() re-resolves
+ * there, like the bridge. --cs-fx-intent carries the intent color of the closest component.
+ */
+
+:scope,
+[data-cs-theme],
+[data-cs-color-scheme],
+.bp6-dark,
+[data-bp-color-scheme] {
+  --cs-fx-glow: light-dark(transparent, color-mix(in srgb, var(--cs-color-primary) 42%, transparent));
+  --cs-fx-glow-strong: light-dark(
+    color-mix(in srgb, var(--cs-color-primary) 22%, transparent),
+    color-mix(in srgb, var(--cs-color-primary) 70%, transparent)
+  );
+  --cs-fx-sheen: color-mix(in srgb, var(--cs-color-primary) 5%, transparent);
+  --cs-fx-grid: light-dark(
+    color-mix(in srgb, var(--cs-color-primary) 4%, transparent),
+    color-mix(in srgb, var(--cs-color-primary) 5%, transparent)
+  );
+  --cs-fx-grid-major: light-dark(
+    color-mix(in srgb, var(--cs-color-primary) 6%, transparent),
+    color-mix(in srgb, var(--cs-color-primary) 9%, transparent)
+  );
+}
+
+[class*="bp6-intent-primary"] {
+  --cs-fx-intent: var(--cs-color-primary);
+}
+
+[class*="bp6-intent-success"] {
+  --cs-fx-intent: var(--cs-color-success);
+}
+
+[class*="bp6-intent-warning"] {
+  --cs-fx-intent: var(--cs-color-warning);
+}
+
+[class*="bp6-intent-danger"] {
+  --cs-fx-intent: var(--cs-color-danger);
+}
+
+@keyframes cs-fx-scan {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: 0 0;
+  }
+}

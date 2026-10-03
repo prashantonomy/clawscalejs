@@ -2,9 +2,17 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { join } from "node:path";
 import { Classes } from "@blueprintjs/core";
-import { sharedVariables, themeVariables } from "@clawscale/tokens";
+import { defaultTheme, sharedVariables, themes, themeVariables } from "@clawscale/tokens";
 import { beforeAll, describe, expect, it } from "vitest";
-import { blueprintPatches, buildStyles, inlineImports } from "../scripts/build-css.ts";
+import {
+  blueprintPatches,
+  buildStyles,
+  buildThemeStyles,
+  inlineImports,
+  liftKeyframes,
+  themeNames,
+  themesDir,
+} from "../scripts/build-css.ts";
 import { darkTextPath, renderDarkText } from "../scripts/generate-dark-text.ts";
 import { renderTableBorders, tableBordersPath } from "../scripts/generate-table-borders.ts";
 
@@ -27,6 +35,8 @@ function styleFiles(dir = stylesDir): string[] {
 }
 
 const source = inlineImports(join(stylesDir, "index.css"));
+const themeSources = themeNames().map((name) => [name, inlineImports(join(themesDir, name, "index.css"))] as const);
+const allSources = [["base", source] as const, ...themeSources];
 const stripComments = (css: string) => css.replace(/\/\*[\s\S]*?\*\//g, "");
 
 describe("dist/styles.css", () => {
@@ -35,11 +45,13 @@ describe("dist/styles.css", () => {
     built = buildStyles();
   });
 
-  it("puts Blueprint in a layer before the Clawscale layer", () => {
+  it("orders the layers: Blueprint, the Clawscale base, then themes", () => {
     const blueprint = built.indexOf("@layer blueprint");
-    const clawscale = built.indexOf("@layer clawscale");
+    const base = built.indexOf("@layer clawscale.base");
+    const themesLayer = built.indexOf("clawscale.themes");
     expect(blueprint).toBeGreaterThan(-1);
-    expect(clawscale).toBeGreaterThan(blueprint);
+    expect(base).toBeGreaterThan(blueprint);
+    expect(themesLayer).toBeGreaterThan(base);
   });
 
   it("strips @charset and keeps no rules outside the layers", () => {
@@ -50,7 +62,7 @@ describe("dist/styles.css", () => {
 
   it("restates Blueprint's dark text colors last in its layer", () => {
     // The minifier drops Blueprint's original rule, since the restated one has the same selector.
-    const layer = built.slice(built.indexOf("@layer blueprint{"), built.indexOf("@layer clawscale{"));
+    const layer = built.slice(built.indexOf("@layer blueprint{"), built.indexOf("@layer clawscale.base{"));
     const helper = ".bp6-dark .bp6-form-group .bp6-form-helper-text";
     const last = layer.lastIndexOf(helper);
     expect(last).toBeGreaterThan(-1);
@@ -61,6 +73,42 @@ describe("dist/styles.css", () => {
     const fonts = [...built.matchAll(/url\("?\.\/(assets\/[^")]+)"?\)/g)].map((m) => m[1] as string);
     expect(fonts.length).toBeGreaterThan(0);
     for (const font of fonts) expect(existsSync(join(root, "dist", font)), font).toBe(true);
+  });
+});
+
+describe("theme stylesheets", () => {
+  it("exist for every theme in @clawscale/tokens but the default", () => {
+    expect(themeNames()).toEqual(
+      Object.keys(themes)
+        .filter((name) => name !== defaultTheme.name)
+        .sort(),
+    );
+  });
+
+  it.each(themeNames())("%s keeps the layer order, whichever file loads first", (name) => {
+    const css = buildThemeStyles(name);
+    const order = css.indexOf("@layer blueprint");
+    expect(order).toBeGreaterThan(-1);
+    expect(css.indexOf("clawscale.base")).toBeGreaterThan(order);
+    expect(css.indexOf("@layer clawscale.themes{")).toBeGreaterThan(css.indexOf("clawscale.base"));
+  });
+
+  it.each(themeNames())("%s declares its tokens and scopes its rules to the theme", (name) => {
+    const css = buildThemeStyles(name);
+    expect(css).toContain(`--cs-theme:${name}`);
+    expect(css).toContain(`@scope([data-cs-theme=${name}]) to ([data-cs-theme]:not([data-cs-theme=${name}],`);
+  });
+
+  it.each(themeNames())("%s keeps keyframes outside @scope", (name) => {
+    const css = buildThemeStyles(name);
+    const scope = css.indexOf("@scope");
+    for (const match of css.matchAll(/@keyframes/g)) expect(match.index).toBeLessThan(scope);
+  });
+
+  it("lifts nested keyframes out of a stylesheet", () => {
+    const { rules, keyframes } = liftKeyframes(".a{color:red}@keyframes x{from{opacity:0}to{opacity:1}}.b{color:blue}");
+    expect(rules).toBe(".a{color:red}.b{color:blue}");
+    expect(keyframes).toEqual(["@keyframes x{from{opacity:0}to{opacity:1}}"]);
   });
 });
 
@@ -75,25 +123,29 @@ describe("Clawscale style sources", () => {
     expect(readFileSync(darkTextPath, "utf8"), "Run: pnpm --filter @clawscale/react generate").toBe(renderDarkText());
   });
 
-  it("imports every style file from index.css", () => {
-    const imported = [...readFileSync(join(stylesDir, "index.css"), "utf8").matchAll(/@import "\.\/([^"]+)";/g)].map(
-      (m) => join(stylesDir, m[1] as string),
-    );
+  it("imports every style file from the index.css of its folder", () => {
+    const importsOf = (dir: string) =>
+      [...readFileSync(join(dir, "index.css"), "utf8").matchAll(/@import "\.\/([^"]+)";/g)].map((m) =>
+        join(dir, m[1] as string),
+      );
+    const imported = [importsOf(stylesDir), ...themeNames().map((name) => importsOf(join(themesDir, name)))].flat();
     const unused = styleFiles().filter(
       (file) => !file.endsWith("index.css") && !imported.includes(file) && !blueprintPatches.includes(file),
     );
     expect(unused).toEqual([]);
   });
 
-  it(`uses Blueprint's current class namespace (${namespace})`, () => {
-    const namespaces = new Set([...source.matchAll(/\.(bp\d+)-/g)].map((m) => m[1]));
+  it.each(allSources)(`%s uses Blueprint's current class namespace (${namespace})`, (_name, css) => {
+    const namespaces = new Set([...css.matchAll(/\.(bp\d+)-/g)].map((m) => m[1]));
     expect([...namespaces]).toEqual([namespace]);
   });
 
-  it("only references --cs-* variables that tokens define", () => {
-    const defined = new Set([...Object.keys(sharedVariables()), ...Object.keys(themeVariables("light"))]);
-    const unknown = [...new Set([...source.matchAll(/var\((--cs-[a-z0-9-]+)/g)].map((m) => m[1] as string))].filter(
-      (name) => !defined.has(name) && !componentVariables.has(name),
+  it.each(allSources)("%s only references --cs-* variables that tokens or the file itself define", (name, css) => {
+    const defined = new Set([...Object.keys(sharedVariables()), ...Object.keys(themeVariables(defaultTheme, "light"))]);
+    // A theme may declare helpers of its own, such as --cs-fx-glow.
+    const local = new Set(name === "base" ? [] : [...css.matchAll(/(--cs-[a-z0-9-]+)\s*:/g)].map((m) => m[1]));
+    const unknown = [...new Set([...css.matchAll(/var\((--cs-[a-z0-9-]+)/g)].map((m) => m[1] as string))].filter(
+      (variable) => !defined.has(variable) && !local.has(variable) && !componentVariables.has(variable),
     );
     expect(unknown).toEqual([]);
   });
@@ -106,11 +158,11 @@ describe("Clawscale style sources", () => {
     for (const name of declared) expect(blueprintCss, name).toContain(`${name}:`);
   });
 
-  it("never uses !important", () => {
-    expect(stripComments(source)).not.toContain("!important");
+  it.each(allSources)("%s never uses !important", (_name, css) => {
+    expect(stripComments(css)).not.toContain("!important");
   });
 
-  it("never styles bare elements that Blueprint components render", () => {
+  it.each(allSources)("%s never styles bare elements that Blueprint components render", (_name, css) => {
     // A rule on a bare element would beat Blueprint's component rules for that element.
     // Scope it with a Blueprint class or exclude Blueprint classes, as base.css does for links.
     const rendered = new Set([
@@ -140,7 +192,7 @@ describe("Clawscale style sources", () => {
       "p",
     ]);
     const offenders: string[] = [];
-    for (const [, selectorList] of stripComments(source).matchAll(/([^{}@]+)\{[^{}]*\}/g)) {
+    for (const [, selectorList] of stripComments(css).matchAll(/([^{}@]+)\{[^{}]*\}/g)) {
       for (const selector of (selectorList ?? "").split(",")) {
         if (rendered.has(selector.trim())) offenders.push(selector.trim());
       }

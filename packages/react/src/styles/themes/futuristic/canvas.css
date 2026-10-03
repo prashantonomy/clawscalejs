@@ -1,0 +1,33 @@
+/* The page: deep space with a faint targeting grid in dark, a technical drawing in light. */
+
+:scope {
+  scrollbar-color: light-dark(
+      var(--cs-color-border-strong),
+      color-mix(in srgb, var(--cs-color-primary) 32%, transparent)
+    )
+    transparent;
+  scrollbar-width: thin;
+}
+
+body {
+  background-color: var(--cs-color-canvas);
+  background-image:
+    radial-gradient(
+      120% 70% at 50% -20%,
+      light-dark(
+        color-mix(in srgb, var(--cs-color-primary) 7%, transparent),
+        color-mix(in srgb, var(--cs-color-primary) 11%, transparent)
+      ),
+      transparent 70%
+    ),
+    linear-gradient(var(--cs-fx-grid-major) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cs-fx-grid-major) 1px, transparent 1px),
+    linear-gradient(var(--cs-fx-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--cs-fx-grid) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
+}

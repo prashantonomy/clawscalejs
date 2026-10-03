@@ -1,0 +1,48 @@
+/* Type: Oxanium headings tracked open, code and numbers as readouts. Headings keep their case: titles often name data. */
+
+.bp6-heading {
+  letter-spacing: 0.01em;
+}
+
+h1.bp6-heading,
+h2.bp6-heading,
+h3.bp6-heading,
+.bp6-running-text h1,
+.bp6-running-text h2,
+.bp6-running-text h3 {
+  letter-spacing: 0;
+}
+
+.bp6-code,
+.bp6-running-text code {
+  background: color-mix(in srgb, var(--cs-color-primary) 7%, var(--cs-color-surface-sunken));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cs-color-primary) 24%, transparent);
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-code-block > code,
+.bp6-running-text pre > code {
+  background: none;
+  box-shadow: none;
+  color: inherit;
+}
+
+.bp6-code-block,
+.bp6-running-text pre {
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-border),
+    inset 2px 0 0 var(--cs-color-primary);
+}
+
+a:not([class*="bp6-"]):hover,
+.bp6-link:hover,
+.bp6-running-text a:hover {
+  text-shadow: 0 0 12px var(--cs-fx-glow);
+}
+
+/* Numbers read like instruments: monospaced, with tabular figures. */
+.cs-numeric {
+  font-family: var(--cs-font-mono);
+  font-size: 0.94em;
+  font-variant-ligatures: none;
+}

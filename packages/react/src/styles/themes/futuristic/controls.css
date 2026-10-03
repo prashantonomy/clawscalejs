@@ -1,0 +1,201 @@
+/*
+ * Buttons, inputs, choice controls, sliders and tags.
+ * State filters sit in :where() to keep specificity flat, so later rules here can refine earlier ones.
+ */
+
+/* Button labels: capitals come from the label tokens, the size steps down to match. */
+
+.bp6-button:where(:not([aria-haspopup], [aria-haspopup] > *)) {
+  font-size: calc(var(--cs-font-size-md) - 1px);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-button:is(.bp6-large, .bp6-large *):where(:not([aria-haspopup], [aria-haspopup] > *)) {
+  font-size: calc(var(--cs-font-size-lg) - 1px);
+}
+
+/* Default solid buttons: a dark plate with a faint sheen that lights up on hover. */
+
+.bp6-button:where(
+  :not(
+    [class*="bp6-intent-"],
+    .bp6-minimal,
+    .bp6-outlined,
+    :disabled,
+    .bp6-disabled,
+    .bp6-segmented-control > *,
+    .bp6-button-group:is(.bp6-minimal, .bp6-outlined) *
+  )
+) {
+  background-image: linear-gradient(180deg, var(--cs-fx-sheen), transparent);
+}
+
+.bp6-button:where(
+  :not(
+    [class*="bp6-intent-"],
+    .bp6-minimal,
+    .bp6-outlined,
+    :disabled,
+    .bp6-disabled,
+    .bp6-segmented-control > *,
+    .bp6-button-group:is(.bp6-minimal, .bp6-outlined) *
+  )
+):hover {
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-primary-border),
+    0 0 16px -6px var(--cs-fx-glow-strong);
+}
+
+/* Intent solids: luminous fills from the tokens, with a glow on hover. */
+
+.bp6-button[class*="bp6-intent-"]:where(
+  :not(.bp6-minimal, .bp6-outlined, :disabled, .bp6-disabled, .bp6-button-group:is(.bp6-minimal, .bp6-outlined) *)
+) {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, black 14%, transparent);
+}
+
+.bp6-button[class*="bp6-intent-"]:where(
+  :not(.bp6-minimal, .bp6-outlined, :disabled, .bp6-disabled, .bp6-button-group:is(.bp6-minimal, .bp6-outlined) *)
+):hover {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, black 14%, transparent),
+    0 0 20px -4px light-dark(transparent, color-mix(in srgb, var(--cs-fx-intent) 75%, transparent));
+}
+
+/* Outlined buttons glow in their intent color. Minimal active buttons read as selected. */
+
+.bp6-button.bp6-outlined:where(:not(:disabled, .bp6-disabled)):hover {
+  box-shadow: 0 0 16px -6px
+    light-dark(transparent, color-mix(in srgb, var(--cs-fx-intent, var(--cs-color-primary)) 70%, transparent));
+}
+
+.bp6-button.bp6-minimal:not([class*="bp6-intent-"]):where(.bp6-active) {
+  background-color: var(--cs-color-primary-subtle);
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-button.bp6-minimal:not([class*="bp6-intent-"]):where(.bp6-active) .bp6-icon {
+  color: var(--cs-color-primary-text);
+}
+
+/* Inputs: a dark well that locks on with a glow when focused. */
+
+.bp6-input:focus,
+.bp6-input.bp6-active,
+.bp6-tag-input.bp6-active {
+  box-shadow:
+    inset 0 0 0 1px var(--cs-fx-intent, var(--cs-color-primary)),
+    0 0 0 1px color-mix(in srgb, var(--cs-fx-intent, var(--cs-color-primary)) 28%, transparent),
+    0 0 18px -6px
+    light-dark(transparent, color-mix(in srgb, var(--cs-fx-intent, var(--cs-color-primary)) 75%, transparent));
+}
+
+.bp6-file-upload-input::after {
+  font-size: var(--cs-font-size-xs);
+  letter-spacing: var(--cs-label-tracking);
+  text-transform: var(--cs-label-transform);
+}
+
+/* Checkboxes and radios. Radios become diamonds where corners can be cut. */
+
+.bp6-control input:checked ~ .bp6-control-indicator,
+.bp6-control input:indeterminate ~ .bp6-control-indicator {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, black 14%, transparent),
+    0 0 10px -2px var(--cs-fx-glow);
+}
+
+/* Switches: a cut track and a diamond knob. Blueprint forces box-shadow off, so the glow is a filter. */
+
+.bp6-control.bp6-switch .bp6-control-indicator::before {
+  background: var(--cs-color-text-muted);
+  box-shadow: none;
+  corner-shape: var(--cs-corner-shape);
+}
+
+.bp6-control.bp6-switch input:checked ~ .bp6-control-indicator {
+  filter: drop-shadow(0 0 5px var(--cs-fx-glow));
+}
+
+.bp6-control.bp6-switch input:checked ~ .bp6-control-indicator::before {
+  background: var(--cs-color-primary-on);
+}
+
+.bp6-control.bp6-switch input:disabled ~ .bp6-control-indicator::before {
+  background: var(--cs-color-text-disabled);
+}
+
+/* Sliders: a diamond handle with a cyan rim. */
+
+.bp6-slider-handle,
+.bp6-slider-handle:hover {
+  background-color: var(--cs-color-control);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-primary),
+    0 0 10px -2px var(--cs-fx-glow);
+}
+
+.bp6-slider-handle.bp6-active {
+  background-color: var(--cs-color-control-active);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-primary),
+    0 0 16px -2px var(--cs-fx-glow-strong);
+}
+
+.bp6-slider-handle .bp6-slider-label {
+  box-shadow: inset 0 0 0 1px var(--cs-color-primary-border);
+  font-family: var(--cs-font-mono);
+}
+
+.bp6-slider-axis .bp6-slider-label {
+  font-family: var(--cs-font-mono);
+}
+
+/* Segmented control: the selected option is a lit cyan cell, not a raised button. */
+
+.bp6-segmented-control > .bp6-button:not(.bp6-minimal):not(.bp6-intent-primary) {
+  background-color: var(--cs-color-primary-subtle);
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-primary-border),
+    0 0 12px -6px var(--cs-fx-glow-strong);
+  color: var(--cs-color-primary-text);
+}
+
+/* Tags: chips with a hairline in their intent color. Text keeps its case, since tags show data. */
+
+.bp6-tag {
+  font-weight: var(--cs-font-weight-semibold);
+  letter-spacing: 0.02em;
+}
+
+.bp6-tag.bp6-minimal:not([class*="bp6-intent-"]) {
+  box-shadow: inset 0 0 0 1px var(--cs-color-border-strong);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-primary {
+  box-shadow: inset 0 0 0 1px var(--cs-color-primary-border);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-success {
+  box-shadow: inset 0 0 0 1px var(--cs-color-success-border);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-warning {
+  box-shadow: inset 0 0 0 1px var(--cs-color-warning-border);
+}
+
+.bp6-tag.bp6-minimal.bp6-intent-danger {
+  box-shadow: inset 0 0 0 1px var(--cs-color-danger-border);
+}
+
+.bp6-tag[class*="bp6-intent-"]:not(.bp6-minimal) {
+  box-shadow: 0 0 10px -3px light-dark(transparent, color-mix(in srgb, var(--cs-fx-intent) 70%, transparent));
+}
+
+.bp6-key {
+  box-shadow:
+    inset 0 0 0 1px var(--cs-color-control-border),
+    inset 0 -2px 0 var(--cs-color-control-border);
+  color: var(--cs-color-primary-text);
+  font-family: var(--cs-font-mono);
+}

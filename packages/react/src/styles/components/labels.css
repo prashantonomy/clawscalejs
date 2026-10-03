@@ -1,0 +1,24 @@
+/*
+ * Labels. Short interface labels follow --cs-label-transform and --cs-label-tracking, so a theme
+ * can set them in capitals. "none" and "normal" are the initial values, so the default theme
+ * changes nothing. Text that shows data keeps its case: tags, inputs, menu items, table cells,
+ * and buttons that open a menu or a select. Those carry aria-haspopup, or sit right inside
+ * a target that does, as Select's button does.
+ */
+
+.bp6-button:not([aria-haspopup], [aria-haspopup] > *),
+.bp6-tab,
+.bp6-form-group > label.bp6-label,
+.bp6-section-header-title,
+.bp6-navbar-heading,
+.bp6-callout > .bp6-heading,
+table.bp6-html-table th,
+.bp6-running-text table th,
+.bp6-table-column-name-text,
+.bp6-datepicker .rdp-head_cell,
+.cs-metric-label,
+.cs-property-label,
+.cs-label {
+  letter-spacing: var(--cs-label-tracking);
+  text-transform: var(--cs-label-transform);
+}

@@ -1,12 +1,13 @@
 /*
  * Points Blueprint's --bp-* tokens at Clawscale's --cs-* tokens.
- * Declared on every theme scope, not only :root, so each var() re-resolves
- * inside dark and light subtrees.
+ * Declared wherever the theme or the color scheme can change, not only on :root,
+ * so each var() re-resolves inside nested themes and dark and light subtrees.
  */
 :root,
 .bp6-dark,
-[data-bp-color-scheme="dark"],
-[data-cs-theme] {
+[data-bp-color-scheme],
+[data-cs-theme],
+[data-cs-color-scheme] {
   --bp-emphasis-transition-duration: var(--cs-duration-fast);
   --bp-emphasis-ease-default: var(--cs-ease-standard);
   --bp-emphasis-focus-color: var(--cs-color-focus);
