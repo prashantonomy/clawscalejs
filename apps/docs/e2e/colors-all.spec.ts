@@ -1,4 +1,4 @@
-import { themeVariables } from "@clawscale/tokens";
+import { defaultTheme, themeVariables } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
 import index from "../generated/docs-index.json" with { type: "json" };
 
@@ -16,13 +16,22 @@ test.skip(!process.env.COLORS_ALL, "Set COLORS_ALL=1 to audit every page.");
 // Derived on purpose: the left half of a compound tag is a darker shade of its intent.
 const allowed = [".bp6-compound-tag-left"];
 
-const colorTokens = Object.keys(themeVariables("light")).filter((name) => name.startsWith("--cs-color-"));
+const colorTokens = Object.keys(themeVariables(defaultTheme, "light")).filter((name) => name.startsWith("--cs-color-"));
 const pages = ["/", "/gallery/", "/showcase/", ...index.map((page) => page.href)];
+const combinations = ["default", "futuristic"].flatMap((theme) =>
+  (["light", "dark"] as const).map((colorScheme) => ({ theme, colorScheme })),
+);
 
-for (const theme of ["light", "dark"] as const) {
-  test.describe(`${theme} theme`, () => {
+for (const { theme, colorScheme } of combinations) {
+  test.describe(`${theme} theme, ${colorScheme}`, () => {
     test.beforeEach(async ({ page }) => {
-      await page.addInitScript((value) => localStorage.setItem("clawscale-theme", value), theme);
+      await page.addInitScript(
+        ([themeName, scheme]) => {
+          localStorage.setItem("clawscale-theme", themeName);
+          localStorage.setItem("clawscale-color-scheme", scheme);
+        },
+        [theme, colorScheme] as const,
+      );
     });
 
     for (const href of pages) {
