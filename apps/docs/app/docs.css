@@ -270,8 +270,8 @@ a.docs-brand-link:hover {
 
 /* Main column */
 
+/* No background of its own: the page canvas shows through, with the theme's backdrop if it has one. */
 .docs-main {
-  background-color: var(--cs-color-canvas);
   flex: 1 1 auto;
   min-width: 0;
 }

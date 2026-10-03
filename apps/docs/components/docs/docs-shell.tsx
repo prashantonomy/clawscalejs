@@ -26,27 +26,35 @@ function EditLink() {
 
 /** Sidebar, mobile drawer, search and global hotkeys around every docs page. */
 export function DocsShell({ children }: { children: ReactNode }) {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedColorScheme, setColorScheme } = useTheme();
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const toggleTheme = useCallback(
-    () => setTheme(resolvedTheme === "dark" ? "light" : "dark"),
-    [resolvedTheme, setTheme],
+  const toggleColorScheme = useCallback(
+    () => setColorScheme(resolvedColorScheme === "dark" ? "light" : "dark"),
+    [resolvedColorScheme, setColorScheme],
   );
+  const toggleTheme = useCallback(() => setTheme(theme === "futuristic" ? "default" : "futuristic"), [theme, setTheme]);
   const openSearch = useCallback(() => setSearchOpen(true), []);
 
   const hotkeys = useMemo(
     () => [
-      { combo: "shift+d", global: true, label: "Toggle dark theme", onKeyDown: toggleTheme },
+      { combo: "shift+d", global: true, label: "Toggle dark mode", onKeyDown: toggleColorScheme },
+      { combo: "shift+t", global: true, label: "Toggle the futuristic theme", onKeyDown: toggleTheme },
       { combo: "shift+s", global: true, label: "Search the docs", onKeyDown: openSearch, preventDefault: true },
       { combo: "mod+k", global: true, label: "Search the docs", onKeyDown: openSearch, preventDefault: true },
     ],
-    [toggleTheme, openSearch],
+    [toggleColorScheme, toggleTheme, openSearch],
   );
   useHotkeys(hotkeys);
 
-  const sidebarProps = { resolvedTheme, onToggleTheme: toggleTheme, onSearch: openSearch };
+  const sidebarProps = {
+    theme,
+    resolvedColorScheme,
+    onToggleTheme: toggleTheme,
+    onToggleColorScheme: toggleColorScheme,
+    onSearch: openSearch,
+  };
 
   return (
     <div className="docs-shell">

@@ -28,9 +28,16 @@ export async function highlight(code: string, lang = "tsx"): Promise<string> {
     lang: language,
     themes: { light: "github-light", dark: "github-dark-dimmed" },
     defaultColor: false,
-    // Theme colors below 4.5:1 on Clawscale code surfaces, replaced with passing ones.
+    // Theme colors below 4.5:1 on Clawscale code surfaces in any theme, replaced with passing ones.
     colorReplacements: {
-      "github-light": { "#e36209": "#b34a00", "#fafbfc": "#24292e", "#f6f8fa": "#24292e" },
+      "github-light": {
+        "#e36209": "#b34a00",
+        "#d73a49": "#c8303f",
+        "#22863a": "#1e7b35",
+        "#6a737d": "#5f6873",
+        "#fafbfc": "#24292e",
+        "#f6f8fa": "#24292e",
+      },
       "github-dark-dimmed": { "#2d333b": "#adbac7" },
     },
   });
