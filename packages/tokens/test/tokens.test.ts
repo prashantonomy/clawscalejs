@@ -1,24 +1,33 @@
 import { describe, expect, it } from "vitest";
 import {
+  type ColorSchemeTokens,
+  chartPalettes,
+  colorSchemes,
   contrastRatio,
   dark,
+  defaultTheme,
   intents,
   light,
+  parseColor,
+  renderThemeCss,
   renderTokensCss,
+  schemeValueVariables,
   sharedVariables,
-  type ThemeTokens,
+  type ThemeDefinition,
+  themeNames,
+  themes,
   themeVariables,
 } from "../src/index.ts";
-
-const themes: Array<[string, ThemeTokens]> = [
-  ["light", light],
-  ["dark", dark],
-];
 
 const AA_TEXT = 4.5;
 const AA_UI = 3;
 
-describe.each(themes)("%s theme", (_name, t) => {
+const allThemes: ThemeDefinition[] = Object.values(themes);
+const cases: Array<[string, string, ColorSchemeTokens]> = allThemes.flatMap((theme) =>
+  colorSchemes.map((scheme) => [theme.name, scheme, theme[scheme]] as [string, string, ColorSchemeTokens]),
+);
+
+describe.each(cases)("%s theme, %s color scheme", (_theme, _scheme, t) => {
   const c = t.color;
   const surfaces = [c.canvas, c.surface, c["surface-raised"], c["surface-sunken"]];
 
@@ -69,28 +78,123 @@ describe.each(themes)("%s theme", (_name, t) => {
       expect(contrastRatio(c.focus, surface), `focus on ${surface}`).toBeGreaterThanOrEqual(AA_UI);
     }
   });
+
+  it("uses only colors the contrast math can read", () => {
+    for (const value of Object.values(c)) expect(() => parseColor(value), value).not.toThrow();
+  });
+});
+
+describe.each(allThemes.map((theme) => [theme.name, theme] as const))("%s theme definition", (name, theme) => {
+  it("is registered under its own name", () => {
+    expect(themes[name as keyof typeof themes]).toBe(theme);
+    expect(name).toMatch(/^[a-z][a-z0-9-]*$/);
+    expect(theme.label.length).toBeGreaterThan(0);
+    expect(theme.description.length).toBeGreaterThan(0);
+  });
+
+  it("defines the same tokens as the default theme", () => {
+    expect(Object.keys(sharedVariables(theme)).sort()).toEqual(Object.keys(sharedVariables(defaultTheme)).sort());
+    for (const scheme of colorSchemes) {
+      expect(Object.keys(themeVariables(theme, scheme)).sort()).toEqual(
+        Object.keys(themeVariables(defaultTheme, "light")).sort(),
+      );
+    }
+  });
+
+  it("only overrides shared tokens that exist", () => {
+    const known = new Set(Object.keys(sharedVariables(defaultTheme)));
+    for (const overrides of Object.values(theme.supports ?? {})) {
+      for (const [group, values] of Object.entries(overrides)) {
+        for (const token of Object.keys(values ?? {}))
+          expect(known, `--cs-${group}-${token}`).toContain(`--cs-${group}-${token}`);
+      }
+    }
+  });
+
+  it("keeps eight chart slots and fixed status colors", () => {
+    for (const scheme of colorSchemes) {
+      const chart = theme[scheme].chart;
+      expect(["1", "2", "3", "4", "5", "6", "7", "8"].every((slot) => slot in chart)).toBe(true);
+      expect(chart.good).toBe(defaultTheme[scheme].chart.good);
+      expect(chart.critical).toBe(defaultTheme[scheme].chart.critical);
+    }
+  });
+});
+
+describe("chart palettes", () => {
+  it("list every built-in theme's slots in order", () => {
+    for (const name of themeNames) {
+      for (const scheme of colorSchemes) {
+        const slots = themes[name][scheme].chart;
+        expect(chartPalettes[name][scheme]).toEqual(
+          ["1", "2", "3", "4", "5", "6", "7", "8"].map((s) => slots[s as "1"]),
+        );
+      }
+    }
+  });
 });
 
 describe("css output", () => {
   const css = renderTokensCss();
 
-  it("declares every variable exactly once per scope", () => {
-    const names = Object.keys({ ...sharedVariables(), ...themeVariables("light") });
-    for (const name of names) expect(css).toContain(`${name}:`);
+  it("declares every shared token and both values of every color scheme token", () => {
+    for (const name of Object.keys(sharedVariables())) expect(css).toContain(`${name}:`);
+    for (const name of Object.keys(schemeValueVariables(defaultTheme))) expect(css).toContain(`${name}:`);
     expect(css).not.toContain("undefined");
   });
 
-  it("switches to dark tokens under the dark selector", () => {
-    expect(css).toContain('[data-cs-theme="dark"] {');
-    expect(css).toContain(`--cs-color-canvas: ${dark.color.canvas};`);
+  it("picks each final token from its light and dark value", () => {
+    for (const name of Object.keys(themeVariables(defaultTheme, "light"))) {
+      expect(css).toContain(`${name}: var(--cs-is-dark, var(${name}-light)) var(--cs-is-light, var(${name}-dark));`);
+    }
+  });
+
+  it("switches the color scheme under the dark and light selectors", () => {
+    expect(css).toContain('[data-cs-color-scheme="dark"], [data-cs-theme="dark"] {\n  color-scheme: dark;');
+    expect(css).toContain("--cs-is-dark: ;");
+    expect(css).toContain(`--cs-color-canvas-dark: ${dark.color.canvas};`);
+    expect(css).toContain(`--cs-color-canvas-light: ${light.color.canvas};`);
   });
 
   it("uses custom selectors when asked", () => {
-    const custom = renderTokensCss({ darkSelector: ".my-dark" });
+    const custom = renderTokensCss({ darkSelector: ".my-dark", lightSelector: ".my-light" });
     expect(custom).toContain(".my-dark {");
+    expect(custom).toContain(":root, .my-light {");
   });
 
-  it("gives both themes the same token names", () => {
-    expect(Object.keys(themeVariables("dark")).sort()).toEqual(Object.keys(themeVariables("light")).sort());
+  it("re-picks final tokens wherever the theme or color scheme changes", () => {
+    expect(css).toMatch(/:root, \[data-cs-theme\], \[data-cs-color-scheme\], [^{]+\{\n {2}--cs-color-canvas: var/);
+  });
+
+  it("names the active theme", () => {
+    expect(css).toContain("--cs-theme: default;");
+  });
+});
+
+describe("theme css output", () => {
+  const css = renderThemeCss(themes.futuristic);
+
+  it("scopes a theme to its attribute", () => {
+    expect(css).toContain(
+      ':root[data-cs-theme="futuristic"], [data-cs-theme="futuristic"] {\n  --cs-theme: futuristic;',
+    );
+    expect(css).not.toContain("--cs-is-dark");
+  });
+
+  it("declares the theme's values for both color schemes", () => {
+    for (const [name, value] of Object.entries(schemeValueVariables(themes.futuristic))) {
+      expect(css).toContain(`${name}: ${value};`);
+    }
+  });
+
+  it("puts feature-dependent overrides behind @supports", () => {
+    expect(css).toContain("@supports (corner-shape: bevel) {");
+    expect(css).toContain("--cs-corner-shape: bevel;");
+  });
+});
+
+describe("deprecated names", () => {
+  it("still read the default theme by color scheme", () => {
+    expect(themeVariables("dark")).toEqual(themeVariables(defaultTheme, "dark"));
   });
 });

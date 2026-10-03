@@ -1,25 +1,45 @@
 export { composite, contrastRatio, luminance, parseColor, type Rgba } from "./contrast.js";
 export {
+  COLOR_SCHEME_ATTRIBUTE,
   defaultDarkSelector,
   defaultLightSelector,
   type RenderTokensCssOptions,
+  renderThemeCss,
   renderTokensCss,
+  schemeValueVariables,
   sharedVariables,
+  THEME_ATTRIBUTE,
+  themeSelector,
   themeVariables,
 } from "./css.js";
+export { futuristic } from "./futuristic.js";
+export {
+  type BuiltInThemeName,
+  chartPalettes,
+  defaultTheme,
+  type ThemeName,
+  themeNames,
+  themes,
+} from "./themes.js";
 export {
   type ChartToken,
+  type ColorScheme,
+  type ColorSchemeTokens,
   type ColorToken,
   chartPalette,
+  colorSchemes,
   dark,
   type Intent,
   intents,
   light,
+  type SequentialRamp,
   type ShadowToken,
+  type SharedOverrides,
+  type SharedTokens,
   sequentialBlue,
   shared,
   type Theme,
+  type ThemeDefinition,
   type ThemeTokens,
-  themes,
   tokens,
 } from "./tokens.js";

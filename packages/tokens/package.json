@@ -27,6 +27,7 @@
       "default": "./dist/index.js"
     },
     "./tokens.css": "./dist/tokens.css",
+    "./themes/*.css": "./dist/themes/*.css",
     "./tokens.json": "./dist/tokens.json",
     "./package.json": "./package.json"
   },
