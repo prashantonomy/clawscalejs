@@ -5,3 +5,10 @@ packages:
 # pnpm 11 blocks dependency install scripts unless they are allowed here.
 allowBuilds:
   esbuild: true
+
+# pnpm publish sends the README to npm only when it is embedded in the manifest.
+embedReadme: true
+
+# pnpm ignores npm_config_provenance and publishConfig.provenance. Publish
+# from CI only: provenance needs the GitHub Actions OIDC token.
+provenance: true
