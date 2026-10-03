@@ -5,7 +5,7 @@ export const metadata = { title: "useTheme" };
 
 # useTheme
 
-**useTheme** reads and changes the theme that [ClawscaleProvider](/docs/core/clawscale-provider/) manages.
+**useTheme** reads and changes the theme and the color scheme that [ClawscaleProvider](/docs/core/clawscale-provider/) manages.
 
 ## Usage
 
@@ -14,36 +14,38 @@ import { useTheme } from "@clawscale/react";
 ```
 
 ```tsx
-const { theme, resolvedTheme, setTheme } = useTheme();
+const { theme, setTheme, colorScheme, resolvedColorScheme, setColorScheme } = useTheme();
 ```
 
-Outside a ClawscaleProvider, it returns the light theme and a `setTheme` that does nothing.
+Outside a ClawscaleProvider, it returns the default theme in light and setters that do nothing.
 
 ## Return value
 
 | Property | Type | Description |
 | --- | --- | --- |
-| `theme` | `ThemePreference` | The saved preference: `"light"`, `"dark"` or `"system"`. |
-| `resolvedTheme` | `ResolvedTheme` | The theme applied now: `"light"` or `"dark"`. |
-| `setTheme` | `(theme: ThemePreference) => void` | Changes the preference and saves it. |
+| `theme` | `ThemeName` | The theme: `"default"`, `"futuristic"` or your own. |
+| `setTheme` | `(theme: ThemeName) => void` | Changes the theme and saves it. |
+| `colorScheme` | `ColorSchemePreference` | The saved preference: `"light"`, `"dark"` or `"system"`. |
+| `resolvedColorScheme` | `ColorScheme` | The color scheme applied now: `"light"` or `"dark"`. |
+| `setColorScheme` | `(colorScheme: ColorSchemePreference) => void` | Changes the preference and saves it. |
 
-`@clawscale/react` exports both types, and `ThemeContextValue` for the whole object.
+`@clawscale/react` exports these types, and `ThemeContextValue` for the whole object. `resolvedTheme` remains as a deprecated name for `resolvedColorScheme` until 1.0.
 
-During server rendering and hydration, `theme` equals `defaultTheme` and `"system"` resolves to light. The saved values arrive right after hydration. For styles, prefer the `--cs-*` tokens: they switch with the theme without a render.
+During server rendering and hydration, `theme` and `colorScheme` equal their defaults and `"system"` resolves to light. The saved values arrive right after hydration. For styles, prefer the `--cs-*` tokens: they follow the theme and the color scheme without a render.
 
 ## Examples
 
 ### Toggle
 
-Pick the next theme from `resolvedTheme`. This button changes the theme of these docs.
+Pick the next color scheme from `resolvedColorScheme`. This button changes the color scheme of these docs.
 
 <Example name="core/use-theme/toggle">
   <UseThemeToggle />
 </Example>
 
-### Resolved theme
+### Resolved values
 
-`theme` can be `"system"`. `resolvedTheme` is always light or dark. Use it for values CSS cannot reach, such as colors drawn on a canvas.
+`colorScheme` can be `"system"`. `resolvedColorScheme` is always light or dark. Use both values for what CSS cannot reach, such as colors drawn on a canvas.
 
 <Example name="core/use-theme/resolved">
   <UseThemeResolved />

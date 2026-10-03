@@ -4,11 +4,11 @@ export const metadata = { title: "Colors" };
 
 # Colors
 
-Clawscale colors are semantic tokens with a light and a dark value. Use them instead of raw hex values, so both themes work.
+Clawscale colors are semantic tokens with a light and a dark value. Use them instead of raw hex values, so every theme and color scheme works.
 
 ## Usage
 
-Use the CSS variable. It switches with the theme.
+Use the CSS variable. It switches with the theme and the color scheme.
 
 ```css
 .run-failed {
@@ -26,7 +26,7 @@ light.color["danger-text"]; // "#C22F2F"
 dark.color["danger-text"]; // "#FF8585"
 ```
 
-Each swatch shows the light value on the left and the dark value on the right. [Tokens](/docs/core/tokens/) lists every color.
+These are the default theme's colors. Each swatch shows the light value on the left and the dark value on the right. [Tokens](/docs/core/tokens/) lists every color, and [Themes](/docs/themes/) shows the futuristic palette.
 
 ## Surfaces
 
@@ -62,14 +62,14 @@ Eight categorical colors for chart series, `--cs-chart-1` to `--cs-chart-8`. The
 
 <ChartSwatches />
 
-Chart libraries that take an array can use `chartPalette`. It holds the same eight colors, in order.
+Chart libraries that take an array can use `chartPalettes`. It holds each theme's eight colors, in order.
 
 ```tsx
 import { useTheme } from "@clawscale/react";
-import { chartPalette } from "@clawscale/tokens";
+import { chartPalettes } from "@clawscale/tokens";
 
-const { resolvedTheme } = useTheme();
-const colors = chartPalette[resolvedTheme];
+const { theme, resolvedColorScheme } = useTheme();
+const colors = chartPalettes[theme === "futuristic" ? "futuristic" : "default"][resolvedColorScheme];
 ```
 
 For status in charts, use `--cs-chart-good`, `--cs-chart-warning`, `--cs-chart-serious` and `--cs-chart-critical`, always with an icon and a label. For magnitude, such as heatmaps, use the sequential ramp `--cs-chart-seq-100` to `--cs-chart-seq-700`. See [Tokens](/docs/core/tokens/#chart).

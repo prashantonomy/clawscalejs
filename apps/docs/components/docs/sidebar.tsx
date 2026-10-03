@@ -98,14 +98,23 @@ function NavPackageSection({
 }
 
 export interface SidebarProps {
-  resolvedTheme: "light" | "dark";
+  theme: string;
+  resolvedColorScheme: "light" | "dark";
   onToggleTheme: () => void;
+  onToggleColorScheme: () => void;
   onSearch: () => void;
   /** Called after a link is followed, to close the mobile drawer. */
   onNavigate?: () => void;
 }
 
-export function Sidebar({ resolvedTheme, onToggleTheme, onSearch, onNavigate }: SidebarProps) {
+export function Sidebar({
+  theme,
+  resolvedColorScheme,
+  onToggleTheme,
+  onToggleColorScheme,
+  onSearch,
+  onNavigate,
+}: SidebarProps) {
   const pathname = normalize(usePathname() ?? "/");
   const activePackage = packageForPath(pathname)?.id ?? "clawscale";
 
@@ -131,20 +140,34 @@ export function Sidebar({ resolvedTheme, onToggleTheme, onSearch, onNavigate }: 
       </div>
 
       <div className="docs-sidebar-actions">
+        {/* Both variants render. CSS shows the right one from the attributes on <html>, so the first paint is correct. */}
+        <button
+          type="button"
+          className="docs-sidebar-action"
+          onClick={onToggleColorScheme}
+          aria-label={resolvedColorScheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        >
+          <Icon icon="moon" className="scheme-show-light" />
+          <Icon icon="flash" className="scheme-show-dark" />
+          <span className="docs-sidebar-action-label">
+            <span className="scheme-show-light">Dark mode</span>
+            <span className="scheme-show-dark">Light mode</span>
+          </span>
+          <kbd className="docs-hint">⇧D</kbd>
+        </button>
         <button
           type="button"
           className="docs-sidebar-action"
           onClick={onToggleTheme}
-          aria-label={resolvedTheme === "dark" ? "Switch to the light theme" : "Switch to the dark theme"}
+          aria-label={theme === "futuristic" ? "Switch to the default theme" : "Switch to the futuristic theme"}
         >
-          {/* Both variants render; CSS shows the right one from data-cs-theme, so the first paint is correct. */}
-          <Icon icon="moon" className="theme-show-light" />
-          <Icon icon="flash" className="theme-show-dark" />
+          <Icon icon="rocket-slant" className="theme-show-default" />
+          <Icon icon="style" className="theme-show-futuristic" />
           <span className="docs-sidebar-action-label">
-            <span className="theme-show-light">Dark theme</span>
-            <span className="theme-show-dark">Light theme</span>
+            <span className="theme-show-default">Futuristic theme</span>
+            <span className="theme-show-futuristic">Default theme</span>
           </span>
-          <kbd className="docs-hint">⇧D</kbd>
+          <kbd className="docs-hint">⇧T</kbd>
         </button>
         <button type="button" className="docs-sidebar-action" onClick={onSearch}>
           <Icon icon="search" />

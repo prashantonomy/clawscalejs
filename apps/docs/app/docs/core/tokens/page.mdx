@@ -11,7 +11,7 @@ Tokens are CSS variables named `--cs-*`. Clawscale's styles read them, so one ov
 
 ### CSS
 
-`@clawscale/react/styles.css` declares every token for both themes. Read them with `var()`.
+`@clawscale/react/styles.css` declares every token of the default theme, for both color schemes. Theme stylesheets such as `@clawscale/react/themes/futuristic.css` set their own values. Read them with `var()`.
 
 ```css
 .queue-panel {
@@ -22,7 +22,7 @@ Tokens are CSS variables named `--cs-*`. Clawscale's styles read them, so one ov
 }
 ```
 
-Elements styled with tokens follow the theme. Press Shift + D to switch it and watch this panel.
+Elements styled with tokens follow the theme and the color scheme. Press Shift + T or Shift + D to switch them and watch this panel.
 
 <Example name="core/tokens/custom-element">
   <TokensCustomElement />
@@ -37,21 +37,23 @@ npm install @clawscale/tokens
 ```
 
 ```tsx
-import { dark, light, shared } from "@clawscale/tokens";
+import { dark, light, shared, themes } from "@clawscale/tokens";
 
 light.color.surface; // "#FFFFFF"
 dark.color.surface; // "#16171B"
 shared.radius.md; // "6px"
+themes.futuristic.dark.color.surface; // "#07121A"
 ```
 
-`light` and `dark` hold `color`, `shadow` and `chart`. `shared` holds the groups that do not change with the theme. `chartPalette` and `sequentialBlue` hold chart colors. `themeVariables(theme)` and `sharedVariables()` return the values keyed by variable name, such as `"--cs-radius-md"`.
+`light`, `dark` and `shared` are the default theme. `themes` holds every theme, each with `shared`, `light`, `dark` and `sequential`. `light` and `dark` hold `color`, `shadow` and `chart`. `shared` holds the groups that do not change with the color scheme. `chartPalettes` and `sequentialBlue` hold chart colors. `themeVariables(theme, colorScheme)` and `sharedVariables(theme)` return the values keyed by variable name, such as `"--cs-radius-md"`.
 
 ### Without Clawscale styles
 
-`@clawscale/tokens/tokens.css` declares the variables alone, outside any cascade layer: light values on `:root`, dark values under `[data-cs-theme="dark"]`. Use it on pages that do not load `@clawscale/react/styles.css`. `@clawscale/tokens/tokens.json` holds the same values for other tools.
+`@clawscale/tokens/tokens.css` declares the default theme's variables alone, outside any cascade layer. The dark values apply under `[data-cs-color-scheme="dark"]`. `@clawscale/tokens/themes/futuristic.css` adds the futuristic theme under `[data-cs-theme="futuristic"]`. Use them on pages that do not load `@clawscale/react/styles.css`. `@clawscale/tokens/tokens.json` holds the same values for other tools.
 
 ```css
 @import "@clawscale/tokens/tokens.css";
+@import "@clawscale/tokens/themes/futuristic.css";
 ```
 
 ## Override a token
@@ -61,15 +63,14 @@ Set the variable in your own CSS. Unlayered CSS beats both Clawscale layers, so 
 ```css
 :root {
   --cs-radius-md: 4px;
-  --cs-color-primary-text: #0b6b5c;
-}
-
-[data-cs-theme="dark"] {
-  --cs-color-primary-text: #4fd1b8;
+  --cs-color-primary-text-light: #0b6b5c;
+  --cs-color-primary-text-dark: #4fd1b8;
 }
 ```
 
-Color, shadow and chart tokens differ per theme. Give them a dark value too, or your light value applies in both themes. [Theming](/docs/theming/) covers brand colors and scoped overrides.
+Color, shadow and chart tokens have a light and a dark value, such as `--cs-color-primary-text-light` and `--cs-color-primary-text-dark`. Set both, and each color scheme picks its own. [Theming](/docs/theming/) covers brand colors and scoped overrides.
+
+The tables below list the default theme. [Themes](/docs/themes/) shows the futuristic palette.
 
 ## Reference
 
@@ -87,11 +88,11 @@ Surfaces, borders, text, controls and intents. [Colors](/docs/core/colors/) show
 
 ### Chart
 
-Slots `1` to `8` are the categorical palette, in fixed order. `grid` and `axis` draw chart chrome. The status colors are the same in both themes.
+Slots `1` to `8` are the categorical palette, in fixed order. `grid` and `axis` draw chart chrome. The status colors are the same in every theme and color scheme.
 
 <TokenTable group="chart" />
 
-The sequential ramp shows magnitude, such as heatmap cells. The lightest step means near zero. It is the same in both themes.
+The sequential ramp shows magnitude, such as heatmap cells. The lightest step means near zero. It is the same in both color schemes.
 
 <TokenTable group="chart-seq" />
 
@@ -124,6 +125,18 @@ The type scale. Body text uses `md`.
 A 4px grid. Use it for padding, margins and gaps.
 
 <TokenTable group="space" />
+
+### Corner
+
+The CSS `corner-shape` of rounded corners: `round`, or `bevel` to cut them where the browser supports it.
+
+<TokenTable group="corner" />
+
+### Label
+
+How short labels look: buttons, tabs, column headers and section titles. Text that shows data never takes these.
+
+<TokenTable group="label" />
 
 ### Control height
 

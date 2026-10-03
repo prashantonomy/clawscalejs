@@ -28,7 +28,7 @@ You need Node 22 or newer. `pnpm dev` builds the packages, watches them and serv
 4. For a change users will notice, add a changeset: `pnpm changeset`.
 5. Open a pull request with a title in the commit format, and fill in the template.
 
-Style changes also need a visual review: open `/gallery` and the affected docs pages in both themes. Attach screenshots to the pull request.
+Style changes also need a visual review: open `/gallery` and the affected docs pages in both themes and both color schemes. Attach screenshots to the pull request.
 
 ## Commit messages
 

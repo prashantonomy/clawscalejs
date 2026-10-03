@@ -1,6 +1,7 @@
 "use client";
 
 import { BlueprintProvider, type BlueprintProviderProps, FocusStyleManager } from "@blueprintjs/core";
+import type { ThemeName } from "@clawscale/tokens";
 import {
   createContext,
   type ReactNode,
@@ -11,38 +12,72 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { DARK_CLASS, DEFAULT_STORAGE_KEY, THEME_ATTRIBUTE } from "../theme-script.js";
+import {
+  COLOR_SCHEME_ATTRIBUTE,
+  type ColorScheme,
+  type ColorSchemePreference,
+  DARK_CLASS,
+  DEFAULT_THEME,
+  isColorSchemePreference,
+  resolveThemeOptions,
+  THEME_ATTRIBUTE,
+} from "../theme-script.js";
 
-export type ThemePreference = "light" | "dark" | "system";
-export type ResolvedTheme = "light" | "dark";
+/** @deprecated Since 0.2, use `ColorSchemePreference`. */
+export type ThemePreference = ColorSchemePreference;
+
+/** @deprecated Since 0.2, use `ColorScheme`. */
+export type ResolvedTheme = ColorScheme;
 
 export interface ThemeContextValue {
-  /** The saved preference. Can be "system". */
-  theme: ThemePreference;
-  /** The theme that is applied right now. */
-  resolvedTheme: ResolvedTheme;
-  /** Changes and saves the preference. */
-  setTheme: (theme: ThemePreference) => void;
+  /** The theme, for example `"default"` or `"futuristic"`. */
+  theme: ThemeName;
+  /** Changes and saves the theme. */
+  setTheme: (theme: ThemeName) => void;
+  /** The saved color scheme preference. Can be `"system"`. */
+  colorScheme: ColorSchemePreference;
+  /** The color scheme that is applied right now: `"light"` or `"dark"`. */
+  resolvedColorScheme: ColorScheme;
+  /** Changes and saves the color scheme preference. */
+  setColorScheme: (colorScheme: ColorSchemePreference) => void;
+  /** @deprecated Since 0.2, use `resolvedColorScheme`. */
+  resolvedTheme: ColorScheme;
 }
 
 export interface ClawscaleProviderProps extends Omit<BlueprintProviderProps, "children"> {
   children?: ReactNode;
-  /** Controlled theme preference. Leave unset to let the provider manage it. */
-  theme?: ThemePreference;
+  /** Controlled theme, for example `"futuristic"`. Leave unset to let the provider manage it. */
+  theme?: ThemeName;
   /**
-   * Preference used before anything is saved.
+   * Theme used before anything is saved.
+   * @default "default"
+   */
+  defaultTheme?: ThemeName;
+  /** Called when `setTheme` runs. */
+  onThemeChange?: (theme: ThemeName) => void;
+  /** Controlled color scheme preference. Leave unset to let the provider manage it. */
+  colorScheme?: ColorSchemePreference;
+  /**
+   * Color scheme preference used before anything is saved.
    * @default "system"
    */
-  defaultTheme?: ThemePreference;
-  /** Called when `setTheme` runs. */
-  onThemeChange?: (theme: ThemePreference) => void;
+  defaultColorScheme?: ColorSchemePreference;
+  /** Called when `setColorScheme` runs. */
+  onColorSchemeChange?: (colorScheme: ColorSchemePreference) => void;
   /**
-   * localStorage key for the saved preference. Pass `null` to skip saving.
+   * localStorage key for the theme. Pass `null` to skip saving it.
    * @default "clawscale-theme"
    */
+  themeStorageKey?: string | null;
+  /**
+   * localStorage key for the color scheme. Pass `null` to skip saving it.
+   * @default "clawscale-color-scheme"
+   */
+  colorSchemeStorageKey?: string | null;
+  /** @deprecated Since 0.2, use `colorSchemeStorageKey`. `null` turns off saving for both keys. */
   storageKey?: string | null;
   /**
-   * Put the theme class and attribute on the document element, so portals follow the theme.
+   * Put the theme and color scheme on the document element, so portals follow them.
    * @default true
    */
   applyToDocument?: boolean;
@@ -53,24 +88,66 @@ export interface ClawscaleProviderProps extends Omit<BlueprintProviderProps, "ch
   focusRings?: "keyboard" | "always";
 }
 
-const THEMES: readonly ThemePreference[] = ["light", "dark", "system"];
 const MEDIA = "(prefers-color-scheme: dark)";
 
 const fallbackContext: ThemeContextValue = {
-  theme: "light",
-  resolvedTheme: "light",
+  theme: DEFAULT_THEME,
   setTheme: () => {},
+  colorScheme: "light",
+  resolvedColorScheme: "light",
+  setColorScheme: () => {},
+  resolvedTheme: "light",
 };
 
 const ThemeContext = createContext<ThemeContextValue>(fallbackContext);
 
-function readStorage(key: string): ThemePreference | undefined {
+const warnings = new Set<string>();
+
+/** Warns about a misconfiguration or a name from before 0.2, once per message. */
+function warnOnce(message: string) {
+  if (warnings.has(message)) return;
+  warnings.add(message);
+  console.warn(`Clawscale: ${message}`);
+}
+
+function readStorage(key: string | null): string | null {
+  if (key == null) return null;
   try {
-    const value = window.localStorage.getItem(key);
-    return THEMES.includes(value as ThemePreference) ? (value as ThemePreference) : undefined;
+    return window.localStorage.getItem(key);
   } catch {
-    return undefined;
+    return null;
   }
+}
+
+function writeStorage(key: string | null, value: string | null) {
+  if (key == null) return;
+  try {
+    if (value === null) window.localStorage.removeItem(key);
+    else window.localStorage.setItem(key, value);
+  } catch {
+    // Storage can be unavailable in private windows. The theme still applies.
+  }
+}
+
+/**
+ * Reads the saved theme and color scheme. Before 0.2, the theme key held light, dark or system.
+ * Such a value moves to the color scheme key, like ThemeScript reads it.
+ */
+function readSaved(themeKey: string | null, schemeKey: string | null) {
+  let theme = readStorage(themeKey);
+  let colorScheme = readStorage(schemeKey);
+  if (isColorSchemePreference(theme)) {
+    if (!isColorSchemePreference(colorScheme)) {
+      colorScheme = theme;
+      writeStorage(schemeKey, theme);
+    }
+    writeStorage(themeKey, null);
+    theme = null;
+  }
+  return {
+    theme: theme || undefined,
+    colorScheme: isColorSchemePreference(colorScheme) ? colorScheme : undefined,
+  };
 }
 
 function subscribeToSystem(onChange: () => void) {
@@ -79,51 +156,86 @@ function subscribeToSystem(onChange: () => void) {
   return () => query.removeEventListener("change", onChange);
 }
 
-function applyTheme(theme: ResolvedTheme) {
+function applyToRoot(theme: ThemeName, colorScheme: ColorScheme) {
   const root = document.documentElement;
-  root.classList.toggle(DARK_CLASS, theme === "dark");
+  root.classList.toggle(DARK_CLASS, colorScheme === "dark");
   root.setAttribute(THEME_ATTRIBUTE, theme);
-  root.style.colorScheme = theme;
+  root.setAttribute(COLOR_SCHEME_ATTRIBUTE, colorScheme);
+  root.style.colorScheme = colorScheme;
 }
 
 /**
  * Root provider for Clawscale apps. Wraps Blueprint's `BlueprintProvider` (overlays,
- * hotkeys, portals) and manages the light, dark and system themes.
+ * hotkeys, portals) and manages the theme and the light, dark and system color schemes.
  */
 export function ClawscaleProvider({
   children,
-  theme: controlledTheme,
-  defaultTheme = "system",
+  theme: themeProp,
+  defaultTheme,
   onThemeChange,
-  storageKey = DEFAULT_STORAGE_KEY,
+  colorScheme: colorSchemeProp,
+  defaultColorScheme,
+  onColorSchemeChange,
+  themeStorageKey,
+  colorSchemeStorageKey,
+  storageKey,
   applyToDocument = true,
   focusRings = "keyboard",
   ...blueprintProps
 }: ClawscaleProviderProps) {
-  const isControlled = controlledTheme !== undefined;
-  const [storedTheme, setStoredTheme] = useState<ThemePreference>(defaultTheme);
-  // Stays false until the saved preference is read, so the first effect never
-  // overwrites the theme that the inline theme script already applied.
-  const [ready, setReady] = useState(isControlled);
+  // Before 0.2, `theme` was the color scheme. Such a value still controls the color scheme.
+  const legacyTheme = isColorSchemePreference(themeProp) ? themeProp : undefined;
+  const controlledTheme = legacyTheme === undefined ? themeProp : undefined;
+  const controlledColorScheme = colorSchemeProp ?? legacyTheme;
+  const colorSchemeChange =
+    onColorSchemeChange ??
+    (legacyTheme === undefined ? undefined : (onThemeChange as ((value: ColorSchemePreference) => void) | undefined));
+  const options = resolveThemeOptions({
+    defaultTheme,
+    defaultColorScheme,
+    themeStorageKey,
+    colorSchemeStorageKey,
+    storageKey,
+  });
+  const themeKey = options.themeStorageKey;
+  const colorSchemeKey = options.colorSchemeStorageKey;
 
   useEffect(() => {
-    if (storageKey != null) {
-      const saved = readStorage(storageKey);
-      if (saved !== undefined) setStoredTheme(saved);
+    if (legacyTheme !== undefined) {
+      warnOnce(`theme="${legacyTheme}" is a color scheme. Since 0.2, pass colorScheme="${legacyTheme}".`);
     }
-    setReady(true);
-  }, [storageKey]);
+    if (isColorSchemePreference(defaultTheme)) {
+      warnOnce(
+        `defaultTheme="${defaultTheme}" is a color scheme. Since 0.2, pass defaultColorScheme="${defaultTheme}".`,
+      );
+    }
+    if (storageKey !== undefined) warnOnce("storageKey is deprecated. Since 0.2, pass colorSchemeStorageKey.");
+  }, [legacyTheme, defaultTheme, storageKey]);
+
+  const [storedTheme, setStoredTheme] = useState<ThemeName>(options.defaultTheme);
+  const [storedColorScheme, setStoredColorScheme] = useState<ColorSchemePreference>(options.defaultColorScheme);
+  // Stays false until the saved values are read, so the first effect never overwrites
+  // what the inline theme script already applied.
+  const [ready, setReady] = useState(controlledTheme !== undefined && controlledColorScheme !== undefined);
 
   useEffect(() => {
-    if (storageKey == null) return;
+    const saved = readSaved(themeKey, colorSchemeKey);
+    if (saved.theme !== undefined) setStoredTheme(saved.theme);
+    if (saved.colorScheme !== undefined) setStoredColorScheme(saved.colorScheme);
+    setReady(true);
+  }, [themeKey, colorSchemeKey]);
+
+  useEffect(() => {
+    if (themeKey == null && colorSchemeKey == null) return;
     const onStorage = (event: StorageEvent) => {
-      if (event.key !== storageKey) return;
-      const next = readStorage(storageKey);
-      if (next !== undefined) setStoredTheme(next);
+      if (event.key !== themeKey && event.key !== colorSchemeKey) return;
+      const saved = readSaved(themeKey, colorSchemeKey);
+      if (saved.theme !== undefined) setStoredTheme(saved.theme);
+      if (saved.colorScheme !== undefined) setStoredColorScheme(saved.colorScheme);
     };
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
-  }, [storageKey]);
+  }, [themeKey, colorSchemeKey]);
 
   const systemDark = useSyncExternalStore(
     subscribeToSystem,
@@ -131,34 +243,67 @@ export function ClawscaleProvider({
     () => false,
   );
 
-  const theme = isControlled ? controlledTheme : storedTheme;
-  const resolvedTheme: ResolvedTheme = theme === "system" ? (systemDark ? "dark" : "light") : theme;
+  const theme = controlledTheme ?? storedTheme;
+  const colorScheme = controlledColorScheme ?? storedColorScheme;
+  const resolvedColorScheme: ColorScheme = colorScheme === "system" ? (systemDark ? "dark" : "light") : colorScheme;
 
   useEffect(() => {
-    if (ready && applyToDocument) applyTheme(resolvedTheme);
-  }, [ready, applyToDocument, resolvedTheme]);
+    if (ready && applyToDocument) applyToRoot(theme, resolvedColorScheme);
+  }, [ready, applyToDocument, theme, resolvedColorScheme]);
+
+  // A theme's tokens set --cs-theme to its name. Without its stylesheet, the default theme shows.
+  useEffect(() => {
+    if (!ready || !applyToDocument || theme === DEFAULT_THEME) return;
+    const timer = window.setTimeout(() => {
+      const loaded = getComputedStyle(document.documentElement).getPropertyValue("--cs-theme").trim();
+      if (loaded !== theme) {
+        warnOnce(
+          `no styles found for the "${theme}" theme. Import @clawscale/react/themes/${theme}.css, or the stylesheet that defines it.`,
+        );
+      }
+    }, 1000);
+    return () => window.clearTimeout(timer);
+  }, [ready, applyToDocument, theme]);
 
   useEffect(() => {
     if (focusRings === "always") FocusStyleManager.alwaysShowFocus();
     else FocusStyleManager.onlyShowFocusOnTabs();
   }, [focusRings]);
 
-  const setTheme = useCallback(
-    (next: ThemePreference) => {
-      if (!isControlled) setStoredTheme(next);
-      if (storageKey != null) {
-        try {
-          window.localStorage.setItem(storageKey, next);
-        } catch {
-          // Storage can be unavailable in private windows. The theme still applies.
-        }
-      }
-      onThemeChange?.(next);
+  const setColorScheme = useCallback(
+    (next: ColorSchemePreference) => {
+      if (controlledColorScheme === undefined) setStoredColorScheme(next);
+      writeStorage(colorSchemeKey, next);
+      colorSchemeChange?.(next);
     },
-    [isControlled, storageKey, onThemeChange],
+    [controlledColorScheme, colorSchemeKey, colorSchemeChange],
   );
 
-  const value = useMemo(() => ({ theme, resolvedTheme, setTheme }), [theme, resolvedTheme, setTheme]);
+  const setTheme = useCallback(
+    (next: ThemeName) => {
+      if (isColorSchemePreference(next)) {
+        warnOnce(`setTheme("${next}") sets the color scheme. Since 0.2, call setColorScheme("${next}").`);
+        setColorScheme(next);
+        return;
+      }
+      if (controlledTheme === undefined) setStoredTheme(next);
+      writeStorage(themeKey, next);
+      onThemeChange?.(next);
+    },
+    [controlledTheme, themeKey, onThemeChange, setColorScheme],
+  );
+
+  const value = useMemo<ThemeContextValue>(
+    () => ({
+      theme,
+      setTheme,
+      colorScheme,
+      resolvedColorScheme,
+      setColorScheme,
+      resolvedTheme: resolvedColorScheme,
+    }),
+    [theme, setTheme, colorScheme, resolvedColorScheme, setColorScheme],
+  );
 
   return (
     <ThemeContext.Provider value={value}>
@@ -167,7 +312,7 @@ export function ClawscaleProvider({
   );
 }
 
-/** Reads and changes the current theme. Returns a light no-op theme outside a provider. */
+/** Reads and changes the theme and color scheme. Outside a provider, returns the default theme in light and setters that do nothing. */
 export function useTheme(): ThemeContextValue {
   return useContext(ThemeContext);
 }

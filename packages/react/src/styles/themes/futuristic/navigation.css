@@ -1,0 +1,70 @@
+/* Navbar, tabs, breadcrumbs and tree */
+
+/* The navbar is a glass strip with a lit rule along its bottom edge. */
+.bp6-navbar {
+  backdrop-filter: blur(10px) saturate(140%);
+  background-color: color-mix(in srgb, var(--cs-color-surface) 86%, transparent);
+}
+
+.bp6-navbar::after {
+  background: linear-gradient(90deg, transparent, var(--cs-color-primary) 18%, transparent 62%);
+  bottom: -1px;
+  content: "";
+  height: 1px;
+  left: 0;
+  opacity: 0.7;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+}
+
+.bp6-navbar-heading {
+  font-size: var(--cs-font-size-md);
+  font-weight: var(--cs-font-weight-bold);
+}
+
+/* Tabs: labels in capitals, the selected tab lit, the indicator a glowing rule. */
+
+.bp6-tab {
+  font-size: calc(var(--cs-font-size-md) - 1px);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.bp6-tab[aria-selected="true"] {
+  color: var(--cs-color-primary-text);
+  text-shadow: 0 0 12px var(--cs-fx-glow);
+}
+
+.bp6-tabs:not(.bp6-vertical) .bp6-tab-indicator-wrapper .bp6-tab-indicator {
+  border-radius: 0;
+  box-shadow: 0 0 10px var(--cs-fx-glow-strong);
+  height: 2px;
+}
+
+.bp6-tabs.bp6-vertical .bp6-tab-indicator-wrapper .bp6-tab-indicator {
+  box-shadow: inset 2px 0 0 var(--cs-color-primary);
+}
+
+/* Breadcrumbs read like a path. */
+
+.bp6-breadcrumb,
+.bp6-breadcrumb-current,
+.bp6-breadcrumbs-collapsed {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-font-size-sm);
+}
+
+.bp6-breadcrumb-current {
+  color: var(--cs-color-primary-text);
+}
+
+/* Tree: the selected node gets a lit edge. */
+
+.bp6-tree-node.bp6-tree-node-selected > .bp6-tree-node-content {
+  box-shadow: inset 2px 0 0 var(--cs-color-primary);
+}
+
+.bp6-tree-node-secondary-label {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-font-size-xs);
+}

@@ -1,0 +1,21 @@
+/*
+ * Futuristic theme: a heads-up display for mission control.
+ *
+ * The build wraps these files in
+ *   @layer clawscale.themes { @scope ([data-cs-theme="futuristic"]) to (<another theme>) { ... } }
+ * so every rule here applies only inside the theme and beats every base rule, whatever its
+ * specificity. That power cuts both ways: target components as precisely as the base layer does,
+ * and restate variants (intent, minimal, outlined, groups) instead of styling a base class broadly.
+ *
+ * Tokens carry most of the look: the palette, Oxanium, cut corners and capital labels.
+ * These rules add what tokens cannot: glows, the grid, panel accents and readouts.
+ * Glows use light-dark(), so the light color scheme gets crisp lines instead.
+ */
+@import "./effects.css";
+@import "./canvas.css";
+@import "./typography.css";
+@import "./controls.css";
+@import "./surfaces.css";
+@import "./navigation.css";
+@import "./data.css";
+@import "./clawscale.css";

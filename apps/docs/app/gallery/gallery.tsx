@@ -72,6 +72,7 @@ import { DateRangePicker } from "@clawscale/react/datetime";
 import { Select } from "@clawscale/react/select";
 import { Cell, Column, Table } from "@clawscale/react/table";
 import { type ReactNode, useState } from "react";
+import { ThemeSwitch } from "@/components/docs/theme-switch";
 import { withBasePath } from "@/lib/site";
 
 const intents = ["none", "primary", "success", "warning", "danger"] as const;
@@ -99,7 +100,7 @@ const tableRows = [
 ];
 
 export function Gallery() {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { resolvedColorScheme, setColorScheme } = useTheme();
   const [tags, setTags] = useState<ReactNode[]>(["prod", "eu-central-1"]);
   const [range, setRange] = useState<[number, number]>([20, 70]);
   const [tab, setTab] = useState<string>("overview");
@@ -118,11 +119,12 @@ export function Gallery() {
         <NavbarGroup align="right">
           <InputGroup leftIcon="search" placeholder="Search" size="small" />
           <NavbarDivider />
+          <ThemeSwitch />
           <Button
             variant="minimal"
-            icon={resolvedTheme === "dark" ? "flash" : "moon"}
-            aria-label="Toggle theme"
-            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            icon={resolvedColorScheme === "dark" ? "flash" : "moon"}
+            aria-label="Toggle dark mode"
+            onClick={() => setColorScheme(resolvedColorScheme === "dark" ? "light" : "dark")}
           />
         </NavbarGroup>
       </Navbar>

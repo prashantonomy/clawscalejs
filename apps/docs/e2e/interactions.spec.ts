@@ -1,23 +1,64 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("theme", () => {
+test.describe("color scheme", () => {
   test("toggles with Shift+D and survives a reload", async ({ page }) => {
     await page.goto("/docs/");
     const html = page.locator("html");
-    await expect(html).toHaveAttribute("data-cs-theme", /light|dark/);
-    const start = await html.getAttribute("data-cs-theme");
+    await expect(html).toHaveAttribute("data-cs-color-scheme", /light|dark/);
+    const start = await html.getAttribute("data-cs-color-scheme");
     const next = start === "dark" ? "light" : "dark";
     await page.keyboard.press("Shift+D");
-    await expect(html).toHaveAttribute("data-cs-theme", next);
+    await expect(html).toHaveAttribute("data-cs-color-scheme", next);
     await expect(html).toHaveClass(next === "dark" ? /bp6-dark/ : /^(?!.*bp6-dark)/);
     await page.reload();
-    await expect(html).toHaveAttribute("data-cs-theme", next);
+    await expect(html).toHaveAttribute("data-cs-color-scheme", next);
+  });
+
+  test("applies the saved color scheme before hydration", async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem("clawscale-color-scheme", "dark"));
+    await page.goto("/docs/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("html")).toHaveClass(/bp6-dark/);
+  });
+
+  test("reads a color scheme saved before 0.2", async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem("clawscale-theme", "dark"));
+    await page.goto("/docs/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("html")).toHaveAttribute("data-cs-color-scheme", "dark");
+    await expect(page.locator("html")).toHaveAttribute("data-cs-theme", "default");
+  });
+});
+
+test.describe("theme", () => {
+  test("switches with Shift+T, independent of the color scheme, and survives a reload", async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem("clawscale-color-scheme", "dark"));
+    await page.goto("/docs/");
+    await page.waitForLoadState("networkidle");
+    const html = page.locator("html");
+    await expect(html).toHaveAttribute("data-cs-theme", "default");
+    await page.keyboard.press("Shift+T");
+    await expect(html).toHaveAttribute("data-cs-theme", "futuristic");
+    await expect(html).toHaveAttribute("data-cs-color-scheme", "dark");
+    await page.reload();
+    await expect(html).toHaveAttribute("data-cs-theme", "futuristic");
+    const font = await page.evaluate(() => getComputedStyle(document.body).fontFamily);
+    expect(font).toContain("Oxanium");
   });
 
   test("applies the saved theme before hydration", async ({ page }) => {
-    await page.addInitScript(() => localStorage.setItem("clawscale-theme", "dark"));
-    await page.goto("/docs/", { waitUntil: "domcontentloaded" });
-    await expect(page.locator("html")).toHaveClass(/bp6-dark/);
+    await page.addInitScript(() => localStorage.setItem("clawscale-theme", "futuristic"));
+    await page.goto("/showcase/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("html")).toHaveAttribute("data-cs-theme", "futuristic");
+  });
+
+  test("switches from the showcase", async ({ page }) => {
+    await page.goto("/showcase/");
+    await page.waitForLoadState("networkidle");
+    await page.getByRole("radio", { name: "Futuristic" }).click();
+    await expect(page.locator("html")).toHaveAttribute("data-cs-theme", "futuristic");
+    const label = await page
+      .getByRole("button", { name: "New pipeline" })
+      .evaluate((el) => getComputedStyle(el).textTransform);
+    expect(label).toBe("uppercase");
   });
 });
 

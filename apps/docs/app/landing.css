@@ -1,19 +1,58 @@
-/* Landing page. Always dark, like the blueprintjs.com hero. */
+/*
+ * Landing page. Always dark, like the blueprintjs.com hero, in the colors of the active theme.
+ * The variables hold the default theme's colors. The futuristic theme swaps in deep space and cyan.
+ */
 
 .landing {
-  background: #0b0e14;
-  color: #e7e9ec;
+  --landing-bg: #0b0e14;
+  --landing-glow: #1a2c5c;
+  --landing-glow-edge: #101a36;
+  --landing-grid: rgba(124, 156, 255, 0.07);
+  --landing-grid-major: rgba(124, 156, 255, 0.12);
+  --landing-wireframe: rgba(147, 178, 251, 0.22);
+  --landing-scrim: rgba(11, 14, 20, 0.85);
+  --landing-scrim-edge: rgba(11, 14, 20, 0);
+  --landing-text: #e7e9ec;
+  --landing-title: #ffffff;
+  --landing-tagline: #dce4f5;
+  --landing-subtitle: #8f9bb3;
+  --landing-rule: rgba(220, 228, 245, 0.3);
+  --landing-rule-faint: rgba(220, 228, 245, 0.2);
+  --landing-footer-text: #c9d1e0;
+  --landing-footnote: #7c879c;
+
+  background: var(--landing-bg);
+  color: var(--landing-text);
   min-height: 100vh;
+}
+
+[data-cs-theme="futuristic"] .landing {
+  --landing-bg: #03090f;
+  --landing-glow: #0a3444;
+  --landing-glow-edge: #061b26;
+  --landing-grid: rgba(15, 212, 241, 0.06);
+  --landing-grid-major: rgba(15, 212, 241, 0.12);
+  --landing-wireframe: rgba(95, 230, 252, 0.22);
+  --landing-scrim: rgba(3, 9, 15, 0.86);
+  --landing-scrim-edge: rgba(3, 9, 15, 0);
+  --landing-text: #ddf3f9;
+  --landing-title: #f2fcff;
+  --landing-tagline: #cdeef7;
+  --landing-subtitle: #81a5b4;
+  --landing-rule: rgba(95, 230, 252, 0.3);
+  --landing-rule-faint: rgba(95, 230, 252, 0.2);
+  --landing-footer-text: #a3c4d0;
+  --landing-footnote: #6f8d9b;
 }
 
 .landing-hero {
   align-items: center;
   background:
-    linear-gradient(rgba(124, 156, 255, 0.07) 1px, transparent 1px) 0 0 / 24px 24px,
-    linear-gradient(90deg, rgba(124, 156, 255, 0.07) 1px, transparent 1px) 0 0 / 24px 24px,
-    linear-gradient(rgba(124, 156, 255, 0.12) 1px, transparent 1px) 0 0 / 120px 120px,
-    linear-gradient(90deg, rgba(124, 156, 255, 0.12) 1px, transparent 1px) 0 0 / 120px 120px,
-    radial-gradient(ellipse at 50% 40%, #1a2c5c 0%, #101a36 45%, #0b0e14 100%);
+    linear-gradient(var(--landing-grid) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, var(--landing-grid) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(var(--landing-grid-major) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(90deg, var(--landing-grid-major) 1px, transparent 1px) 0 0 / 120px 120px,
+    radial-gradient(ellipse at 50% 40%, var(--landing-glow) 0%, var(--landing-glow-edge) 45%, var(--landing-bg) 100%);
   display: flex;
   justify-content: center;
   min-height: min(720px, 86vh);
@@ -21,8 +60,40 @@
   position: relative;
 }
 
+/* In the futuristic theme, a scan line sweeps down the hero. */
+[data-cs-theme="futuristic"] .landing-hero::after {
+  animation: landing-scan 7s linear infinite;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(95, 230, 252, 0.07) 48%,
+    rgba(95, 230, 252, 0.16) 50%,
+    transparent
+  );
+  content: "";
+  height: 160px;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: -160px;
+}
+
+@keyframes landing-scan {
+  to {
+    transform: translateY(calc(min(720px, 86vh) + 160px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-cs-theme="futuristic"] .landing-hero::after {
+    animation: none;
+    display: none;
+  }
+}
+
 .landing-wireframes {
-  color: rgba(147, 178, 251, 0.22);
+  color: var(--landing-wireframe);
   height: 100%;
   inset: 0;
   position: absolute;
@@ -39,7 +110,7 @@
 }
 
 .landing-center::before {
-  background: radial-gradient(closest-side, rgba(11, 14, 20, 0.85), rgba(11, 14, 20, 0));
+  background: radial-gradient(closest-side, var(--landing-scrim), var(--landing-scrim-edge));
   content: "";
   inset: -60px -120px;
   position: absolute;
@@ -47,13 +118,13 @@
 }
 
 .landing-logo {
-  box-shadow: 0 12px 40px rgba(53, 99, 233, 0.45);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--cs-color-primary) 45%, transparent);
   border-radius: 16px;
   margin-bottom: 20px;
 }
 
 .landing-title {
-  color: #ffffff;
+  color: var(--landing-title);
   font-size: 44px;
   font-weight: 600;
   letter-spacing: -0.03em;
@@ -61,14 +132,19 @@
   margin: 0;
 }
 
+[data-cs-theme="futuristic"] .landing-title {
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 28px rgba(15, 212, 241, 0.45);
+}
+
 .landing-tagline {
-  color: #dce4f5;
+  color: var(--landing-tagline);
   font-size: 19px;
   margin: 14px 0 0;
 }
 
 .landing-subtitle {
-  color: #8f9bb3;
+  color: var(--landing-subtitle);
   font-size: 15px;
   margin: 8px 0 0;
   max-width: 460px;
@@ -84,22 +160,27 @@
 }
 
 .landing-links a {
-  color: #dce4f5;
+  color: var(--landing-tagline);
   font-size: 15px;
   font-weight: 500;
   text-decoration: none;
 }
 
 .landing-links a:hover {
-  color: #ffffff;
+  color: var(--landing-title);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
 .landing-separator {
-  background: rgba(220, 228, 245, 0.3);
+  background: var(--landing-rule);
   height: 16px;
   width: 1px;
+}
+
+/* The theme switch sits on the dark hero in both color schemes. */
+.landing-theme {
+  margin-top: 28px;
 }
 
 .landing-footer {
@@ -112,24 +193,24 @@
 }
 
 .landing-footer p {
-  color: #c9d1e0;
+  color: var(--landing-footer-text);
   margin: 0;
   max-width: 320px;
 }
 
 .landing-footer a {
-  color: #ffffff;
+  color: var(--landing-title);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .landing-footnote {
-  color: #7c879c;
+  color: var(--landing-footnote);
   font-size: 13px;
 }
 
 .landing-rule {
-  background: rgba(220, 228, 245, 0.2);
+  background: var(--landing-rule-faint);
   height: 1px;
   margin-top: 16px;
   width: 40px;

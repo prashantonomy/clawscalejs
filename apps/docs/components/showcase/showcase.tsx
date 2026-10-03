@@ -29,6 +29,7 @@ import {
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 import { LogoMark } from "@/components/docs/logo";
+import { ThemeSwitch } from "@/components/docs/theme-switch";
 import { BarChart } from "./bar-chart";
 import {
   formatCompact,
@@ -72,7 +73,7 @@ function workspaceTree(): TreeNodeInfo[] {
 }
 
 export function Showcase() {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { resolvedColorScheme, setColorScheme } = useTheme();
   const [range, setRange] = useState<TimeRange>("24h");
   const [region, setRegion] = useState("all");
   const [status, setStatus] = useState("all");
@@ -147,14 +148,15 @@ export function Showcase() {
             rightElement={<KeyComboTag className="showcase-search-hint" combo="mod+k" minimal />}
             aria-label="Search pipelines"
           />
+          <ThemeSwitch className="showcase-theme" />
           <Button icon="notifications" variant="minimal" aria-label="Notifications" />
           <Button
             variant="minimal"
-            aria-label="Toggle theme"
-            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            aria-label="Toggle dark mode"
+            onClick={() => setColorScheme(resolvedColorScheme === "dark" ? "light" : "dark")}
           >
-            <Icon icon="moon" className="theme-show-light" />
-            <Icon icon="flash" className="theme-show-dark" />
+            <Icon icon="moon" className="scheme-show-light" />
+            <Icon icon="flash" className="scheme-show-dark" />
           </Button>
           <span className="showcase-avatar" role="img" aria-label="Signed in as Ada Kovac">
             AK

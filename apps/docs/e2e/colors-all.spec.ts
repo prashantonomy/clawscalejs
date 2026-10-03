@@ -1,36 +1,62 @@
-import { themeVariables } from "@clawscale/tokens";
+import { Colors } from "@clawscale/react/common";
+import { defaultTheme, themeVariables } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
 import index from "../generated/docs-index.json" with { type: "json" };
 
 /**
- * Derived color audit of every page in both themes. Opt-in, like a11y-all.spec.ts:
+ * Color audit of every page in both themes and both color schemes. Opt-in, like a11y-all.spec.ts:
  *   COLORS_ALL=1 pnpm --filter @clawscale/docs exec playwright test e2e/colors-all.spec.ts
  *
- * Blueprint derives some colors with a lightness shift, for example
- * `oklch(from var(--bp-intent-warning-rest) calc(l + 0.19) c h)`. The shift suits Blueprint's
- * palette, not always ours. Such colors compute to oklch(), while Clawscale tokens compute to rgb(),
- * so the audit fails on any oklch() color that is not a Clawscale token, alpha aside.
+ * It fails on two kinds of colors that skip the Clawscale tokens:
+ * - Derived colors. Blueprint derives some with a lightness shift, for example
+ *   `oklch(from var(--bp-intent-warning-rest) calc(l + 0.19) c h)`. The shift suits Blueprint's
+ *   palette, not always ours. Such colors compute to oklch(), while Clawscale tokens compute to rgb(),
+ *   so any oklch() color that is not a Clawscale token fails, alpha aside.
+ * - Blueprint's own blue, green, orange and red, which some rules set directly.
  */
 test.skip(!process.env.COLORS_ALL, "Set COLORS_ALL=1 to audit every page.");
 
-// Derived on purpose: the left half of a compound tag is a darker shade of its intent.
-const allowed = [".bp6-compound-tag-left"];
+const allowed = [
+  // Derived on purpose: the left half of a compound tag is a darker shade of its intent.
+  ".bp6-compound-tag-left",
+  // Blueprint forces the buttons of intent toasts to its palette with !important, so the toast keeps it too.
+  '.bp6-toast[class*="bp6-intent-"], .bp6-toast[class*="bp6-intent-"] *',
+  // Intent icons on a tooltip's dark fill keep Blueprint's light variants.
+  ".bp6-tooltip .bp6-icon, .bp6-tooltip .bp6-icon *",
+];
 
-const colorTokens = Object.keys(themeVariables("light")).filter((name) => name.startsWith("--cs-color-"));
+const toRgb = (hex: string) => {
+  const n = Number.parseInt(hex.slice(1), 16);
+  return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
+};
+const blueprintPalette = Object.entries(Colors)
+  .filter(([name]) => /^(BLUE|GREEN|ORANGE|RED)\d$/.test(name))
+  .map(([, hex]) => toRgb(hex));
+
+const colorTokens = Object.keys(themeVariables(defaultTheme, "light")).filter((name) => name.startsWith("--cs-color-"));
 const pages = ["/", "/gallery/", "/showcase/", ...index.map((page) => page.href)];
+const combinations = ["default", "futuristic"].flatMap((theme) =>
+  (["light", "dark"] as const).map((colorScheme) => ({ theme, colorScheme })),
+);
 
-for (const theme of ["light", "dark"] as const) {
-  test.describe(`${theme} theme`, () => {
+for (const { theme, colorScheme } of combinations) {
+  test.describe(`${theme} theme, ${colorScheme}`, () => {
     test.beforeEach(async ({ page }) => {
-      await page.addInitScript((value) => localStorage.setItem("clawscale-theme", value), theme);
+      await page.addInitScript(
+        ([themeName, scheme]) => {
+          localStorage.setItem("clawscale-theme", themeName);
+          localStorage.setItem("clawscale-color-scheme", scheme);
+        },
+        [theme, colorScheme] as const,
+      );
     });
 
     for (const href of pages) {
-      test(`${href} uses no derived colors`, async ({ page }) => {
+      test(`${href} uses only token colors`, async ({ page }) => {
         await page.goto(href);
         await page.waitForLoadState("networkidle");
         const leaks = await page.evaluate(
-          ({ tokens, allowedSelectors }) => {
+          ({ tokens, allowedSelectors, blueprintColors }) => {
             const parse = (value: string) => {
               const match = /oklch\(([\d.]+)%? ([\d.]+) ([\d.]+|none)/.exec(value);
               return match
@@ -69,15 +95,19 @@ for (const theme of ["light", "dark"] as const) {
               const style = getComputedStyle(element);
               for (const prop of props) {
                 const value = style[prop];
-                if (!value.includes("oklch(") || (prop !== "color" && value === style.color)) continue;
-                if (isToken(value)) continue;
+                if (prop !== "color" && value === style.color) continue;
+                const width = prop === "borderTopColor" ? style.borderTopWidth : style.borderBottomWidth;
+                if (prop.startsWith("border") && width === "0px") continue;
+                const fromPalette = blueprintColors.includes(value);
+                if (!fromPalette && (!value.includes("oklch(") || isToken(value))) continue;
                 const classes = [...element.classList].filter((name) => name.startsWith("bp6-")).join(".");
-                found.add(`${element.tagName.toLowerCase()}${classes ? `.${classes}` : ""} ${prop}: ${value}`);
+                const kind = fromPalette ? " (Blueprint palette)" : "";
+                found.add(`${element.tagName.toLowerCase()}${classes ? `.${classes}` : ""} ${prop}: ${value}${kind}`);
               }
             }
             return [...found];
           },
-          { tokens: colorTokens, allowedSelectors: allowed },
+          { tokens: colorTokens, allowedSelectors: allowed, blueprintColors: blueprintPalette },
         );
         expect(leaks).toEqual([]);
       });

@@ -6,7 +6,7 @@ Clawscale works with the Next.js App Router. Components render on the server and
 
 ## Setup
 
-Add the styles, the theme script and a client provider to your root layout.
+Add the styles, the theme script and a client provider to your root layout. Add a theme stylesheet, such as `@clawscale/react/themes/futuristic.css`, only if you use that [theme](/docs/themes/).
 
 ```tsx
 // app/layout.tsx
@@ -41,7 +41,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-`suppressHydrationWarning` is needed because the theme script sets a class on `<html>` before React hydrates.
+`suppressHydrationWarning` is needed because the theme script sets a class and attributes on `<html>` before React hydrates.
 
 ## Server components
 
@@ -74,7 +74,7 @@ Blueprint loads icon paths asynchronously. Server-rendered HTML then shows empty
 
 ## Theme without a flash
 
-`ThemeScript` applies the saved theme before the first paint. If you change `storageKey` or `defaultTheme` on the provider, pass the same values to `ThemeScript`.
+`ThemeScript` applies the saved theme and color scheme before the first paint. If you change `defaultTheme`, `defaultColorScheme` or a storage key on the provider, pass the same values to `ThemeScript`.
 
 ## Static export
 

@@ -12,7 +12,7 @@ Clawscale ships chart tokens, not a chart library. Use them with the chart libra
 
 ## Usage
 
-In SVG and CSS, read the tokens as CSS variables. They follow the theme.
+In SVG and CSS, read the tokens as CSS variables. They follow the theme and the color scheme.
 
 ```tsx
 <path d={line} fill="none" stroke="var(--cs-chart-1)" strokeWidth={2} />
@@ -21,12 +21,12 @@ In SVG and CSS, read the tokens as CSS variables. They follow the theme.
 Libraries that need color values import them from `@clawscale/tokens`.
 
 ```tsx
-import { chartPalette } from "@clawscale/tokens";
+import { chartPalettes } from "@clawscale/tokens";
 ```
 
 ## Categorical palette
 
-Eight slots, `--cs-chart-1` to `--cs-chart-8`, tell series apart. Each theme has its own values, tuned for its surface.
+Eight slots, `--cs-chart-1` to `--cs-chart-8`, tell series apart. Each theme and color scheme has its own values, tuned for its surface.
 
 <Example name="patterns/charts/palette" align="start">
   <ChartsPalette />
@@ -37,11 +37,11 @@ Eight slots, `--cs-chart-1` to `--cs-chart-8`, tell series apart. Each theme has
 - Color follows the series, not its rank. When a filter hides a series, the others keep their colors.
 - One series uses slot 1 and needs no legend. The title names it.
 - Two or more series need a legend. Up to four also get direct labels.
-- In the light theme, slots 3, 4 and 5 fall below 3:1 contrast on the surface. Label those series directly or offer a table.
+- In the default theme's light color scheme, slots 3, 4 and 5 fall below 3:1 contrast on the surface. In the futuristic theme's, slot 6 does. Label those series directly or offer a table.
 
 ## Status colors
 
-`--cs-chart-good`, `--cs-chart-warning`, `--cs-chart-serious` and `--cs-chart-critical` show state, never series identity. They are the same in both themes. Warning and serious are low contrast on light surfaces by design, so always show a status color with an icon and a label.
+`--cs-chart-good`, `--cs-chart-warning`, `--cs-chart-serious` and `--cs-chart-critical` show state, never series identity. They are the same in every theme and color scheme. Warning and serious are low contrast on light surfaces by design, so always show a status color with an icon and a label.
 
 <Example name="patterns/charts/status">
   <ChartsStatus />
@@ -53,7 +53,7 @@ Eight slots, `--cs-chart-1` to `--cs-chart-8`, tell series apart. Each theme has
 
 ## Sequential ramp
 
-`--cs-chart-seq-100` to `--cs-chart-seq-700` step one blue hue from light to dark. Use it for magnitude, such as heatmap cells. In the light theme, map values near zero to 100. In the dark theme, reverse the ramp so low values stay close to the surface.
+`--cs-chart-seq-100` to `--cs-chart-seq-700` step one hue from light to dark: blue in the default theme, cyan in the futuristic theme. Use it for magnitude, such as heatmap cells. In the light color scheme, map values near zero to 100. In the dark color scheme, reverse the ramp so low values stay close to the surface.
 
 <Example name="patterns/charts/sequential" align="start">
   <ChartsSequential />
@@ -89,17 +89,17 @@ Three series in slots 1, 2 and 3, with a legend and a label at the end of each l
 
 ## Chart libraries
 
-SVG libraries such as Recharts accept CSS variables, so `stroke="var(--cs-chart-1)"` works there too. Canvas renderers such as ECharts, and libraries that compute colors such as Vega, need color values. Read the theme with [useTheme](/docs/core/use-theme/) and pass `chartPalette[resolvedTheme]`.
+SVG libraries such as Recharts accept CSS variables, so `stroke="var(--cs-chart-1)"` works there too. Canvas renderers such as ECharts, and libraries that compute colors such as Vega, need color values. Read the theme and color scheme with [useTheme](/docs/core/use-theme/) and pass the matching entry of `chartPalettes`.
 
 ```tsx
 "use client";
 
 import { useTheme } from "@clawscale/react";
-import { chartPalette } from "@clawscale/tokens";
+import { chartPalettes } from "@clawscale/tokens";
 
 export function useChartPalette() {
-  const { resolvedTheme } = useTheme();
-  return chartPalette[resolvedTheme];
+  const { theme, resolvedColorScheme } = useTheme();
+  return chartPalettes[theme === "futuristic" ? "futuristic" : "default"][resolvedColorScheme];
 }
 ```
 

@@ -1,0 +1,57 @@
+/* Clawscale patterns: metrics read like instruments, the status bar like a ship's console. */
+
+.cs-metric-label {
+  font-size: var(--cs-font-size-xs);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.cs-metric-value {
+  font-family: var(--cs-font-mono);
+  font-weight: var(--cs-font-weight-medium);
+  letter-spacing: -0.03em;
+  text-shadow: 0 0 22px var(--cs-fx-glow);
+}
+
+.cs-metric-unit {
+  font-family: var(--cs-font-mono);
+  letter-spacing: 0;
+  text-shadow: none;
+}
+
+.cs-delta {
+  font-family: var(--cs-font-mono);
+  font-size: 0.94em;
+}
+
+.cs-sparkline-line {
+  filter: drop-shadow(0 0 3px light-dark(transparent, currentColor));
+}
+
+.cs-sparkline-area {
+  opacity: 0.16;
+}
+
+.cs-property-label {
+  font-size: var(--cs-font-size-xs);
+  font-weight: var(--cs-font-weight-semibold);
+}
+
+.cs-status-bar {
+  background-color: color-mix(in srgb, var(--cs-color-surface) 88%, transparent);
+  backdrop-filter: blur(10px);
+  font-family: var(--cs-font-mono);
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+.cs-status-bar::before {
+  background: linear-gradient(90deg, var(--cs-color-primary), transparent 45%);
+  content: "";
+  height: 1px;
+  left: 0;
+  opacity: 0.6;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  top: -1px;
+}

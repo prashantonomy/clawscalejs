@@ -2,6 +2,7 @@
 export const ClawscaleClasses = {
   DELTA: "cs-delta",
   DELTA_ICON: "cs-delta-icon",
+  LABEL: "cs-label",
   METRIC: "cs-metric",
   METRIC_CAPTION: "cs-metric-caption",
   METRIC_FOOTER: "cs-metric-footer",

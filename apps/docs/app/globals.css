@@ -3,18 +3,45 @@
  * always show the real Clawscale styles.
  */
 
-/* Theme-dependent content that must be right on the first paint, before React hydrates */
+/*
+ * Content that depends on the color scheme or the theme and must be right on the first paint,
+ * before React hydrates. ThemeScript sets both attributes on <html> before the page shows.
+ */
 
-.theme-show-dark {
+.scheme-show-dark,
+.theme-show-futuristic {
   display: none;
 }
 
-[data-cs-theme="dark"] .theme-show-dark {
+[data-cs-color-scheme="dark"] .scheme-show-dark,
+[data-cs-theme="futuristic"] .theme-show-futuristic {
   display: inline-flex;
 }
 
-[data-cs-theme="dark"] .theme-show-light {
+[data-cs-color-scheme="dark"] .scheme-show-light,
+[data-cs-theme="futuristic"] .theme-show-default {
   display: none;
+}
+
+/* Docs elements follow the theme's corner shape, like Clawscale components. */
+
+[class^="docs-"],
+[class*=" docs-"],
+[class^="gallery-"],
+[class*=" gallery-"],
+[class^="showcase-"],
+[class*=" showcase-"] {
+  corner-shape: var(--cs-corner-shape);
+}
+
+/* The logo takes the theme's primary color. */
+
+.docs-logo {
+  background-color: var(--cs-color-primary);
+  border-radius: 25%;
+  color: var(--cs-color-primary-on);
+  display: inline-flex;
+  flex: none;
 }
 
 /* Gallery */

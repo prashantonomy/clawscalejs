@@ -1,7 +1,9 @@
 import "./landing.css";
+import { Classes } from "@clawscale/react/common";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LogoMark } from "@/components/docs/logo";
+import { ThemeSwitch } from "@/components/docs/theme-switch";
 import { Wireframes } from "@/components/landing/wireframes";
 import { site } from "@/lib/site";
 
@@ -28,6 +30,10 @@ export default function Home() {
               GitHub
             </a>
           </nav>
+          {/* The hero is always dark, so the switch is too, whatever the color scheme. */}
+          <div className={`landing-theme ${Classes.DARK}`} data-cs-color-scheme="dark">
+            <ThemeSwitch />
+          </div>
         </div>
       </main>
       <footer className="landing-footer">

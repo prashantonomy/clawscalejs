@@ -21,7 +21,15 @@
 }
 
 .bp6-menu-item.bp6-active .bp6-icon,
-.bp6-menu-item.bp6-selected .bp6-icon {
+.bp6-menu-item.bp6-selected .bp6-icon,
+.bp6-menu-item.bp6-active .bp6-menu-item-icon,
+.bp6-menu-item.bp6-selected .bp6-menu-item-icon {
+  color: var(--cs-color-primary-text);
+}
+
+/* On the tinted fill, the subtle label color drops below 4.5:1 in dark. The -text color never does. */
+.bp6-menu-item.bp6-active .bp6-menu-item-label,
+.bp6-menu-item.bp6-selected .bp6-menu-item-label {
   color: var(--cs-color-primary-text);
 }
 
