@@ -1,8 +1,17 @@
 import AxeBuilder from "@axe-core/playwright";
 import { themeNames } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
+import { showcases } from "../lib/showcases";
 
-const pages = ["/", "/docs/", "/docs/core/buttons/", "/docs/core/tag/", "/docs/patterns/metric/", "/showcase/"];
+const pages = [
+  "/",
+  "/docs/",
+  "/docs/core/buttons/",
+  "/docs/core/tag/",
+  "/docs/patterns/metric/",
+  "/showcase/",
+  ...showcases.map((showcase) => showcase.href),
+];
 
 const combinations = themeNames.flatMap((theme) =>
   (["light", "dark"] as const).map((colorScheme) => ({ theme, colorScheme })),

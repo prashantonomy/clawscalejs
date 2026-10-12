@@ -15,7 +15,8 @@ function collectErrors(page: Page): string[] {
 
 const pages = [
   { href: "/", title: "Clawscale" },
-  { href: "/showcase/", title: "Production pipelines" },
+  { href: "/showcase/", title: "Showcase" },
+  { href: "/showcase/pipelines/", title: "Production pipelines" },
   { href: "/gallery/", title: "" },
   ...index.map((page) => ({ href: page.href, title: page.title })),
 ];

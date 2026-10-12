@@ -1,5 +1,6 @@
 import { teal, themeAccents, themeNames, themes } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
+import { showcases } from "../lib/showcases";
 
 test.describe("color scheme", () => {
   test("toggles with Shift+D and survives a reload", async ({ page }) => {
@@ -120,9 +121,21 @@ test.describe("examples", () => {
   });
 });
 
-test.describe("showcase", () => {
-  test("selects a pipeline and filters by status", async ({ page }) => {
+test.describe("showcase index", () => {
+  test("lists every showcase and opens one", async ({ page }) => {
     await page.goto("/showcase/");
+    for (const showcase of showcases) {
+      await expect(page.getByRole("link", { name: showcase.title, exact: true })).toBeVisible();
+    }
+    await page.getByRole("link", { name: "Pipeline console", exact: true }).click();
+    await expect(page).toHaveURL(/\/showcase\/pipelines\/$/);
+    await expect(page.locator("h1")).toHaveText("Production pipelines");
+  });
+});
+
+test.describe("pipeline console showcase", () => {
+  test("selects a pipeline and filters by status", async ({ page }) => {
+    await page.goto("/showcase/pipelines/");
     await page.waitForLoadState("networkidle");
     const inspector = page.getByRole("complementary", { name: "Pipeline details" });
     await expect(inspector).toContainText("Last run failed");

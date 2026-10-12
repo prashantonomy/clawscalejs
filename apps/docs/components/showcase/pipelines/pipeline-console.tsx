@@ -72,7 +72,7 @@ function workspaceTree(): TreeNodeInfo[] {
   ];
 }
 
-export function Showcase() {
+export function PipelineConsole() {
   const { resolvedColorScheme, setColorScheme } = useTheme();
   const [range, setRange] = useState<TimeRange>("24h");
   const [region, setRegion] = useState("all");
@@ -117,7 +117,7 @@ export function Showcase() {
     <div className="showcase">
       <Navbar className="showcase-navbar">
         <NavbarGroup>
-          <Link href="/" className="showcase-brand" aria-label="Clawscale home">
+          <Link href="/showcase/" className="showcase-brand" aria-label="Pipeline console, back to all showcases">
             <LogoMark size={24} />
             <span>Pipeline console</span>
           </Link>

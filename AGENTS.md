@@ -38,10 +38,12 @@ packages/react/           @clawscale/react
   src/common.ts           Server-safe constants (Classes, Intent, ...) for React Server Components
   src/sync-icons.ts       Opt-in synchronous icon loading for server rendering
   scripts/build-css.ts    Builds dist/styles.css (Blueprint, then clawscale.base) and dist/themes/<name>.css
-apps/docs/                Next.js 16 docs site (static export), showcase and gallery
+apps/docs/                Next.js 16 docs site (static export), showcases and gallery
   app/docs/**/page.mdx    Docs pages. lib/nav.ts orders them.
+  app/showcase/<slug>/    One showcase each. /showcase/ lists them from lib/showcases.ts
   examples/               One file per live example, shown with its source
   components/docs/        Docs UI: Example, Playground, PropsTable, CodeBlock, sidebar, search
+  components/showcase/    One folder per showcase, plus the index and its previews
   scripts/generate*.ts    Builds generated/docs-index.json and generated/props.json
   e2e/                    Playwright tests against the static export
 scripts/prose.mjs         The forbidden characters, shared by both lints
@@ -151,6 +153,15 @@ Only for a real server rendering or accessibility bug, never for looks. Keep the
 3. Name it in the explicit export line of `src/index.ts`. That beats the type-only copy from the generated file.
 4. A test that fails when Blueprint fixes or changes the behavior you work around.
 
+### Add a showcase
+
+A showcase is a complete screen built only from `@clawscale/*`, with realistic data. Names, places and numbers are fictional.
+
+1. `apps/docs/app/showcase/<slug>/page.tsx` and a stylesheet with its own class prefix. Add the prefix to the `corner-shape` rule in `app/globals.css`. Components go in `components/showcase/<slug>/`.
+2. An entry in `lib/showcases.ts` and a preview in `components/showcase/previews.tsx`. The index, the sitemap and the e2e page lists read the entry.
+3. The page's `h1` in `e2e/pages.spec.ts`, and an interaction test in `e2e/interactions.spec.ts`.
+4. Review it in every theme and both color schemes, then `pnpm verify` and `pnpm test:audit`.
+
 ### Write or update a docs page
 
 Pages mirror blueprintjs.com. Keep the structure:
@@ -229,7 +240,7 @@ Changesets drives versions. Add one with `pnpm changeset` for any user-facing ch
 
 Run `pnpm dev`, open http://localhost:3100/gallery/ and switch the theme with the navbar dropdown and the color scheme with the button next to it (Shift + T and Shift + D in the docs). Take full-page screenshots of every combination and look at them. Wait two seconds after load: tables and sliders measure the DOM after mount.
 
-Without a browser tool: `pnpm build:docs && pnpm --filter @clawscale/docs screenshots` writes full-page PNGs of the gallery, showcase, landing page and a docs page, in every theme and both color schemes, to `apps/docs/screenshots/`. Open and inspect them.
+Without a browser tool: `pnpm build:docs && pnpm --filter @clawscale/docs screenshots` writes full-page PNGs of the gallery, the showcases, the landing page and a docs page, in every theme and both color schemes, to `apps/docs/screenshots/`. Open and inspect them.
 
 ## Commits and pull requests
 
