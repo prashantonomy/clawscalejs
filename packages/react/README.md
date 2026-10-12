@@ -31,8 +31,11 @@ export function App() {
 | `@clawscale/react/icons` | Icon names, icon components and the icon loader |
 | `@clawscale/react/common` | Constants that are safe in React Server Components |
 | `@clawscale/react/sync-icons` | Synchronous icon loading for server rendering |
-| `@clawscale/react/styles.css` | Every style, in `@layer blueprint` and `@layer clawscale` |
-| `@clawscale/react/fonts.css` | Inter and JetBrains Mono |
+| `@clawscale/react/styles.css` | Every style of the default theme, in `@layer blueprint` and `@layer clawscale` |
+| `@clawscale/react/themes/ledger.css` | The Ledger theme. Load it after `styles.css` and pass `defaultTheme="ledger"` |
+| `@clawscale/react/fonts.css` | Inter and JetBrains Mono, and IBM Plex for Ledger |
+
+`ClawscaleProvider` manages the theme, the accent and the light, dark and system color schemes. `useTheme` reads and changes all three.
 
 This package pins exact Blueprint versions because its stylesheet is built against them. Do not install `@blueprintjs/*` next to it.
 

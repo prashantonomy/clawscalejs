@@ -1,0 +1,109 @@
+/*
+ * Intent colors Blueprint takes from its own palette, restated with Clawscale tokens:
+ * intent icons, callout text, progress meters, spinners and editable text.
+ * Toasts keep Blueprint's intent fills: Blueprint forces their button colors with !important.
+ */
+
+/* Intent icons read on surfaces. Tooltips keep Blueprint's light variants on their dark fill. */
+
+.bp6-icon.bp6-intent-primary:not(.bp6-tooltip *),
+.bp6-icon-standard.bp6-intent-primary:not(.bp6-tooltip *),
+.bp6-icon-large.bp6-intent-primary:not(.bp6-tooltip *) {
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-icon.bp6-intent-success:not(.bp6-tooltip *),
+.bp6-icon-standard.bp6-intent-success:not(.bp6-tooltip *),
+.bp6-icon-large.bp6-intent-success:not(.bp6-tooltip *) {
+  color: var(--cs-color-success-text);
+}
+
+.bp6-icon.bp6-intent-warning:not(.bp6-tooltip *),
+.bp6-icon-standard.bp6-intent-warning:not(.bp6-tooltip *),
+.bp6-icon-large.bp6-intent-warning:not(.bp6-tooltip *) {
+  color: var(--cs-color-warning-text);
+}
+
+.bp6-icon.bp6-intent-danger:not(.bp6-tooltip *),
+.bp6-icon-standard.bp6-intent-danger:not(.bp6-tooltip *),
+.bp6-icon-large.bp6-intent-danger:not(.bp6-tooltip *) {
+  color: var(--cs-color-danger-text);
+}
+
+/* Callout text and its leading icon */
+
+.bp6-callout.bp6-intent-primary,
+.bp6-callout.bp6-intent-primary > .bp6-icon:first-child {
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-callout.bp6-intent-success,
+.bp6-callout.bp6-intent-success > .bp6-icon:first-child {
+  color: var(--cs-color-success-text);
+}
+
+.bp6-callout.bp6-intent-warning,
+.bp6-callout.bp6-intent-warning > .bp6-icon:first-child {
+  color: var(--cs-color-warning-text);
+}
+
+.bp6-callout.bp6-intent-danger,
+.bp6-callout.bp6-intent-danger > .bp6-icon:first-child {
+  color: var(--cs-color-danger-text);
+}
+
+/* Progress meters and spinners */
+
+.bp6-progress-bar.bp6-intent-primary .bp6-progress-meter {
+  background-color: var(--cs-color-primary);
+}
+
+.bp6-progress-bar.bp6-intent-success .bp6-progress-meter {
+  background-color: var(--cs-color-success);
+}
+
+.bp6-progress-bar.bp6-intent-warning .bp6-progress-meter {
+  background-color: var(--cs-color-warning);
+}
+
+.bp6-progress-bar.bp6-intent-danger .bp6-progress-meter {
+  background-color: var(--cs-color-danger);
+}
+
+.bp6-spinner.bp6-intent-primary .bp6-spinner-head {
+  stroke: var(--cs-color-primary);
+}
+
+.bp6-spinner.bp6-intent-success .bp6-spinner-head {
+  stroke: var(--cs-color-success);
+}
+
+.bp6-spinner.bp6-intent-warning .bp6-spinner-head {
+  stroke: var(--cs-color-warning);
+}
+
+.bp6-spinner.bp6-intent-danger .bp6-spinner-head {
+  stroke: var(--cs-color-danger);
+}
+
+/* Editable text */
+
+.bp6-editable-text.bp6-intent-primary .bp6-editable-text-content,
+.bp6-editable-text.bp6-intent-primary .bp6-editable-text-input {
+  color: var(--cs-color-primary-text);
+}
+
+.bp6-editable-text.bp6-intent-success .bp6-editable-text-content,
+.bp6-editable-text.bp6-intent-success .bp6-editable-text-input {
+  color: var(--cs-color-success-text);
+}
+
+.bp6-editable-text.bp6-intent-warning .bp6-editable-text-content,
+.bp6-editable-text.bp6-intent-warning .bp6-editable-text-input {
+  color: var(--cs-color-warning-text);
+}
+
+.bp6-editable-text.bp6-intent-danger .bp6-editable-text-content,
+.bp6-editable-text.bp6-intent-danger .bp6-editable-text-input {
+  color: var(--cs-color-danger-text);
+}

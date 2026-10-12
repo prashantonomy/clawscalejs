@@ -45,6 +45,7 @@ export const nav: NavPackage[] = [
         pages: [
           { title: "Getting started", href: "/docs/getting-started/" },
           { title: "Next.js", href: "/docs/nextjs/" },
+          { title: "Themes", href: "/docs/themes/", badge: "new" },
           { title: "Theming", href: "/docs/theming/" },
           { title: "Design principles", href: "/docs/principles/" },
           { title: "Migrating from Blueprint", href: "/docs/migrating/" },

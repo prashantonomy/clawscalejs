@@ -1,12 +1,23 @@
 import AxeBuilder from "@axe-core/playwright";
+import { themeNames } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
 
 const pages = ["/", "/docs/", "/docs/core/buttons/", "/docs/core/tag/", "/docs/patterns/metric/", "/showcase/"];
 
-for (const theme of ["light", "dark"] as const) {
+const combinations = themeNames.flatMap((theme) =>
+  (["light", "dark"] as const).map((colorScheme) => ({ theme, colorScheme })),
+);
+
+for (const { theme, colorScheme } of combinations) {
   for (const href of pages) {
-    test(`${href} has no serious accessibility violations in the ${theme} theme`, async ({ page }) => {
-      await page.addInitScript((value) => localStorage.setItem("clawscale-theme", value), theme);
+    test(`${href} has no serious accessibility violations in the ${theme} theme, ${colorScheme}`, async ({ page }) => {
+      await page.addInitScript(
+        ([themeName, scheme]) => {
+          localStorage.setItem("clawscale-theme", themeName);
+          localStorage.setItem("clawscale-color-scheme", scheme);
+        },
+        [theme, colorScheme] as const,
+      );
       await page.goto(href);
       await page.waitForLoadState("networkidle");
       const results = await new AxeBuilder({ page })

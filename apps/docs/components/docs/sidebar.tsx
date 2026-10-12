@@ -7,6 +7,7 @@ import index from "@/generated/docs-index.json" with { type: "json" };
 import { type NavPackage, type NavPage, nav, packageForPath } from "@/lib/nav";
 import { site } from "@/lib/site";
 import { LogoMark } from "./logo";
+import { ThemeLabel, ThemePicker, themeLabel } from "./theme-picker";
 
 function normalize(path: string): string {
   return path.endsWith("/") ? path : `${path}/`;
@@ -98,14 +99,15 @@ function NavPackageSection({
 }
 
 export interface SidebarProps {
-  resolvedTheme: "light" | "dark";
-  onToggleTheme: () => void;
+  theme: string;
+  resolvedColorScheme: "light" | "dark";
+  onToggleColorScheme: () => void;
   onSearch: () => void;
   /** Called after a link is followed, to close the mobile drawer. */
   onNavigate?: () => void;
 }
 
-export function Sidebar({ resolvedTheme, onToggleTheme, onSearch, onNavigate }: SidebarProps) {
+export function Sidebar({ theme, resolvedColorScheme, onToggleColorScheme, onSearch, onNavigate }: SidebarProps) {
   const pathname = normalize(usePathname() ?? "/");
   const activePackage = packageForPath(pathname)?.id ?? "clawscale";
 
@@ -131,21 +133,31 @@ export function Sidebar({ resolvedTheme, onToggleTheme, onSearch, onNavigate }: 
       </div>
 
       <div className="docs-sidebar-actions">
+        {/* Both variants render. CSS shows the right one from the attributes on <html>, so the first paint is correct. */}
         <button
           type="button"
           className="docs-sidebar-action"
-          onClick={onToggleTheme}
-          aria-label={resolvedTheme === "dark" ? "Switch to the light theme" : "Switch to the dark theme"}
+          onClick={onToggleColorScheme}
+          aria-label={resolvedColorScheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
         >
-          {/* Both variants render; CSS shows the right one from data-cs-theme, so the first paint is correct. */}
-          <Icon icon="moon" className="theme-show-light" />
-          <Icon icon="flash" className="theme-show-dark" />
+          <Icon icon="moon" className="scheme-show-light" />
+          <Icon icon="flash" className="scheme-show-dark" />
           <span className="docs-sidebar-action-label">
-            <span className="theme-show-light">Dark theme</span>
-            <span className="theme-show-dark">Light theme</span>
+            <span className="scheme-show-light">Dark mode</span>
+            <span className="scheme-show-dark">Light mode</span>
           </span>
           <kbd className="docs-hint">⇧D</kbd>
         </button>
+        <ThemePicker fill placement="bottom-start">
+          <button type="button" className="docs-sidebar-action" aria-label={`Theme: ${themeLabel(theme)}`}>
+            <Icon icon="style" />
+            <span className="docs-sidebar-action-label">
+              <ThemeLabel /> theme
+            </span>
+            <Icon icon="caret-down" />
+            <kbd className="docs-hint">⇧T</kbd>
+          </button>
+        </ThemePicker>
         <button type="button" className="docs-sidebar-action" onClick={onSearch}>
           <Icon icon="search" />
           <span className="docs-sidebar-action-label">Search...</span>

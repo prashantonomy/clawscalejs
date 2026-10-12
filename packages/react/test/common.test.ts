@@ -13,9 +13,11 @@ describe("@clawscale/react/common", () => {
   });
 
   it("builds a theme script that targets Blueprint's dark class", () => {
-    const script = common.getThemeScript({ storageKey: "app-theme", defaultTheme: "dark" });
+    const script = common.getThemeScript({ themeStorageKey: "app-theme", defaultColorScheme: "dark" });
     expect(script).toContain('"app-theme"');
     expect(script).toContain(JSON.stringify(Blueprint.Classes.DARK));
     expect(script).toContain('"dark"');
+    expect(script).toContain("data-cs-theme");
+    expect(script).toContain("data-cs-color-scheme");
   });
 });

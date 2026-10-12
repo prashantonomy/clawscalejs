@@ -1,3 +1,4 @@
+import { themeNames } from "@clawscale/tokens";
 import { test } from "@playwright/test";
 
 /**
@@ -13,15 +14,25 @@ const pages = [
   { name: "buttons", href: "/docs/core/buttons/" },
 ];
 
-for (const theme of ["light", "dark"] as const) {
+const combinations = themeNames.flatMap((theme) =>
+  (["light", "dark"] as const).map((colorScheme) => ({ theme, colorScheme })),
+);
+
+for (const { theme, colorScheme } of combinations) {
   for (const { name, href } of pages) {
-    test(`${name} in the ${theme} theme`, async ({ page }) => {
-      await page.addInitScript((value) => localStorage.setItem("clawscale-theme", value), theme);
+    test(`${name} in the ${theme} theme, ${colorScheme}`, async ({ page }) => {
+      await page.addInitScript(
+        ([themeName, scheme]) => {
+          localStorage.setItem("clawscale-theme", themeName);
+          localStorage.setItem("clawscale-color-scheme", scheme);
+        },
+        [theme, colorScheme] as const,
+      );
       await page.goto(href);
       await page.waitForLoadState("networkidle");
       // Tables and sliders measure the DOM after mount.
       await page.waitForTimeout(1000);
-      await page.screenshot({ path: `screenshots/${name}-${theme}.png`, fullPage: true });
+      await page.screenshot({ path: `screenshots/${name}-${theme}-${colorScheme}.png`, fullPage: true });
     });
   }
 }

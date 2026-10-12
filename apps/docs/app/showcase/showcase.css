@@ -1,7 +1,7 @@
 /* Showcase: a full-screen console built from Clawscale components. Layout only. */
 
+/* No background of its own: the page canvas shows through, with the theme's backdrop if it has one. */
 .showcase {
-  background-color: var(--cs-color-canvas);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   height: 100vh;
@@ -49,6 +49,10 @@
 .showcase-navbar-end .bp6-input-group {
   margin-right: 6px;
   width: 240px;
+}
+
+.showcase-theme {
+  margin-right: 4px;
 }
 
 .showcase-navbar-end .bp6-input-action {
@@ -184,7 +188,9 @@
   color: var(--cs-color-text);
   font-size: var(--cs-font-size-md);
   font-weight: var(--cs-font-weight-semibold);
+  letter-spacing: var(--cs-label-tracking);
   margin: 0;
+  text-transform: var(--cs-label-transform);
 }
 
 .showcase-card-header > span:not(.bp6-tag):not(.showcase-card-spacer) {
@@ -387,6 +393,11 @@
   justify-content: space-between;
 }
 
+.showcase-inspector-label > span {
+  letter-spacing: var(--cs-label-tracking);
+  text-transform: var(--cs-label-transform);
+}
+
 .showcase-inspector-label strong {
   color: var(--cs-color-text);
   font-weight: var(--cs-font-weight-semibold);
@@ -429,7 +440,8 @@
 
   .showcase-sidebar,
   .showcase-nav-tabs,
-  .showcase-navbar-end .bp6-input-group {
+  .showcase-navbar-end .bp6-input-group,
+  .showcase-theme {
     display: none;
   }
 

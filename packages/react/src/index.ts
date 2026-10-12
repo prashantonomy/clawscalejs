@@ -10,4 +10,9 @@ export * from "./components/index.js";
 // Naming them here beats the type-only copy that generated/core.ts re-exports.
 export { KeyComboTag } from "./components/index.js";
 export * from "./generated/core.js";
-export { getThemeScript, type ThemeScriptOptions } from "./theme-script.js";
+export {
+  type ColorScheme,
+  type ColorSchemePreference,
+  getThemeScript,
+  type ThemeScriptOptions,
+} from "./theme-script.js";

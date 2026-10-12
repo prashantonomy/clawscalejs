@@ -17,6 +17,17 @@ body {
 }
 
 /*
+ * Nested themes and color schemes. Text color and font are inherited as computed values,
+ * so an element that sets data-cs-theme or data-cs-color-scheme restates them for its
+ * subtree, as body does for the page.
+ */
+[data-cs-theme]:not(:root),
+[data-cs-color-scheme]:not(:root) {
+  color: var(--cs-color-text);
+  font-family: var(--cs-font-sans), "blueprint-icons-16", sans-serif;
+}
+
+/*
  * Focus rings. Blueprint hardcodes the outline color on these selectors.
  * Only the color changes here: elements that hide their outline stay hidden.
  */
@@ -42,8 +53,20 @@ a:not([class*="bp6-"]):hover {
 }
 
 .bp6-dark a:not([class*="bp6-"]):hover,
-[data-cs-theme="dark"] a:not([class*="bp6-"]):hover {
+[data-cs-color-scheme="dark"] a:not([class*="bp6-"]):hover {
   color: var(--cs-color-primary-text);
+}
+
+/*
+ * Corner shape. Blueprint and Clawscale components follow --cs-corner-shape, so a theme can
+ * cut corners instead of rounding them. "round" is the initial value, so the default theme
+ * changes nothing. Browsers without corner-shape ignore it and keep rounded corners.
+ */
+[class^="bp6-"],
+[class*=" bp6-"],
+[class^="cs-"],
+[class*=" cs-"] {
+  corner-shape: var(--cs-corner-shape);
 }
 
 code,

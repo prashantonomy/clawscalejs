@@ -1,0 +1,126 @@
+import ThemesAccentPicker from "@/examples/guides/themes/accent-picker";
+import ThemesPicker from "@/examples/guides/themes/picker";
+
+export const metadata = { title: "Themes" };
+
+# Themes
+
+<Lead>
+A theme sets the whole look: color, type, corners and labels. Each theme has a light and a dark color scheme. Components never need to know which one is active.
+</Lead>
+
+| Theme | Look |
+| --- | --- |
+| `default` | Calm and neutral, for tools people use all day. Inter, rounded corners, blue accents. |
+| `ledger` | Crisp and dense, drawn the way Blueprint draws it. IBM Plex, 2 to 3px corners, Blueprint's grays and elevation, violet accents. |
+
+`styles.css` includes the default theme. Every other theme ships its own stylesheet.
+
+## Use a theme
+
+Load the theme's stylesheet after the main one. `fonts.css` is optional and loads every theme's typefaces. Browsers download only the ones a page uses.
+
+```tsx
+import "@clawscale/react/styles.css";
+import "@clawscale/react/themes/ledger.css";
+import "@clawscale/react/fonts.css";
+```
+
+Pick it on the provider, and pass the same default to `ThemeScript` so the first paint matches.
+
+```tsx
+<ClawscaleProvider defaultTheme="ledger">{children}</ClawscaleProvider>
+```
+
+```tsx
+<ThemeScript defaultTheme="ledger" />
+```
+
+Without its stylesheet, a theme falls back to the default look, and the provider logs a warning.
+
+## Let people choose
+
+`useTheme` returns the theme and a setter. The choice is saved, like the color scheme. `themes` from `@clawscale/tokens` holds every built-in theme with its `label` and `description`, so a dropdown can list them all. This one changes the theme of these docs. So does Shift + T.
+
+<Example name="guides/themes/picker">
+  <ThemesPicker />
+</Example>
+
+## Accents
+
+An accent sets the primary color: buttons, links, focus rings, selection and selected rows. Every other color stays with the theme. Each theme lists its accents, its own first.
+
+| Theme | Accents |
+| --- | --- |
+| `default` | Blue, violet, teal |
+| `ledger` | Violet, blue, teal |
+
+`setAccent` changes the accent and saves it, like the theme. A saved accent that the active theme lacks falls back to the theme's own. `themeAccents(theme)` from `@clawscale/tokens` lists a theme's accents with their colors. This picker changes the accent of these docs.
+
+<Example name="guides/themes/accent-picker">
+  <ThemesAccentPicker />
+</Example>
+
+To start with an accent, pass `defaultAccent` to the provider and to `ThemeScript`.
+
+```tsx
+<ClawscaleProvider defaultTheme="ledger" defaultAccent="teal">{children}</ClawscaleProvider>
+```
+
+## Themes and color schemes
+
+The theme and the color scheme are separate settings. `colorScheme` picks light, dark or system for any theme. See [Clawscale provider](/docs/core/clawscale-provider/).
+
+| Attribute on `<html>` | Values |
+| --- | --- |
+| `data-cs-theme` | `default`, `ledger` or the name of your own theme |
+| `data-cs-accent` | An accent of that theme, or absent for the theme's own |
+| `data-cs-color-scheme` | `light` or `dark` |
+
+## Scope a theme
+
+Set `data-cs-theme` on any element to give its subtree another theme, and `data-cs-color-scheme` for another color scheme. Both nest, and the closest one wins.
+
+```tsx
+<Card data-cs-theme="ledger">...</Card>
+```
+
+An accent applies where `data-cs-accent` sits on the same element as `data-cs-theme`, as the provider sets both on `<html>`.
+
+```tsx
+<Card data-cs-theme="ledger" data-cs-accent="teal">...</Card>
+```
+
+Overlays render in a portal on `<body>`, so they take the page's theme. Inside a scoped subtree, render them in place with `usePortal={false}`.
+
+## Browser support
+
+A theme's own rules sit inside `@scope`, and can use `corner-shape` and `light-dark()`.
+
+- Browsers without `corner-shape` keep rounded corners.
+- Browsers without `@scope` get the theme's tokens: its colors, fonts, corners and labels. They skip its own rules.
+
+## Build your own theme
+
+A theme is data: a `ThemeDefinition` from `@clawscale/tokens` with shared tokens, a light and a dark color scheme and a sequential ramp. Start from a built-in theme, render its CSS with `renderThemeCss` and load the file after the Clawscale styles.
+
+```ts
+import { blue, renderThemeCss, type ThemeDefinition, themes, withAccent } from "@clawscale/tokens";
+
+// The default theme with teal as its own accent, and blue to pick.
+const base = withAccent(themes.default, "teal");
+
+export const harbor: ThemeDefinition = {
+  ...base,
+  name: "harbor",
+  label: "Harbor",
+  description: "The default theme with teal accents.",
+  accent: { name: "teal", label: "Teal" },
+  accents: [blue],
+};
+
+// At build time, write the CSS and load it after @clawscale/react/styles.css.
+const css = renderThemeCss(harbor);
+```
+
+Then pass `defaultTheme="harbor"`. Check every text and intent color with `contrastRatio` from `@clawscale/tokens`, as Clawscale's own tests do.

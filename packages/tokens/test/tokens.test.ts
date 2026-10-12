@@ -1,24 +1,48 @@
 import { describe, expect, it } from "vitest";
 import {
+  accentTokens,
+  type ColorSchemeTokens,
+  chartPalettes,
+  colorSchemes,
   contrastRatio,
   dark,
+  defaultTheme,
   intents,
   light,
+  parseColor,
+  renderThemeCss,
   renderTokensCss,
+  schemeValueVariables,
   sharedVariables,
-  type ThemeTokens,
+  type ThemeDefinition,
+  teal,
+  themeAccents,
+  themeNames,
+  themes,
   themeVariables,
+  withAccent,
 } from "../src/index.ts";
-
-const themes: Array<[string, ThemeTokens]> = [
-  ["light", light],
-  ["dark", dark],
-];
 
 const AA_TEXT = 4.5;
 const AA_UI = 3;
 
-describe.each(themes)("%s theme", (_name, t) => {
+const allThemes: ThemeDefinition[] = Object.values(themes);
+// Every theme in every color scheme, with each of its accents applied.
+const cases: Array<[string, string, string, ColorSchemeTokens]> = allThemes.flatMap((theme) =>
+  themeAccents(theme).flatMap((accent) =>
+    colorSchemes.map(
+      (scheme) =>
+        [theme.name, accent.name, scheme, withAccent(theme, accent.name)[scheme]] as [
+          string,
+          string,
+          string,
+          ColorSchemeTokens,
+        ],
+    ),
+  ),
+);
+
+describe.each(cases)("%s theme, %s accent, %s color scheme", (_theme, _accent, _scheme, t) => {
   const c = t.color;
   const surfaces = [c.canvas, c.surface, c["surface-raised"], c["surface-sunken"]];
 
@@ -69,28 +93,172 @@ describe.each(themes)("%s theme", (_name, t) => {
       expect(contrastRatio(c.focus, surface), `focus on ${surface}`).toBeGreaterThanOrEqual(AA_UI);
     }
   });
+
+  it("uses only colors the contrast math can read", () => {
+    for (const value of Object.values(c)) expect(() => parseColor(value), value).not.toThrow();
+  });
+});
+
+describe.each(allThemes.map((theme) => [theme.name, theme] as const))("%s theme definition", (name, theme) => {
+  it("is registered under its own name", () => {
+    expect(themes[name as keyof typeof themes]).toBe(theme);
+    expect(name).toMatch(/^[a-z][a-z0-9-]*$/);
+    expect(theme.label.length).toBeGreaterThan(0);
+    expect(theme.description.length).toBeGreaterThan(0);
+  });
+
+  it("defines the same tokens as the default theme", () => {
+    expect(Object.keys(sharedVariables(theme)).sort()).toEqual(Object.keys(sharedVariables(defaultTheme)).sort());
+    for (const scheme of colorSchemes) {
+      expect(Object.keys(themeVariables(theme, scheme)).sort()).toEqual(
+        Object.keys(themeVariables(defaultTheme, "light")).sort(),
+      );
+    }
+  });
+
+  it("only overrides shared tokens that exist", () => {
+    const known = new Set(Object.keys(sharedVariables(defaultTheme)));
+    for (const overrides of Object.values(theme.supports ?? {})) {
+      for (const [group, values] of Object.entries(overrides)) {
+        for (const token of Object.keys(values ?? {}))
+          expect(known, `--cs-${group}-${token}`).toContain(`--cs-${group}-${token}`);
+      }
+    }
+  });
+
+  it("names its accents uniquely and gives each a value for every accent token", () => {
+    const accents = themeAccents(theme);
+    expect(new Set(accents.map((accent) => accent.name)).size).toBe(accents.length);
+    for (const accent of accents) {
+      expect(accent.name).toMatch(/^[a-z][a-z0-9-]*$/);
+      expect(accent.label.length).toBeGreaterThan(0);
+      for (const scheme of colorSchemes) expect(Object.keys(accent[scheme]).sort()).toEqual([...accentTokens].sort());
+    }
+  });
+
+  it("keeps eight chart slots and fixed status colors", () => {
+    for (const scheme of colorSchemes) {
+      const chart = theme[scheme].chart;
+      expect(["1", "2", "3", "4", "5", "6", "7", "8"].every((slot) => slot in chart)).toBe(true);
+      expect(chart.good).toBe(defaultTheme[scheme].chart.good);
+      expect(chart.critical).toBe(defaultTheme[scheme].chart.critical);
+    }
+  });
+});
+
+describe("chart palettes", () => {
+  it("list every built-in theme's slots in order", () => {
+    for (const name of themeNames) {
+      for (const scheme of colorSchemes) {
+        const slots = themes[name][scheme].chart;
+        expect(chartPalettes[name][scheme]).toEqual(
+          ["1", "2", "3", "4", "5", "6", "7", "8"].map((s) => slots[s as "1"]),
+        );
+      }
+    }
+  });
 });
 
 describe("css output", () => {
   const css = renderTokensCss();
 
-  it("declares every variable exactly once per scope", () => {
-    const names = Object.keys({ ...sharedVariables(), ...themeVariables("light") });
-    for (const name of names) expect(css).toContain(`${name}:`);
+  it("declares every shared token and both values of every color scheme token", () => {
+    for (const name of Object.keys(sharedVariables())) expect(css).toContain(`${name}:`);
+    for (const name of Object.keys(schemeValueVariables(defaultTheme))) expect(css).toContain(`${name}:`);
     expect(css).not.toContain("undefined");
   });
 
-  it("switches to dark tokens under the dark selector", () => {
-    expect(css).toContain('[data-cs-theme="dark"] {');
-    expect(css).toContain(`--cs-color-canvas: ${dark.color.canvas};`);
+  it("picks each final token from its light and dark value", () => {
+    for (const name of Object.keys(themeVariables(defaultTheme, "light"))) {
+      expect(css).toContain(`${name}: var(--cs-is-dark, var(${name}-light)) var(--cs-is-light, var(${name}-dark));`);
+    }
+  });
+
+  it("switches the color scheme under the dark and light selectors", () => {
+    expect(css).toContain('[data-cs-color-scheme="dark"], [data-cs-theme="dark"] {\n  color-scheme: dark;');
+    expect(css).toContain("--cs-is-dark: ;");
+    expect(css).toContain(`--cs-color-canvas-dark: ${dark.color.canvas};`);
+    expect(css).toContain(`--cs-color-canvas-light: ${light.color.canvas};`);
   });
 
   it("uses custom selectors when asked", () => {
-    const custom = renderTokensCss({ darkSelector: ".my-dark" });
+    const custom = renderTokensCss({ darkSelector: ".my-dark", lightSelector: ".my-light" });
     expect(custom).toContain(".my-dark {");
+    expect(custom).toContain(":root, .my-light {");
   });
 
-  it("gives both themes the same token names", () => {
-    expect(Object.keys(themeVariables("dark")).sort()).toEqual(Object.keys(themeVariables("light")).sort());
+  it("re-picks final tokens wherever the theme or color scheme changes", () => {
+    expect(css).toMatch(/:root, \[data-cs-theme\], \[data-cs-color-scheme\], [^{]+\{\n {2}--cs-color-canvas: var/);
+  });
+
+  it("names the active theme", () => {
+    expect(css).toContain("--cs-theme: default;");
+  });
+
+  it("applies the default theme's accents where a root or theme element names one", () => {
+    expect(css).toContain(
+      ':root:not([data-cs-theme])[data-cs-accent="teal"], [data-cs-theme="default"][data-cs-accent="teal"] {',
+    );
+    expect(css).toContain(`--cs-color-primary-dark: ${teal.dark.primary};`);
+    expect(css).toMatch(/\[data-cs-color-scheme\], \[data-cs-accent\], [^{]+\{\n {2}--cs-color-canvas: var/);
+  });
+});
+
+describe("accents", () => {
+  it("list the theme's own accent first", () => {
+    expect(themeAccents(defaultTheme).map((accent) => accent.name)).toEqual(["blue", "violet", "teal"]);
+    expect(themeAccents(themes.ledger).map((accent) => accent.name)).toEqual(["violet", "blue", "teal"]);
+    expect(themeAccents(themes.ledger)[0]?.light.primary).toBe(themes.ledger.light.color.primary);
+  });
+
+  it("replace only the accent tokens", () => {
+    const tinted = withAccent(defaultTheme, "teal");
+    expect(tinted.light.color.primary).toBe(teal.light.primary);
+    expect(tinted.light.color.canvas).toBe(defaultTheme.light.color.canvas);
+    expect(withAccent(defaultTheme, "missing")).toBe(defaultTheme);
+  });
+
+  it("render under the theme's attribute and the accent's", () => {
+    const css = renderThemeCss(themes.ledger);
+    expect(css).toContain('[data-cs-theme="ledger"][data-cs-accent="blue"] {');
+    expect(css).toContain(`--cs-color-focus-light: ${themes.ledger.accents?.[0]?.light.focus};`);
+    expect(css).not.toContain('[data-cs-accent="violet"]');
+  });
+});
+
+describe("theme css output", () => {
+  // A theme you could define yourself: the default tokens with teal accents and cut corners.
+  const harbor: ThemeDefinition = {
+    ...defaultTheme,
+    name: "harbor",
+    label: "Harbor",
+    description: "The default theme with teal accents.",
+    shared: { ...defaultTheme.shared, corner: { shape: "bevel" } },
+    light: { ...defaultTheme.light, color: { ...defaultTheme.light.color, primary: "#0E7C6B" } },
+    supports: { "(corner-shape: bevel)": { radius: { md: "6px" } } },
+  };
+  const css = renderThemeCss(harbor);
+
+  it("scopes a theme to its attribute", () => {
+    expect(css).toContain(':root[data-cs-theme="harbor"], [data-cs-theme="harbor"] {\n  --cs-theme: harbor;');
+    expect(css).not.toContain("--cs-is-dark");
+  });
+
+  it("declares the theme's values for both color schemes", () => {
+    expect(css).toContain("--cs-color-primary-light: #0E7C6B;");
+    for (const [name, value] of Object.entries(schemeValueVariables(harbor))) {
+      expect(css).toContain(`${name}: ${value};`);
+    }
+  });
+
+  it("puts feature-dependent overrides behind @supports", () => {
+    expect(css).toContain("@supports (corner-shape: bevel) {");
+    expect(css).toContain("--cs-corner-shape: bevel;");
+  });
+});
+
+describe("deprecated names", () => {
+  it("still read the default theme by color scheme", () => {
+    expect(themeVariables("dark")).toEqual(themeVariables(defaultTheme, "dark"));
   });
 });

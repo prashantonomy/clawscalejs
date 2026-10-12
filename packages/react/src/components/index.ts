@@ -1,3 +1,4 @@
+export type { BuiltInThemeName, ThemeName } from "@clawscale/tokens";
 export { ClawscaleClasses } from "./classes.js";
 export {
   ClawscaleProvider,

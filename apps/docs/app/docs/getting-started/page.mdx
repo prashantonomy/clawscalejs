@@ -23,7 +23,7 @@ import "@clawscale/react/styles.css";
 import "@clawscale/react/fonts.css";
 ```
 
-`styles.css` holds normalize.css, Blueprint's CSS and the Clawscale layer. `fonts.css` is optional: it loads Inter and JetBrains Mono, the typefaces Clawscale is tuned for.
+`styles.css` holds normalize.css, Blueprint's CSS and the Clawscale layer. `fonts.css` is optional: it loads Inter and JetBrains Mono, the typefaces Clawscale is tuned for, and IBM Plex for the Ledger theme.
 
 ## Wrap your app
 
@@ -35,7 +35,7 @@ export function App() {
 }
 ```
 
-`ClawscaleProvider` sets up overlays, hotkeys and portals, and manages the light, dark and system themes. See [Clawscale provider](/docs/core/clawscale-provider/).
+`ClawscaleProvider` sets up overlays, hotkeys and portals, and manages the theme and the light, dark and system color schemes. See [Clawscale provider](/docs/core/clawscale-provider/).
 
 ## Render a component
 
@@ -63,5 +63,6 @@ Clawscale targets the last two versions of Chrome, Edge, Firefox and Safari. It 
 ## Next steps
 
 - Using Next.js? Read [Next.js](/docs/nextjs/).
+- Want to switch the whole look? Read [Themes](/docs/themes/).
 - Want your own brand color? Read [Theming](/docs/theming/).
 - Coming from Blueprint? Read [Migrating from Blueprint](/docs/migrating/).

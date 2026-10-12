@@ -89,7 +89,8 @@ a.docs-brand-link:hover {
   width: 100%;
 }
 
-.docs-sidebar-action + .docs-sidebar-action {
+/* The theme dropdown wraps its row in a popover target, so separate any two rows. */
+.docs-sidebar-actions > * + * {
   border-top: 1px solid var(--cs-color-border-subtle);
 }
 
@@ -270,8 +271,8 @@ a.docs-brand-link:hover {
 
 /* Main column */
 
+/* No background of its own: the page canvas shows through, with the theme's backdrop if it has one. */
 .docs-main {
-  background-color: var(--cs-color-canvas);
   flex: 1 1 auto;
   min-width: 0;
 }

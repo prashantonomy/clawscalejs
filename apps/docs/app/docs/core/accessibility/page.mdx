@@ -18,7 +18,7 @@ Turn off the switch, click a button, then press Tab.
   <AccessibilityFocus />
 </Example>
 
-`--cs-color-focus` keeps at least 3:1 contrast against every surface in both themes. Use it for focus styles in your own components.
+`--cs-color-focus` keeps at least 3:1 contrast against every surface in every theme and color scheme. Use it for focus styles in your own components.
 
 ```css
 .run-row:focus-visible {
@@ -29,7 +29,7 @@ Turn off the switch, click a button, then press Tab.
 
 ## Color contrast
 
-Unit tests check the color tokens against WCAG AA in both themes. They live in [`packages/tokens/test/tokens.test.ts`](https://github.com/prashantonomy/clawscalejs/blob/main/packages/tokens/test/tokens.test.ts) and run in CI.
+Unit tests check the color tokens of every theme against WCAG AA in both color schemes. They live in [`packages/tokens/test/tokens.test.ts`](https://github.com/prashantonomy/clawscalejs/blob/main/packages/tokens/test/tokens.test.ts) and run in CI.
 
 | Pair | Minimum ratio |
 | --- | --- |
