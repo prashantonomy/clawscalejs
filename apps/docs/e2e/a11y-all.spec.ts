@@ -1,4 +1,5 @@
 import AxeBuilder from "@axe-core/playwright";
+import { themeNames } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
 import index from "../generated/docs-index.json" with { type: "json" };
 
@@ -8,7 +9,7 @@ import index from "../generated/docs-index.json" with { type: "json" };
  */
 test.skip(!process.env.A11Y_ALL, "Set A11Y_ALL=1 to audit every page.");
 
-const combinations = ["default", "futuristic"].flatMap((theme) =>
+const combinations = themeNames.flatMap((theme) =>
   (["light", "dark"] as const).map((colorScheme) => ({ theme, colorScheme })),
 );
 

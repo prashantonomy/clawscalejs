@@ -1,5 +1,5 @@
 import { Colors } from "@clawscale/react/common";
-import { defaultTheme, themeVariables } from "@clawscale/tokens";
+import { defaultTheme, themeNames, themeVariables } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
 import index from "../generated/docs-index.json" with { type: "json" };
 
@@ -35,7 +35,7 @@ const blueprintPalette = Object.entries(Colors)
 
 const colorTokens = Object.keys(themeVariables(defaultTheme, "light")).filter((name) => name.startsWith("--cs-color-"));
 const pages = ["/", "/gallery/", "/showcase/", ...index.map((page) => page.href)];
-const combinations = ["default", "futuristic"].flatMap((theme) =>
+const combinations = themeNames.flatMap((theme) =>
   (["light", "dark"] as const).map((colorScheme) => ({ theme, colorScheme })),
 );
 

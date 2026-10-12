@@ -1,3 +1,4 @@
+import { themeNames } from "@clawscale/tokens";
 import { test } from "@playwright/test";
 
 /**
@@ -13,7 +14,7 @@ const pages = [
   { name: "buttons", href: "/docs/core/buttons/" },
 ];
 
-const combinations = ["default", "futuristic"].flatMap((theme) =>
+const combinations = themeNames.flatMap((theme) =>
   (["light", "dark"] as const).map((colorScheme) => ({ theme, colorScheme })),
 );
 

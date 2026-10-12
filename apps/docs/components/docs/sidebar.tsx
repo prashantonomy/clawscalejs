@@ -7,6 +7,7 @@ import index from "@/generated/docs-index.json" with { type: "json" };
 import { type NavPackage, type NavPage, nav, packageForPath } from "@/lib/nav";
 import { site } from "@/lib/site";
 import { LogoMark } from "./logo";
+import { ThemeLabel, ThemePicker, themeLabel } from "./theme-picker";
 
 function normalize(path: string): string {
   return path.endsWith("/") ? path : `${path}/`;
@@ -100,21 +101,13 @@ function NavPackageSection({
 export interface SidebarProps {
   theme: string;
   resolvedColorScheme: "light" | "dark";
-  onToggleTheme: () => void;
   onToggleColorScheme: () => void;
   onSearch: () => void;
   /** Called after a link is followed, to close the mobile drawer. */
   onNavigate?: () => void;
 }
 
-export function Sidebar({
-  theme,
-  resolvedColorScheme,
-  onToggleTheme,
-  onToggleColorScheme,
-  onSearch,
-  onNavigate,
-}: SidebarProps) {
+export function Sidebar({ theme, resolvedColorScheme, onToggleColorScheme, onSearch, onNavigate }: SidebarProps) {
   const pathname = normalize(usePathname() ?? "/");
   const activePackage = packageForPath(pathname)?.id ?? "clawscale";
 
@@ -155,20 +148,16 @@ export function Sidebar({
           </span>
           <kbd className="docs-hint">⇧D</kbd>
         </button>
-        <button
-          type="button"
-          className="docs-sidebar-action"
-          onClick={onToggleTheme}
-          aria-label={theme === "futuristic" ? "Switch to the default theme" : "Switch to the futuristic theme"}
-        >
-          <Icon icon="rocket-slant" className="theme-show-default" />
-          <Icon icon="style" className="theme-show-futuristic" />
-          <span className="docs-sidebar-action-label">
-            <span className="theme-show-default">Futuristic theme</span>
-            <span className="theme-show-futuristic">Default theme</span>
-          </span>
-          <kbd className="docs-hint">⇧T</kbd>
-        </button>
+        <ThemePicker fill placement="bottom-start">
+          <button type="button" className="docs-sidebar-action" aria-label={`Theme: ${themeLabel(theme)}`}>
+            <Icon icon="style" />
+            <span className="docs-sidebar-action-label">
+              <ThemeLabel /> theme
+            </span>
+            <Icon icon="caret-down" />
+            <kbd className="docs-hint">⇧T</kbd>
+          </button>
+        </ThemePicker>
         <button type="button" className="docs-sidebar-action" onClick={onSearch}>
           <Icon icon="search" />
           <span className="docs-sidebar-action-label">Search...</span>

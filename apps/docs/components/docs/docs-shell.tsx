@@ -8,6 +8,7 @@ import { repoFileUrl } from "@/lib/site";
 import { LogoMark } from "./logo";
 import { Search } from "./search";
 import { Sidebar } from "./sidebar";
+import { nextTheme } from "./theme-picker";
 
 function EditLink() {
   const pathname = usePathname() ?? "/docs/";
@@ -34,24 +35,23 @@ export function DocsShell({ children }: { children: ReactNode }) {
     () => setColorScheme(resolvedColorScheme === "dark" ? "light" : "dark"),
     [resolvedColorScheme, setColorScheme],
   );
-  const toggleTheme = useCallback(() => setTheme(theme === "futuristic" ? "default" : "futuristic"), [theme, setTheme]);
+  const cycleTheme = useCallback(() => setTheme(nextTheme(theme)), [theme, setTheme]);
   const openSearch = useCallback(() => setSearchOpen(true), []);
 
   const hotkeys = useMemo(
     () => [
       { combo: "shift+d", global: true, label: "Toggle dark mode", onKeyDown: toggleColorScheme },
-      { combo: "shift+t", global: true, label: "Toggle the futuristic theme", onKeyDown: toggleTheme },
+      { combo: "shift+t", global: true, label: "Next theme", onKeyDown: cycleTheme },
       { combo: "shift+s", global: true, label: "Search the docs", onKeyDown: openSearch, preventDefault: true },
       { combo: "mod+k", global: true, label: "Search the docs", onKeyDown: openSearch, preventDefault: true },
     ],
-    [toggleColorScheme, toggleTheme, openSearch],
+    [toggleColorScheme, cycleTheme, openSearch],
   );
   useHotkeys(hotkeys);
 
   const sidebarProps = {
     theme,
     resolvedColorScheme,
-    onToggleTheme: toggleTheme,
     onToggleColorScheme: toggleColorScheme,
     onSearch: openSearch,
   };

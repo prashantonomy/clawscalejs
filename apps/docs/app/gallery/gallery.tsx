@@ -72,7 +72,7 @@ import { DateRangePicker } from "@clawscale/react/datetime";
 import { Select } from "@clawscale/react/select";
 import { Cell, Column, Table } from "@clawscale/react/table";
 import { type ReactNode, useState } from "react";
-import { ThemeSwitch } from "@/components/docs/theme-switch";
+import { ThemePicker } from "@/components/docs/theme-picker";
 import { withBasePath } from "@/lib/site";
 
 const intents = ["none", "primary", "success", "warning", "danger"] as const;
@@ -119,7 +119,7 @@ export function Gallery() {
         <NavbarGroup align="right">
           <InputGroup leftIcon="search" placeholder="Search" size="small" />
           <NavbarDivider />
-          <ThemeSwitch />
+          <ThemePicker />
           <Button
             variant="minimal"
             icon={resolvedColorScheme === "dark" ? "flash" : "moon"}

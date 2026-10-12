@@ -1,3 +1,4 @@
+import { themeNames, themes } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
 
 test.describe("color scheme", () => {
@@ -29,36 +30,39 @@ test.describe("color scheme", () => {
 });
 
 test.describe("theme", () => {
-  test("switches with Shift+T, independent of the color scheme, and survives a reload", async ({ page }) => {
+  test("cycles with Shift+T, independent of the color scheme, and survives a reload", async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem("clawscale-color-scheme", "dark"));
     await page.goto("/docs/");
     await page.waitForLoadState("networkidle");
     const html = page.locator("html");
     await expect(html).toHaveAttribute("data-cs-theme", "default");
+    const next = themeNames[1 % themeNames.length] ?? "default";
     await page.keyboard.press("Shift+T");
-    await expect(html).toHaveAttribute("data-cs-theme", "futuristic");
+    await expect(html).toHaveAttribute("data-cs-theme", next);
     await expect(html).toHaveAttribute("data-cs-color-scheme", "dark");
     await page.reload();
-    await expect(html).toHaveAttribute("data-cs-theme", "futuristic");
-    const font = await page.evaluate(() => getComputedStyle(document.body).fontFamily);
-    expect(font).toContain("Oxanium");
+    await expect(html).toHaveAttribute("data-cs-theme", next);
   });
 
   test("applies the saved theme before hydration", async ({ page }) => {
-    await page.addInitScript(() => localStorage.setItem("clawscale-theme", "futuristic"));
+    await page.addInitScript(() => localStorage.setItem("clawscale-theme", "harbor"));
     await page.goto("/showcase/", { waitUntil: "domcontentloaded" });
-    await expect(page.locator("html")).toHaveAttribute("data-cs-theme", "futuristic");
+    await expect(page.locator("html")).toHaveAttribute("data-cs-theme", "harbor");
   });
 
-  test("switches from the showcase", async ({ page }) => {
+  test("lists every theme in the dropdown and saves the pick", async ({ page }) => {
     await page.goto("/showcase/");
     await page.waitForLoadState("networkidle");
-    await page.getByRole("radio", { name: "Futuristic" }).click();
-    await expect(page.locator("html")).toHaveAttribute("data-cs-theme", "futuristic");
-    const label = await page
-      .getByRole("button", { name: "New pipeline" })
-      .evaluate((el) => getComputedStyle(el).textTransform);
-    expect(label).toBe("uppercase");
+    await page.getByRole("button", { name: "Theme: Default" }).click();
+    const items = page.getByRole("menuitemradio");
+    await expect(items).toHaveCount(themeNames.length);
+    await expect(items.first()).toHaveAttribute("aria-checked", "true");
+    const last = Object.values(themes).at(-1) ?? themes.default;
+    await items.last().click();
+    await expect(page.locator("html")).toHaveAttribute("data-cs-theme", last.name);
+    await expect(page.getByRole("button", { name: `Theme: ${last.label}` })).toBeVisible();
+    await page.reload();
+    await expect(page.locator("html")).toHaveAttribute("data-cs-theme", last.name);
   });
 });
 

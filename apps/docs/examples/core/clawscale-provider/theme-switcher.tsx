@@ -1,18 +1,18 @@
 "use client";
 
-import { SegmentedControl, useTheme } from "@clawscale/react";
+import { HTMLSelect, useTheme } from "@clawscale/react";
+import { themes } from "@clawscale/tokens";
+
+const options = Object.values(themes).map(({ name, label }) => ({ label, value: name }));
 
 export default function ClawscaleProviderThemeSwitcher() {
   const { theme, setTheme } = useTheme();
   return (
-    <SegmentedControl
+    <HTMLSelect
       aria-label="Theme"
-      options={[
-        { label: "Default", value: "default" },
-        { label: "Futuristic", value: "futuristic" },
-      ]}
+      options={options}
       value={theme}
-      onValueChange={setTheme}
+      onChange={(event) => setTheme(event.currentTarget.value)}
     />
   );
 }

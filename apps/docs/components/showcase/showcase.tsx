@@ -29,7 +29,7 @@ import {
 import Link from "next/link";
 import { useMemo, useRef, useState } from "react";
 import { LogoMark } from "@/components/docs/logo";
-import { ThemeSwitch } from "@/components/docs/theme-switch";
+import { ThemePicker } from "@/components/docs/theme-picker";
 import { BarChart } from "./bar-chart";
 import {
   formatCompact,
@@ -148,7 +148,7 @@ export function Showcase() {
             rightElement={<KeyComboTag className="showcase-search-hint" combo="mod+k" minimal />}
             aria-label="Search pipelines"
           />
-          <ThemeSwitch className="showcase-theme" />
+          <ThemePicker className="showcase-theme" />
           <Button icon="notifications" variant="minimal" aria-label="Notifications" />
           <Button
             variant="minimal"

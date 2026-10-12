@@ -1,9 +1,10 @@
 import AxeBuilder from "@axe-core/playwright";
+import { themeNames } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
 
 const pages = ["/", "/docs/", "/docs/core/buttons/", "/docs/core/tag/", "/docs/patterns/metric/", "/showcase/"];
 
-const combinations = ["default", "futuristic"].flatMap((theme) =>
+const combinations = themeNames.flatMap((theme) =>
   (["light", "dark"] as const).map((colorScheme) => ({ theme, colorScheme })),
 );
 
