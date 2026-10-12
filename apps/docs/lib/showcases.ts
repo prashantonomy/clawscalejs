@@ -19,6 +19,15 @@ export interface Showcase {
 
 export const showcases: Showcase[] = [
   {
+    slug: "omega",
+    title: "Omega",
+    description:
+      "A defense analysis workspace: a situation on a map, courses of action, asset tasking and a review before every task order.",
+    href: "/showcase/omega/",
+    domain: "Defense",
+    highlights: ["Section", "RadioCard", "CheckboxCard", "Dialog", "Toast", "ContextMenu", "Omnibar", "Slider"],
+  },
+  {
     slug: "pipelines",
     title: "Pipeline console",
     description:

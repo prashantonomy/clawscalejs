@@ -8,9 +8,10 @@ import { LogoMark } from "@/components/docs/logo";
 import { ThemePicker } from "@/components/docs/theme-picker";
 import { showcases } from "@/lib/showcases";
 import { site } from "@/lib/site";
-import { PipelinesPreview } from "./previews";
+import { OmegaPreview, PipelinesPreview } from "./previews";
 
 const previews: Record<string, ComponentType> = {
+  omega: OmegaPreview,
   pipelines: PipelinesPreview,
 };
 

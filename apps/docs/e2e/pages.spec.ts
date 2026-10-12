@@ -17,6 +17,7 @@ const pages = [
   { href: "/", title: "Clawscale" },
   { href: "/showcase/", title: "Showcase" },
   { href: "/showcase/pipelines/", title: "Production pipelines" },
+  { href: "/showcase/omega/", title: "Meridian Sea" },
   { href: "/gallery/", title: "" },
   ...index.map((page) => ({ href: page.href, title: page.title })),
 ];

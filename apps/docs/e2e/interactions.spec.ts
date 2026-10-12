@@ -148,3 +148,37 @@ test.describe("pipeline console showcase", () => {
     await expect(page.locator(".showcase-cell-status")).toHaveCount(Number(count));
   });
 });
+
+test.describe("omega showcase", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/showcase/omega/");
+    await page.waitForLoadState("networkidle");
+  });
+
+  test("submits a task order once every review stage is done", async ({ page }) => {
+    const coa = page.locator(".omega-coa", { hasText: "Escort transit through the strait" });
+    await coa.getByRole("button", { name: "Select", exact: true }).click();
+    const dialog = page.getByRole("dialog", { name: "Task order: Escort transit through the strait" });
+    const submit = dialog.getByRole("button", { name: "Submit task order" });
+    await expect(submit).toBeDisabled();
+    await expect(dialog).toContainText("All review stages are complete.");
+    await submit.click();
+    await expect(page.locator(".bp6-toast")).toContainText("Task order sent: Frigate Arden.");
+    await expect(coa).toContainText("Tasked");
+  });
+
+  test("tasks an aircraft that finds Talon", async ({ page }) => {
+    await page.getByRole("button", { name: "Task asset" }).click();
+    await page.getByRole("button", { name: "Choose models" }).click();
+    await page.getByRole("button", { name: "Deploy and task" }).click();
+    await expect(page.getByText("Talon found")).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole("complementary", { name: "Object details" })).toContainText("Sighted on route A");
+  });
+
+  test("finds an object with the search", async ({ page }) => {
+    await page.keyboard.press("ControlOrMeta+K");
+    await page.getByPlaceholder("Search units, sites and alerts").fill("port");
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("complementary", { name: "Object details" })).toContainText("Container port");
+  });
+});
