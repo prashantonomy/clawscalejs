@@ -39,5 +39,5 @@ jobs:
           create-github-releases: true
         env:
           # npm trusted publishing uses the id-token permission. NPM_TOKEN is a fallback.
+          # Provenance is set in pnpm-workspace.yaml.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
