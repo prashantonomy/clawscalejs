@@ -1,7 +1,7 @@
 "use client";
 
-import { Button, Menu, MenuItem, PopoverNext, type PopoverNextProps, useTheme } from "@clawscale/react";
-import { type ThemeDefinition, themes } from "@clawscale/tokens";
+import { Button, Menu, MenuDivider, MenuItem, PopoverNext, type PopoverNextProps, useTheme } from "@clawscale/react";
+import { type ThemeDefinition, themeAccents, themes } from "@clawscale/tokens";
 import type { ReactElement } from "react";
 
 /** Every built-in theme, the default first. A new theme in @clawscale/tokens shows up here by itself. */
@@ -44,9 +44,12 @@ export function ThemeLabel() {
 }
 
 function ThemeMenu() {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, accent, setAccent } = useTheme();
+  const accents = themeAccents(options.find((option) => option.name === theme) ?? themes.default);
+  // A saved accent that this theme lacks falls back to the theme's own, listed first.
+  const activeAccent = accents.some((option) => option.name === accent) ? accent : accents[0]?.name;
   return (
-    <Menu aria-label="Theme" className="docs-theme-menu">
+    <Menu aria-label="Theme and accent" className="docs-theme-menu">
       {options.map(({ name, label, description }) => (
         <MenuItem
           key={name}
@@ -63,6 +66,19 @@ function ThemeMenu() {
           onClick={() => setTheme(name)}
         />
       ))}
+      <MenuDivider title="Accent" />
+      {accents.map(({ name, label, light }) => (
+        <MenuItem
+          key={name}
+          role="menuitemradio"
+          aria-checked={name === activeAccent}
+          aria-label={`${label} accent`}
+          icon={name === activeAccent ? "tick" : "blank"}
+          text={label}
+          labelElement={<span className="docs-accent-swatch" style={{ backgroundColor: light.primary }} />}
+          onClick={() => setAccent(name)}
+        />
+      ))}
     </Menu>
   );
 }
@@ -77,7 +93,7 @@ export interface ThemePickerProps {
   placement?: PopoverNextProps["placement"];
 }
 
-/** A dropdown of every theme. The choice is saved. */
+/** A dropdown of every theme and the accents of the active one. Both choices are saved. */
 export function ThemePicker({ children, className, fill, placement = "bottom-end" }: ThemePickerProps) {
   const { theme } = useTheme();
   return (

@@ -21,7 +21,7 @@ import "@clawscale/react/styles.css";
 import "@clawscale/react/fonts.css";
 ```
 
-`styles.css` holds normalize.css, Blueprint's CSS and the Clawscale layer. `fonts.css` is optional: it loads Inter and JetBrains Mono.
+`styles.css` holds normalize.css, Blueprint's CSS and the Clawscale layer. `fonts.css` is optional: it loads Inter and JetBrains Mono, and IBM Plex for the Ledger theme.
 
 ## Add the provider
 
@@ -49,7 +49,7 @@ See [Clawscale provider](/docs/core/clawscale-provider/) for its props.
 | `@clawscale/react/common` | Server-safe constants: `Classes`, `Intent`, `Colors`, `ClawscaleClasses` and more |
 | `@clawscale/react/sync-icons` | Side-effect import that renders icons synchronously on the server |
 | `@clawscale/react/styles.css` | normalize.css, Blueprint's CSS and the Clawscale layer |
-| `@clawscale/react/fonts.css` | Inter and JetBrains Mono. Optional. |
+| `@clawscale/react/fonts.css` | Inter and JetBrains Mono, and IBM Plex for Ledger. Optional. |
 
 Every component export carries `"use client"`, so server components can render them. To read a constant such as `Classes.DARK` in a server component, import it from `@clawscale/react/common`.
 

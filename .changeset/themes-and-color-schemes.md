@@ -3,13 +3,14 @@
 "@clawscale/tokens": minor
 ---
 
-Add themes. A theme sets the whole look, and light and dark are now color schemes.
+Add themes and accents. A theme sets the whole look, an accent sets its primary color, and light and dark are now color schemes.
 
-- `default` is the only built-in theme for now. A theme other than the default ships `@clawscale/react/themes/<name>.css`: load it after `styles.css` and pass `defaultTheme="<name>"`.
+- New `ledger` theme: crisp and dense, drawn the way Blueprint draws it, with IBM Plex Sans and IBM Plex Mono, 2 to 3px corners, Blueprint's grays and elevation, and a violet accent. Load `@clawscale/react/themes/ledger.css` after `styles.css` and pass `defaultTheme="ledger"`. `fonts.css` now also loads IBM Plex.
+- Accents: every theme lists accents people can pick. Default offers blue, violet and teal. Ledger offers violet, blue and teal. `useTheme` returns `accent` and `setAccent`, the provider takes `accent`, `defaultAccent`, `onAccentChange` and `accentStorageKey`, and `<html>` gets `data-cs-accent`.
 - `ClawscaleProvider` and `ThemeScript` manage the theme and the color scheme separately. `useTheme` returns `theme`, `setTheme`, `colorScheme`, `resolvedColorScheme` and `setColorScheme`.
 - `<html>` gets `data-cs-theme`, the theme name, and `data-cs-color-scheme`, light or dark. Both work on any element and nest.
 - New tokens: `--cs-corner-shape`, `--cs-label-transform` and `--cs-label-tracking`. Each color, shadow and chart token also has a `-light` and a `-dark` value to override.
-- `@clawscale/tokens` exports `themes`, `chartPalettes`, `renderThemeCss` and the `ThemeDefinition` type.
+- `@clawscale/tokens` exports `themes`, `chartPalettes`, `renderThemeCss`, the `ThemeDefinition` type, the `violet`, `blue` and `teal` accents and the `themeAccents` and `withAccent` helpers, and ships `themes/ledger.css`.
 
 Fixes in every theme:
 

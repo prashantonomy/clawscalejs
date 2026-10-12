@@ -5,7 +5,7 @@ export const metadata = { title: "Clawscale provider" };
 
 # Clawscale provider
 
-**ClawscaleProvider** is the root provider of a Clawscale app. It renders Blueprint's [BlueprintProvider](/docs/core/blueprint-provider/) for overlays, hotkeys and portals, and manages the theme and the light, dark and system color schemes. Wrap your app in it once.
+**ClawscaleProvider** is the root provider of a Clawscale app. It renders Blueprint's [BlueprintProvider](/docs/core/blueprint-provider/) for overlays, hotkeys and portals, and manages the theme, the accent and the light, dark and system color schemes. Wrap your app in it once.
 
 ## Usage
 
@@ -62,6 +62,10 @@ The provider applies a [theme](/docs/themes/): `default` unless you pass `defaul
   <ClawscaleProviderThemeSwitcher />
 </Example>
 
+## Accents
+
+An accent sets the primary color: buttons, links, focus rings, selection and selected rows. Each theme lists its accents, its own first. The provider applies the theme's own until someone calls `setAccent`, or you pass `defaultAccent`. A saved accent that the active theme lacks falls back to the theme's own. See [Themes](/docs/themes/#accents).
+
 ## Color schemes
 
 The provider supports three color scheme preferences: `light`, `dark` and `system`. `system` follows the operating system through `prefers-color-scheme` and updates when it changes.
@@ -72,14 +76,14 @@ The provider supports three color scheme preferences: `light`, `dark` and `syste
 
 ## Saved choices
 
-- The theme is saved in `localStorage` under `clawscale-theme`, the color scheme under `clawscale-color-scheme`. Change the keys with `themeStorageKey` and `colorSchemeStorageKey`, or pass `null` to save nothing.
-- `defaultTheme` and `defaultColorScheme` apply until someone picks one. They default to `default` and `system`.
-- Both go on `<html>`: the theme as `data-cs-theme`, the color scheme as the `bp6-dark` class, `data-cs-color-scheme` and `color-scheme`. Portals follow them. Set `applyToDocument={false}` to skip this.
+- The theme is saved in `localStorage` under `clawscale-theme`, the accent under `clawscale-accent` and the color scheme under `clawscale-color-scheme`. Change the keys with `themeStorageKey`, `accentStorageKey` and `colorSchemeStorageKey`, or pass `null` to save nothing.
+- `defaultTheme`, `defaultAccent` and `defaultColorScheme` apply until someone picks one. They default to `default`, the theme's own accent and `system`.
+- All three go on `<html>`: the theme as `data-cs-theme`, a picked accent as `data-cs-accent`, the color scheme as the `bp6-dark` class, `data-cs-color-scheme` and `color-scheme`. Portals follow them. Set `applyToDocument={false}` to skip this.
 - Open tabs stay in sync. A change in one tab applies to the others.
 
 ## Theme script
 
-The provider reads the saved theme and color scheme after hydration. On its own, the page would first paint with the defaults, then switch. **ThemeScript** prevents this flash: it runs before the first paint and applies both to `<html>`.
+The provider reads the saved theme, accent and color scheme after hydration. On its own, the page would first paint with the defaults, then switch. **ThemeScript** prevents this flash: it runs before the first paint and applies them to `<html>`.
 
 - Render it in `<head>`.
 - Give it the same storage keys and defaults as the provider.
@@ -90,7 +94,7 @@ Outside React, `getThemeScript(options)` returns the script as a string.
 
 ## Controlled theme
 
-Pass `theme` and `onThemeChange`, or `colorScheme` and `onColorSchemeChange`, to own a setting, for example to sync it with account settings. The provider still saves it to `localStorage`, so ThemeScript applies it on the next visit.
+Pass `theme` and `onThemeChange`, `accent` and `onAccentChange`, or `colorScheme` and `onColorSchemeChange`, to own a setting, for example to sync it with account settings. The provider still saves it to `localStorage`, so ThemeScript applies it on the next visit.
 
 ```tsx
 <ClawscaleProvider colorScheme={colorScheme} onColorSchemeChange={saveColorScheme}>

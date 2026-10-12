@@ -1,4 +1,4 @@
-import { themeNames, themes } from "@clawscale/tokens";
+import { teal, themeAccents, themeNames, themes } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
 
 test.describe("color scheme", () => {
@@ -50,19 +50,41 @@ test.describe("theme", () => {
     await expect(page.locator("html")).toHaveAttribute("data-cs-theme", "harbor");
   });
 
-  test("lists every theme in the dropdown and saves the pick", async ({ page }) => {
+  test("applies the saved accent before hydration", async ({ page }) => {
+    await page.addInitScript(() => localStorage.setItem("clawscale-accent", "teal"));
+    await page.goto("/showcase/", { waitUntil: "domcontentloaded" });
+    await expect(page.locator("html")).toHaveAttribute("data-cs-accent", "teal");
+  });
+
+  test("lists every theme and the active theme's accents, and saves both picks", async ({ page }) => {
     await page.goto("/showcase/");
     await page.waitForLoadState("networkidle");
+    const html = page.locator("html");
+    const menu = page.getByRole("menu", { name: "Theme and accent" });
     await page.getByRole("button", { name: "Theme: Default" }).click();
-    const items = page.getByRole("menuitemradio");
-    await expect(items).toHaveCount(themeNames.length);
-    await expect(items.first()).toHaveAttribute("aria-checked", "true");
-    const last = Object.values(themes).at(-1) ?? themes.default;
-    await items.last().click();
-    await expect(page.locator("html")).toHaveAttribute("data-cs-theme", last.name);
-    await expect(page.getByRole("button", { name: `Theme: ${last.label}` })).toBeVisible();
+    for (const theme of Object.values(themes)) {
+      await expect(menu.getByRole("menuitemradio", { name: new RegExp(`^${theme.label}`) })).toBeVisible();
+    }
+    await expect(menu.getByRole("menuitemradio", { name: /^Default/ })).toHaveAttribute("aria-checked", "true");
+    await menu.getByRole("menuitemradio", { name: /^Ledger/ }).click();
+    await expect(html).toHaveAttribute("data-cs-theme", "ledger");
+
+    await page.getByRole("button", { name: "Theme: Ledger" }).click();
+    await expect(menu.getByRole("menuitemradio", { name: / accent$/ })).toHaveCount(themeAccents(themes.ledger).length);
+    await expect(menu.getByRole("menuitemradio", { name: "Violet accent", exact: true })).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
+    await menu.getByRole("menuitemradio", { name: "Teal accent", exact: true }).click();
+    await expect(html).toHaveAttribute("data-cs-accent", "teal");
+    const primary = await page.evaluate(() =>
+      getComputedStyle(document.documentElement).getPropertyValue("--cs-color-primary").trim().toLowerCase(),
+    );
+    expect(primary).toBe(teal.light.primary.toLowerCase());
+
     await page.reload();
-    await expect(page.locator("html")).toHaveAttribute("data-cs-theme", last.name);
+    await expect(html).toHaveAttribute("data-cs-theme", "ledger");
+    await expect(html).toHaveAttribute("data-cs-accent", "teal");
   });
 });
 

@@ -38,7 +38,7 @@ export async function highlight(code: string, lang = "tsx"): Promise<string> {
         "#fafbfc": "#24292e",
         "#f6f8fa": "#24292e",
       },
-      "github-dark-dimmed": { "#2d333b": "#adbac7" },
+      "github-dark-dimmed": { "#2d333b": "#adbac7", "#768390": "#8a97a4" },
     },
   });
 }

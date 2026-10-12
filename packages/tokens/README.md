@@ -18,23 +18,24 @@ npm install @clawscale/tokens
 }
 ```
 
-`tokens.css` holds the default theme. Dark values apply under `[data-cs-color-scheme="dark"]`. A theme other than the default ships `themes/<name>.css`, which applies under `[data-cs-theme="<name>"]`. `@clawscale/react/styles.css` already includes the default tokens.
+`tokens.css` holds the default theme. Dark values apply under `[data-cs-color-scheme="dark"]`. `themes/ledger.css` adds the Ledger theme under `[data-cs-theme="ledger"]`. `@clawscale/react/styles.css` already includes the default tokens.
 
 ## JavaScript
 
 ```ts
-import { chartPalettes, dark, light, shared, themes } from "@clawscale/tokens";
+import { chartPalettes, dark, light, shared, themeAccents, themes } from "@clawscale/tokens";
 
 light.color.primary; // "#3563E9", the default theme
-themes.default.dark.color.primary; // every theme, by name
+themes.ledger.light.color.primary; // "#634DBF", violet
+themeAccents(themes.ledger); // violet, blue and teal, with their colors
 chartPalettes.default.dark; // eight categorical colors in their fixed order
 ```
 
-`renderThemeCss(theme)` turns a `ThemeDefinition` into CSS, so you can build your own theme.
+`renderThemeCss(theme)` turns a `ThemeDefinition` into CSS, so you can build your own theme. `withAccent(theme, name)` returns a theme with one of its accents applied.
 
 `@clawscale/tokens/tokens.json` holds the same values for other tools.
 
-Every text and intent color of every theme is tested for WCAG AA contrast, in both color schemes.
+Every text and intent color of every theme and accent is tested for WCAG AA contrast, in both color schemes.
 
 Docs: https://prashantonomy.github.io/clawscalejs/docs/core/tokens/
 

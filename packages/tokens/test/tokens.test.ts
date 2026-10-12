@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  accentTokens,
   type ColorSchemeTokens,
   chartPalettes,
   colorSchemes,
@@ -14,20 +15,34 @@ import {
   schemeValueVariables,
   sharedVariables,
   type ThemeDefinition,
+  teal,
+  themeAccents,
   themeNames,
   themes,
   themeVariables,
+  withAccent,
 } from "../src/index.ts";
 
 const AA_TEXT = 4.5;
 const AA_UI = 3;
 
 const allThemes: ThemeDefinition[] = Object.values(themes);
-const cases: Array<[string, string, ColorSchemeTokens]> = allThemes.flatMap((theme) =>
-  colorSchemes.map((scheme) => [theme.name, scheme, theme[scheme]] as [string, string, ColorSchemeTokens]),
+// Every theme in every color scheme, with each of its accents applied.
+const cases: Array<[string, string, string, ColorSchemeTokens]> = allThemes.flatMap((theme) =>
+  themeAccents(theme).flatMap((accent) =>
+    colorSchemes.map(
+      (scheme) =>
+        [theme.name, accent.name, scheme, withAccent(theme, accent.name)[scheme]] as [
+          string,
+          string,
+          string,
+          ColorSchemeTokens,
+        ],
+    ),
+  ),
 );
 
-describe.each(cases)("%s theme, %s color scheme", (_theme, _scheme, t) => {
+describe.each(cases)("%s theme, %s accent, %s color scheme", (_theme, _accent, _scheme, t) => {
   const c = t.color;
   const surfaces = [c.canvas, c.surface, c["surface-raised"], c["surface-sunken"]];
 
@@ -111,6 +126,16 @@ describe.each(allThemes.map((theme) => [theme.name, theme] as const))("%s theme 
     }
   });
 
+  it("names its accents uniquely and gives each a value for every accent token", () => {
+    const accents = themeAccents(theme);
+    expect(new Set(accents.map((accent) => accent.name)).size).toBe(accents.length);
+    for (const accent of accents) {
+      expect(accent.name).toMatch(/^[a-z][a-z0-9-]*$/);
+      expect(accent.label.length).toBeGreaterThan(0);
+      for (const scheme of colorSchemes) expect(Object.keys(accent[scheme]).sort()).toEqual([...accentTokens].sort());
+    }
+  });
+
   it("keeps eight chart slots and fixed status colors", () => {
     for (const scheme of colorSchemes) {
       const chart = theme[scheme].chart;
@@ -168,6 +193,36 @@ describe("css output", () => {
 
   it("names the active theme", () => {
     expect(css).toContain("--cs-theme: default;");
+  });
+
+  it("applies the default theme's accents where a root or theme element names one", () => {
+    expect(css).toContain(
+      ':root:not([data-cs-theme])[data-cs-accent="teal"], [data-cs-theme="default"][data-cs-accent="teal"] {',
+    );
+    expect(css).toContain(`--cs-color-primary-dark: ${teal.dark.primary};`);
+    expect(css).toMatch(/\[data-cs-color-scheme\], \[data-cs-accent\], [^{]+\{\n {2}--cs-color-canvas: var/);
+  });
+});
+
+describe("accents", () => {
+  it("list the theme's own accent first", () => {
+    expect(themeAccents(defaultTheme).map((accent) => accent.name)).toEqual(["blue", "violet", "teal"]);
+    expect(themeAccents(themes.ledger).map((accent) => accent.name)).toEqual(["violet", "blue", "teal"]);
+    expect(themeAccents(themes.ledger)[0]?.light.primary).toBe(themes.ledger.light.color.primary);
+  });
+
+  it("replace only the accent tokens", () => {
+    const tinted = withAccent(defaultTheme, "teal");
+    expect(tinted.light.color.primary).toBe(teal.light.primary);
+    expect(tinted.light.color.canvas).toBe(defaultTheme.light.color.canvas);
+    expect(withAccent(defaultTheme, "missing")).toBe(defaultTheme);
+  });
+
+  it("render under the theme's attribute and the accent's", () => {
+    const css = renderThemeCss(themes.ledger);
+    expect(css).toContain('[data-cs-theme="ledger"][data-cs-accent="blue"] {');
+    expect(css).toContain(`--cs-color-focus-light: ${themes.ledger.accents?.[0]?.light.focus};`);
+    expect(css).not.toContain('[data-cs-accent="violet"]');
   });
 });
 

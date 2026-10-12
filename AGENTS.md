@@ -9,7 +9,7 @@ Clawscale is an open source React UI system for data-dense software. It is a **l
 - `@clawscale/react` re-exports every Blueprint component, adds `"use client"` for Next.js and ships a stylesheet that restyles Blueprint.
 - `@clawscale/tokens` holds the design tokens (`--cs-*` CSS variables) for every theme.
 - Blueprint renders every component. Clawscale owns the tokens, the style layer, the themes, the import paths and a few original patterns.
-- Two settings shape the look. The **theme** (`default`, plus any theme registered in `packages/tokens/src/themes.ts`) is the design language. The **color scheme** (`light`, `dark`, `system`) picks a theme's light or dark values. Before 0.2, "theme" meant the color scheme.
+- Three settings shape the look. The **theme** (`default`, `ledger`) is the design language. The **accent** (for example `violet`, `blue`, `teal`) is the primary color, picked from the theme's own list. The **color scheme** (`light`, `dark`, `system`) picks a theme's light or dark values. Before 0.2, "theme" meant the color scheme.
 
 ## Hard rules
 
@@ -26,7 +26,8 @@ Clawscale is an open source React UI system for data-dense software. It is a **l
 ```
 packages/tokens/          @clawscale/tokens: the source of truth for every --cs-* variable
   src/tokens.ts           Token types and the default theme
-  src/themes.ts           The theme registry. Each extra theme gets its own file, registered here
+  src/themes.ts           The theme registry. Each extra theme gets its own file, such as src/ledger.ts
+  src/accents.ts          Accent palettes (violet, blue, teal) and the themeAccents and withAccent helpers
   src/css.ts              Renders token CSS: color scheme switches, theme values, final tokens
 packages/react/           @clawscale/react
   src/generated/          Generated "use client" re-exports of Blueprint. Do not edit. Run pnpm generate.
@@ -101,9 +102,9 @@ Consumers' own unlayered CSS always wins over all layers. That is a feature. Nev
 
 How themes and color schemes reach the page:
 
-- `data-cs-theme="<name>"` and `data-cs-color-scheme="light|dark"` on an ancestor, usually `<html>`. `ClawscaleProvider` and `ThemeScript` manage both, plus Blueprint's `bp6-dark` class. Both attributes work on any element and nest.
-- Theme elements declare each color, shadow and chart token's light and dark value side by side (`--cs-color-canvas-light`, `--cs-color-canvas-dark`). Color scheme elements set two switches, `--cs-is-light` and `--cs-is-dark`. Every element that changes either axis picks the final token. `packages/tokens/src/css.ts` explains the mechanism.
-- So a token that references another token, like the bridge or a theme's `--cs-fx-*` helpers, must be declared on every axis element: `:root, .bp6-dark, [data-bp-color-scheme], [data-cs-theme], [data-cs-color-scheme]`.
+- `data-cs-theme="<name>"` and `data-cs-color-scheme="light|dark"` on an ancestor, usually `<html>`, plus `data-cs-accent="<name>"` on the element that names the theme. `ClawscaleProvider` and `ThemeScript` manage all three, plus Blueprint's `bp6-dark` class. The theme and color scheme attributes work on any element and nest.
+- Theme elements declare each color, shadow and chart token's light and dark value side by side (`--cs-color-canvas-light`, `--cs-color-canvas-dark`). Accent elements replace the values of the accent tokens (`accentTokens` in tokens.ts). Color scheme elements set two switches, `--cs-is-light` and `--cs-is-dark`. Every element that changes an axis picks the final token. `packages/tokens/src/css.ts` explains the mechanism.
+- So a token that references another token, like the bridge or a theme's `--cs-fx-*` helpers, must be declared on every axis element: `:root, .bp6-dark, [data-bp-color-scheme], [data-cs-theme], [data-cs-accent], [data-cs-color-scheme]`.
 - Theme rules that vary by color scheme use `light-dark()`.
 - Two token groups carry a theme's voice and shape: `--cs-label-transform` with `--cs-label-tracking` for short labels (`components/labels.css` lists them), and `--cs-corner-shape`, which every `bp6-` and `cs-` element follows. Never put a label token on text that shows data: tags, inputs, menu items, table cells, or buttons that carry `aria-haspopup` or sit right inside an element that does.
 
@@ -111,8 +112,8 @@ How themes and color schemes reach the page:
 
 ### Change a token
 
-1. Edit `packages/tokens/src/tokens.ts`. A new token needs a value in every theme: the tests check that all themes define the same tokens.
-2. `pnpm --filter @clawscale/tokens test`. The tests enforce WCAG AA contrast for text and intents in every theme and color scheme.
+1. Edit `packages/tokens/src/tokens.ts`. A new token needs a value in every theme: the tests check that all themes define the same tokens. An accent token also needs a value in every accent in `src/accents.ts`.
+2. `pnpm --filter @clawscale/tokens test`. The tests enforce WCAG AA contrast for text and intents in every theme, accent and color scheme.
 3. `pnpm build`, then review `/gallery` in every theme and both color schemes (see "Visual review").
 
 ### Restyle a Blueprint component

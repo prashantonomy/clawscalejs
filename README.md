@@ -23,8 +23,9 @@
 Clawscale keeps [Blueprint](https://blueprintjs.com)'s components, APIs and principles, and gives them a refined look. It is built for dashboards, consoles and tools where a screen holds a lot of data.
 
 - **Every Blueprint component** from one package: core, select, datetime, table and icons.
-- **Themes** that change the whole look at once. The default theme is calm and neutral.
-- **Light, dark and system color schemes** for every theme, tested for WCAG AA contrast.
+- **Themes** that change the whole look at once. Default is calm and neutral. Ledger is crisp and dense, drawn the way Blueprint draws it.
+- **Accents** people can pick in every theme: blue, violet and teal.
+- **Light, dark and system color schemes** for every theme and accent, tested for WCAG AA contrast.
 - **Next.js ready.** Components carry `"use client"`, render on the server and apply the theme before the first paint.
 - **Patterns for dense screens:** `Metric`, `Delta`, `Sparkline`, `PropertyList` and `StatusBar`.
 - **Chart tokens** with a categorical palette validated for color vision deficiency.

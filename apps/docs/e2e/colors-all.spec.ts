@@ -12,7 +12,8 @@ import index from "../generated/docs-index.json" with { type: "json" };
  *   `oklch(from var(--bp-intent-warning-rest) calc(l + 0.19) c h)`. The shift suits Blueprint's
  *   palette, not always ours. Such colors compute to oklch(), while Clawscale tokens compute to rgb(),
  *   so any oklch() color that is not a Clawscale token fails, alpha aside.
- * - Blueprint's own blue, green, orange and red, which some rules set directly.
+ * - Blueprint's own blue, green, orange and red, which some rules set directly. A theme may hold one
+ *   of those values in a token, as Ledger does, so a palette color fails only when no token matches it.
  */
 test.skip(!process.env.COLORS_ALL, "Set COLORS_ALL=1 to audit every page.");
 
@@ -70,6 +71,12 @@ for (const { theme, colorScheme } of combinations) {
               const color = parse(getComputedStyle(probe).color);
               return color ? [color] : [];
             });
+            const tokenColors = new Set(
+              tokens.map((name) => {
+                probe.style.color = `var(${name})`;
+                return getComputedStyle(probe).color;
+              }),
+            );
             probe.remove();
             const isToken = (value: string) => {
               const color = parse(value);
@@ -98,7 +105,7 @@ for (const { theme, colorScheme } of combinations) {
                 if (prop !== "color" && value === style.color) continue;
                 const width = prop === "borderTopColor" ? style.borderTopWidth : style.borderBottomWidth;
                 if (prop.startsWith("border") && width === "0px") continue;
-                const fromPalette = blueprintColors.includes(value);
+                const fromPalette = blueprintColors.includes(value) && !tokenColors.has(value);
                 if (!fromPalette && (!value.includes("oklch(") || isToken(value))) continue;
                 const classes = [...element.classList].filter((name) => name.startsWith("bp6-")).join(".");
                 const kind = fromPalette ? " (Blueprint palette)" : "";

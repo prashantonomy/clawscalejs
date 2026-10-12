@@ -1,5 +1,5 @@
 /**
- * Inline script that applies the saved theme and color scheme before the first paint.
+ * Inline script that applies the saved theme, accent and color scheme before the first paint.
  * Safe to call from server components. Render the result in <head>:
  *
  *   <script dangerouslySetInnerHTML={{ __html: getThemeScript() }} />
@@ -36,6 +36,13 @@ export interface ThemeScriptOptions {
   colorSchemeStorageKey?: string | null;
   /** @deprecated Since 0.2, use `colorSchemeStorageKey`. */
   storageKey?: string | null;
+  /** Accent used when nothing is saved. Must match the provider's `defaultAccent`. Leave unset for the theme's own accent. */
+  defaultAccent?: string;
+  /**
+   * localStorage key for the accent. Must match the provider's `accentStorageKey`.
+   * @default "clawscale-accent"
+   */
+  accentStorageKey?: string | null;
 }
 
 /** Attribute that carries the theme on the document element, for example `default`. */
@@ -44,6 +51,9 @@ export const THEME_ATTRIBUTE = "data-cs-theme";
 /** Attribute that carries the resolved color scheme on the document element: `light` or `dark`. */
 export const COLOR_SCHEME_ATTRIBUTE = "data-cs-color-scheme";
 
+/** Attribute that carries the accent on the document element, for example `teal`. Absent means the theme's own. */
+export const ACCENT_ATTRIBUTE = "data-cs-accent";
+
 /** Blueprint's dark theme class, for example `bp6-dark`. */
 export const DARK_CLASS: string = DARK;
 
@@ -51,6 +61,7 @@ export const DEFAULT_THEME = "default";
 export const DEFAULT_COLOR_SCHEME: ColorSchemePreference = "system";
 export const DEFAULT_THEME_STORAGE_KEY = "clawscale-theme";
 export const DEFAULT_COLOR_SCHEME_STORAGE_KEY = "clawscale-color-scheme";
+export const DEFAULT_ACCENT_STORAGE_KEY = "clawscale-accent";
 
 const PREFERENCES: readonly string[] = ["light", "dark", "system"];
 
@@ -65,6 +76,8 @@ export interface ResolvedThemeOptions {
   defaultColorScheme: ColorSchemePreference;
   themeStorageKey: string | null;
   colorSchemeStorageKey: string | null;
+  defaultAccent: string | undefined;
+  accentStorageKey: string | null;
 }
 
 /**
@@ -89,6 +102,8 @@ export function resolveThemeOptions(options: ThemeScriptOptions): ResolvedThemeO
         : storageKey !== undefined
           ? storageKey
           : DEFAULT_COLOR_SCHEME_STORAGE_KEY,
+    defaultAccent: options.defaultAccent || undefined,
+    accentStorageKey: options.accentStorageKey !== undefined ? options.accentStorageKey : DEFAULT_ACCENT_STORAGE_KEY,
   };
 }
 
@@ -98,7 +113,9 @@ export function getThemeScript(options: ThemeScriptOptions = {}): string {
   const schemeKey = JSON.stringify(resolved.colorSchemeStorageKey);
   const theme = JSON.stringify(resolved.defaultTheme);
   const scheme = JSON.stringify(resolved.defaultColorScheme);
+  const accentKey = JSON.stringify(resolved.accentStorageKey);
+  const accent = JSON.stringify(resolved.defaultAccent ?? "");
   const darkClass = JSON.stringify(DARK_CLASS);
   // Before 0.2, the theme key held light, dark or system. Such a value is read as the color scheme.
-  return `(function(){var t=${theme},c=${scheme},p=["light","dark","system"];try{var s=${themeKey}&&localStorage.getItem(${themeKey}),k=${schemeKey}&&localStorage.getItem(${schemeKey});if(p.indexOf(s)>=0){k=k||s;s=null}if(s)t=s;if(p.indexOf(k)>=0)c=k}catch(_){}try{var d=c==="dark"||(c==="system"&&matchMedia("(prefers-color-scheme: dark)").matches),e=document.documentElement;e.classList.toggle(${darkClass},d);e.setAttribute("${THEME_ATTRIBUTE}",t);e.setAttribute("${COLOR_SCHEME_ATTRIBUTE}",d?"dark":"light");e.style.colorScheme=d?"dark":"light"}catch(_){}})();`;
+  return `(function(){var t=${theme},c=${scheme},a=${accent},p=["light","dark","system"];try{var s=${themeKey}&&localStorage.getItem(${themeKey}),k=${schemeKey}&&localStorage.getItem(${schemeKey}),x=${accentKey}&&localStorage.getItem(${accentKey});if(p.indexOf(s)>=0){k=k||s;s=null}if(s)t=s;if(p.indexOf(k)>=0)c=k;if(x)a=x}catch(_){}try{var d=c==="dark"||(c==="system"&&matchMedia("(prefers-color-scheme: dark)").matches),e=document.documentElement;e.classList.toggle(${darkClass},d);e.setAttribute("${THEME_ATTRIBUTE}",t);if(a)e.setAttribute("${ACCENT_ATTRIBUTE}",a);else e.removeAttribute("${ACCENT_ATTRIBUTE}");e.setAttribute("${COLOR_SCHEME_ATTRIBUTE}",d?"dark":"light");e.style.colorScheme=d?"dark":"light"}catch(_){}})();`;
 }

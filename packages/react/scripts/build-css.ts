@@ -149,9 +149,13 @@ export function buildThemeStyles(name: string): string {
 
 /** The optional fonts stylesheet. Browsers only download the fonts a page uses. */
 export const fontsCss = [
-  "/* Inter and JetBrains Mono, the Clawscale typefaces. Optional. Browsers download only the fonts a page uses. */",
+  "/* Inter and JetBrains Mono for the default theme, IBM Plex for Ledger. Optional. Browsers download only the fonts a page uses. */",
   '@import "@fontsource-variable/inter/index.css";',
   '@import "@fontsource-variable/jetbrains-mono/index.css";',
+  '@import "@fontsource-variable/ibm-plex-sans/index.css";',
+  '@import "@fontsource/ibm-plex-mono/400.css";',
+  '@import "@fontsource/ibm-plex-mono/500.css";',
+  '@import "@fontsource/ibm-plex-mono/600.css";',
   "",
 ].join("\n");
 

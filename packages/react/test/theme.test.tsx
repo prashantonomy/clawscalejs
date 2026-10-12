@@ -37,6 +37,21 @@ function ThemeButtons() {
   );
 }
 
+function AccentButtons() {
+  const { accent, setAccent } = useTheme();
+  return (
+    <div>
+      <span data-testid="accent">{accent ?? "own"}</span>
+      <button type="button" onClick={() => setAccent("teal")}>
+        teal
+      </button>
+      <button type="button" onClick={() => setAccent(undefined)}>
+        own accent
+      </button>
+    </div>
+  );
+}
+
 /** Code written for 0.1, when `theme` was the color scheme. */
 function LegacyToggle() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -55,6 +70,7 @@ beforeEach(() => {
   root().className = "";
   root().removeAttribute("data-cs-theme");
   root().removeAttribute("data-cs-color-scheme");
+  root().removeAttribute("data-cs-accent");
   mockSystemColorScheme(false);
   vi.spyOn(console, "warn").mockImplementation(() => {});
 });
@@ -218,6 +234,70 @@ describe("ClawscaleProvider", () => {
   });
 });
 
+describe("ClawscaleProvider accents", () => {
+  const accent = () => screen.getByTestId("accent").textContent;
+
+  it("uses the theme's own accent until one is picked", async () => {
+    render(
+      <ClawscaleProvider>
+        <AccentButtons />
+      </ClawscaleProvider>,
+    );
+    await act(async () => {});
+    expect(accent()).toBe("own");
+    expect(root()).not.toHaveAttribute("data-cs-accent");
+  });
+
+  it("saves and applies a picked accent, and goes back to the theme's own", async () => {
+    render(
+      <ClawscaleProvider>
+        <AccentButtons />
+      </ClawscaleProvider>,
+    );
+    await act(async () => {});
+    await userEvent.click(screen.getByRole("button", { name: "teal" }));
+    expect(root()).toHaveAttribute("data-cs-accent", "teal");
+    expect(localStorage.getItem("clawscale-accent")).toBe("teal");
+    await userEvent.click(screen.getByRole("button", { name: "own accent" }));
+    expect(root()).not.toHaveAttribute("data-cs-accent");
+    expect(localStorage.getItem("clawscale-accent")).toBeNull();
+  });
+
+  it("restores the saved accent and honors defaultAccent", async () => {
+    localStorage.setItem("clawscale-accent", "violet");
+    const { unmount } = render(
+      <ClawscaleProvider defaultAccent="teal">
+        <AccentButtons />
+      </ClawscaleProvider>,
+    );
+    await act(async () => {});
+    expect(accent()).toBe("violet");
+    unmount();
+    localStorage.clear();
+    render(
+      <ClawscaleProvider defaultAccent="teal">
+        <AccentButtons />
+      </ClawscaleProvider>,
+    );
+    await act(async () => {});
+    expect(root()).toHaveAttribute("data-cs-accent", "teal");
+  });
+
+  it("respects a controlled accent and its own storage key", async () => {
+    const onAccentChange = vi.fn();
+    render(
+      <ClawscaleProvider accent="violet" onAccentChange={onAccentChange} accentStorageKey="app-accent">
+        <AccentButtons />
+      </ClawscaleProvider>,
+    );
+    await act(async () => {});
+    await userEvent.click(screen.getByRole("button", { name: "teal" }));
+    expect(onAccentChange).toHaveBeenCalledWith("teal");
+    expect(accent()).toBe("violet");
+    expect(localStorage.getItem("app-accent")).toBe("teal");
+  });
+});
+
 describe("ClawscaleProvider with the API from before 0.2", () => {
   it("reads a color scheme passed as theme", async () => {
     render(
@@ -287,6 +367,16 @@ describe("getThemeScript", () => {
     expect(root()).toHaveClass("bp6-dark");
     expect(root()).toHaveAttribute("data-cs-theme", "harbor");
     expect(root()).toHaveAttribute("data-cs-color-scheme", "dark");
+  });
+
+  it("applies the saved accent, or none for the theme's own", () => {
+    run();
+    expect(root()).not.toHaveAttribute("data-cs-accent");
+    localStorage.setItem("clawscale-accent", "teal");
+    run();
+    expect(root()).toHaveAttribute("data-cs-accent", "teal");
+    run({ accentStorageKey: null, defaultAccent: "violet" });
+    expect(root()).toHaveAttribute("data-cs-accent", "violet");
   });
 
   it("falls back to the defaults", () => {

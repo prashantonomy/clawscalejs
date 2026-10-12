@@ -13,6 +13,7 @@ import {
   useSyncExternalStore,
 } from "react";
 import {
+  ACCENT_ATTRIBUTE,
   COLOR_SCHEME_ATTRIBUTE,
   type ColorScheme,
   type ColorSchemePreference,
@@ -34,6 +35,10 @@ export interface ThemeContextValue {
   theme: ThemeName;
   /** Changes and saves the theme. */
   setTheme: (theme: ThemeName) => void;
+  /** The accent someone picked, for example `"teal"`. `undefined` means the theme's own accent. */
+  accent: string | undefined;
+  /** Changes and saves the accent. Pass `undefined` to go back to the theme's own. */
+  setAccent: (accent: string | undefined) => void;
   /** The saved color scheme preference. Can be `"system"`. */
   colorScheme: ColorSchemePreference;
   /** The color scheme that is applied right now: `"light"` or `"dark"`. */
@@ -55,6 +60,12 @@ export interface ClawscaleProviderProps extends Omit<BlueprintProviderProps, "ch
   defaultTheme?: ThemeName;
   /** Called when `setTheme` runs. */
   onThemeChange?: (theme: ThemeName) => void;
+  /** Controlled accent, for example `"teal"`. Leave unset to let the provider manage it. */
+  accent?: string;
+  /** Accent used before anything is saved. Leave unset for the theme's own accent. */
+  defaultAccent?: string;
+  /** Called when `setAccent` runs. */
+  onAccentChange?: (accent: string | undefined) => void;
   /** Controlled color scheme preference. Leave unset to let the provider manage it. */
   colorScheme?: ColorSchemePreference;
   /**
@@ -77,7 +88,12 @@ export interface ClawscaleProviderProps extends Omit<BlueprintProviderProps, "ch
   /** @deprecated Since 0.2, use `colorSchemeStorageKey`. `null` turns off saving for both keys. */
   storageKey?: string | null;
   /**
-   * Put the theme and color scheme on the document element, so portals follow them.
+   * localStorage key for the accent. Pass `null` to skip saving it.
+   * @default "clawscale-accent"
+   */
+  accentStorageKey?: string | null;
+  /**
+   * Put the theme, accent and color scheme on the document element, so portals follow them.
    * @default true
    */
   applyToDocument?: boolean;
@@ -93,6 +109,8 @@ const MEDIA = "(prefers-color-scheme: dark)";
 const fallbackContext: ThemeContextValue = {
   theme: DEFAULT_THEME,
   setTheme: () => {},
+  accent: undefined,
+  setAccent: () => {},
   colorScheme: "light",
   resolvedColorScheme: "light",
   setColorScheme: () => {},
@@ -130,10 +148,10 @@ function writeStorage(key: string | null, value: string | null) {
 }
 
 /**
- * Reads the saved theme and color scheme. Before 0.2, the theme key held light, dark or system.
+ * Reads the saved theme, accent and color scheme. Before 0.2, the theme key held light, dark or system.
  * Such a value moves to the color scheme key, like ThemeScript reads it.
  */
-function readSaved(themeKey: string | null, schemeKey: string | null) {
+function readSaved(themeKey: string | null, schemeKey: string | null, accentKey: string | null) {
   let theme = readStorage(themeKey);
   let colorScheme = readStorage(schemeKey);
   if (isColorSchemePreference(theme)) {
@@ -146,6 +164,7 @@ function readSaved(themeKey: string | null, schemeKey: string | null) {
   }
   return {
     theme: theme || undefined,
+    accent: readStorage(accentKey) || undefined,
     colorScheme: isColorSchemePreference(colorScheme) ? colorScheme : undefined,
   };
 }
@@ -156,29 +175,35 @@ function subscribeToSystem(onChange: () => void) {
   return () => query.removeEventListener("change", onChange);
 }
 
-function applyToRoot(theme: ThemeName, colorScheme: ColorScheme) {
+function applyToRoot(theme: ThemeName, accent: string | undefined, colorScheme: ColorScheme) {
   const root = document.documentElement;
   root.classList.toggle(DARK_CLASS, colorScheme === "dark");
   root.setAttribute(THEME_ATTRIBUTE, theme);
+  if (accent) root.setAttribute(ACCENT_ATTRIBUTE, accent);
+  else root.removeAttribute(ACCENT_ATTRIBUTE);
   root.setAttribute(COLOR_SCHEME_ATTRIBUTE, colorScheme);
   root.style.colorScheme = colorScheme;
 }
 
 /**
  * Root provider for Clawscale apps. Wraps Blueprint's `BlueprintProvider` (overlays,
- * hotkeys, portals) and manages the theme and the light, dark and system color schemes.
+ * hotkeys, portals) and manages the theme, the accent and the light, dark and system color schemes.
  */
 export function ClawscaleProvider({
   children,
   theme: themeProp,
   defaultTheme,
   onThemeChange,
+  accent: accentProp,
+  defaultAccent,
+  onAccentChange,
   colorScheme: colorSchemeProp,
   defaultColorScheme,
   onColorSchemeChange,
   themeStorageKey,
   colorSchemeStorageKey,
   storageKey,
+  accentStorageKey,
   applyToDocument = true,
   focusRings = "keyboard",
   ...blueprintProps
@@ -196,9 +221,12 @@ export function ClawscaleProvider({
     themeStorageKey,
     colorSchemeStorageKey,
     storageKey,
+    defaultAccent,
+    accentStorageKey,
   });
   const themeKey = options.themeStorageKey;
   const colorSchemeKey = options.colorSchemeStorageKey;
+  const accentKey = options.accentStorageKey;
 
   useEffect(() => {
     if (legacyTheme !== undefined) {
@@ -213,29 +241,34 @@ export function ClawscaleProvider({
   }, [legacyTheme, defaultTheme, storageKey]);
 
   const [storedTheme, setStoredTheme] = useState<ThemeName>(options.defaultTheme);
+  const [storedAccent, setStoredAccent] = useState<string | undefined>(options.defaultAccent);
   const [storedColorScheme, setStoredColorScheme] = useState<ColorSchemePreference>(options.defaultColorScheme);
   // Stays false until the saved values are read, so the first effect never overwrites
   // what the inline theme script already applied.
-  const [ready, setReady] = useState(controlledTheme !== undefined && controlledColorScheme !== undefined);
+  const [ready, setReady] = useState(
+    controlledTheme !== undefined && controlledColorScheme !== undefined && accentProp !== undefined,
+  );
 
   useEffect(() => {
-    const saved = readSaved(themeKey, colorSchemeKey);
+    const saved = readSaved(themeKey, colorSchemeKey, accentKey);
     if (saved.theme !== undefined) setStoredTheme(saved.theme);
+    if (saved.accent !== undefined) setStoredAccent(saved.accent);
     if (saved.colorScheme !== undefined) setStoredColorScheme(saved.colorScheme);
     setReady(true);
-  }, [themeKey, colorSchemeKey]);
+  }, [themeKey, colorSchemeKey, accentKey]);
 
   useEffect(() => {
-    if (themeKey == null && colorSchemeKey == null) return;
+    if (themeKey == null && colorSchemeKey == null && accentKey == null) return;
     const onStorage = (event: StorageEvent) => {
-      if (event.key !== themeKey && event.key !== colorSchemeKey) return;
-      const saved = readSaved(themeKey, colorSchemeKey);
+      if (event.key !== themeKey && event.key !== colorSchemeKey && event.key !== accentKey) return;
+      const saved = readSaved(themeKey, colorSchemeKey, accentKey);
       if (saved.theme !== undefined) setStoredTheme(saved.theme);
+      if (event.key === accentKey) setStoredAccent(saved.accent);
       if (saved.colorScheme !== undefined) setStoredColorScheme(saved.colorScheme);
     };
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
-  }, [themeKey, colorSchemeKey]);
+  }, [themeKey, colorSchemeKey, accentKey]);
 
   const systemDark = useSyncExternalStore(
     subscribeToSystem,
@@ -244,12 +277,13 @@ export function ClawscaleProvider({
   );
 
   const theme = controlledTheme ?? storedTheme;
+  const accent = accentProp ?? storedAccent;
   const colorScheme = controlledColorScheme ?? storedColorScheme;
   const resolvedColorScheme: ColorScheme = colorScheme === "system" ? (systemDark ? "dark" : "light") : colorScheme;
 
   useEffect(() => {
-    if (ready && applyToDocument) applyToRoot(theme, resolvedColorScheme);
-  }, [ready, applyToDocument, theme, resolvedColorScheme]);
+    if (ready && applyToDocument) applyToRoot(theme, accent, resolvedColorScheme);
+  }, [ready, applyToDocument, theme, accent, resolvedColorScheme]);
 
   // A theme's tokens set --cs-theme to its name. Without its stylesheet, the default theme shows.
   useEffect(() => {
@@ -293,16 +327,27 @@ export function ClawscaleProvider({
     [controlledTheme, themeKey, onThemeChange, setColorScheme],
   );
 
+  const setAccent = useCallback(
+    (next: string | undefined) => {
+      if (accentProp === undefined) setStoredAccent(next || undefined);
+      writeStorage(accentKey, next || null);
+      onAccentChange?.(next || undefined);
+    },
+    [accentProp, accentKey, onAccentChange],
+  );
+
   const value = useMemo<ThemeContextValue>(
     () => ({
       theme,
       setTheme,
+      accent,
+      setAccent,
       colorScheme,
       resolvedColorScheme,
       setColorScheme,
       resolvedTheme: resolvedColorScheme,
     }),
-    [theme, setTheme, colorScheme, resolvedColorScheme, setColorScheme],
+    [theme, setTheme, accent, setAccent, colorScheme, resolvedColorScheme, setColorScheme],
   );
 
   return (
@@ -312,7 +357,7 @@ export function ClawscaleProvider({
   );
 }
 
-/** Reads and changes the theme and color scheme. Outside a provider, returns the default theme in light and setters that do nothing. */
+/** Reads and changes the theme, accent and color scheme. Outside a provider, returns the default theme in light and setters that do nothing. */
 export function useTheme(): ThemeContextValue {
   return useContext(ThemeContext);
 }

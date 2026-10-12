@@ -1,0 +1,19 @@
+/*
+ * Ledger theme: crisp business software in the way Blueprint draws it.
+ *
+ * The build wraps this file in
+ *   @layer clawscale.themes { @scope ([data-cs-theme="ledger"]) to (<another theme>) { ... } }
+ * so every rule here applies only inside the theme and beats every base rule, whatever its
+ * specificity. Target components as precisely as the base layer does, and restate variants.
+ *
+ * Tokens carry the look: IBM Plex, Blueprint's grays and elevation, small corners and the
+ * violet, blue and teal accents. Add a rule here only for what a token cannot express.
+ */
+
+/* Menu headers in sentence case, as Blueprint sets them. The base layer sets them in capitals. */
+.bp6-menu-header > h6 {
+  color: var(--cs-color-text-muted);
+  font-size: var(--cs-font-size-sm);
+  letter-spacing: normal;
+  text-transform: none;
+}

@@ -136,8 +136,9 @@ describe("Clawscale style sources", () => {
   });
 
   it.each(allSources)(`%s uses Blueprint's current class namespace (${namespace})`, (_name, css) => {
+    // A theme stylesheet may hold no Blueprint selector at all. None may use an old namespace.
     const namespaces = new Set([...css.matchAll(/\.(bp\d+)-/g)].map((m) => m[1]));
-    expect([...namespaces]).toEqual([namespace]);
+    expect([...namespaces].filter((found) => found !== namespace)).toEqual([]);
   });
 
   it.each(allSources)("%s only references --cs-* variables that tokens or the file itself define", (name, css) => {

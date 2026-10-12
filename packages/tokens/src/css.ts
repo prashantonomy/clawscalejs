@@ -1,5 +1,7 @@
 import { defaultTheme } from "./themes.js";
 import {
+  type AccentDefinition,
+  accentTokens,
   type ColorScheme,
   type ColorSchemeTokens,
   colorSchemes,
@@ -13,6 +15,9 @@ export const THEME_ATTRIBUTE = "data-cs-theme";
 
 /** Attribute that sets the color scheme of an element and its subtree: `light` or `dark`. */
 export const COLOR_SCHEME_ATTRIBUTE = "data-cs-color-scheme";
+
+/** Attribute that picks one of the theme's accents, for example `data-cs-accent="teal"`. */
+export const ACCENT_ATTRIBUTE = "data-cs-accent";
 
 /**
  * Selector that switches to the dark color scheme when no other selector is given.
@@ -31,6 +36,17 @@ export function themeSelector(name: string): string {
   return name === defaultTheme.name
     ? `:root, [${THEME_ATTRIBUTE}="${name}"]`
     : `:root[${THEME_ATTRIBUTE}="${name}"], [${THEME_ATTRIBUTE}="${name}"]`;
+}
+
+/**
+ * Selector for an accent of one theme: an element that names both, as the provider sets them on `<html>`.
+ * The default theme's accents also apply to a root without a theme.
+ */
+export function accentSelector(themeName: string, accentName: string): string {
+  const own = `[${THEME_ATTRIBUTE}="${themeName}"][${ACCENT_ATTRIBUTE}="${accentName}"]`;
+  return themeName === defaultTheme.name
+    ? `:root:not([${THEME_ATTRIBUTE}])[${ACCENT_ATTRIBUTE}="${accentName}"], ${own}`
+    : own;
 }
 
 function schemeTokens(theme: ThemeDefinition, scheme: ColorScheme): ColorSchemeTokens {
@@ -98,6 +114,18 @@ function themeDeclarations(theme: ThemeDefinition): string[] {
   return [`--cs-theme: ${theme.name};`, ...declare(sharedVariables(theme)), ...declare(schemeValueVariables(theme))];
 }
 
+/** An accent's tokens with their light and dark value side by side, for each accent of a theme. */
+function accentBlocks(theme: ThemeDefinition): string[] {
+  return (theme.accents ?? []).map((accent: AccentDefinition) =>
+    block(
+      accentSelector(theme.name, accent.name),
+      accentTokens.flatMap((token) =>
+        colorSchemes.map((scheme) => `--cs-color-${token}-${scheme}: ${accent[scheme][token]};`),
+      ),
+    ),
+  );
+}
+
 /** Shared overrides behind `@supports`, for example larger radii where corners can be cut. */
 function supportsBlocks(theme: ThemeDefinition, selector: string): string[] {
   return Object.entries(theme.supports ?? {}).map(
@@ -112,6 +140,7 @@ function supportsBlocks(theme: ThemeDefinition, selector: string): string[] {
  * Theme and color scheme are separate axes, and either can change on any element:
  * - Color scheme elements set two switches. In dark, `--cs-is-dark` is empty and `--cs-is-light` is `initial`.
  * - Theme elements declare each token's light and dark value side by side, such as `--cs-color-canvas-light`.
+ * - Accent elements, which name a theme and an accent, replace the accent tokens' values.
  * - Every element that changes either axis picks the final token:
  *   `var(--cs-is-dark, <light value>) var(--cs-is-light, <dark value>)`.
  *   An empty switch drops its half. An `initial` switch is invalid, so its half falls back to the value.
@@ -128,8 +157,9 @@ export function renderTokensCss(options: RenderTokensCssOptions = {}): string {
     block(darkSelector, ["color-scheme: dark;", "--cs-is-light: initial;", "--cs-is-dark: ;"]),
     block(defaultSelector, themeDeclarations(defaultTheme)),
     ...supportsBlocks(defaultTheme, defaultSelector),
+    ...accentBlocks(defaultTheme),
     block(
-      `:root, [${THEME_ATTRIBUTE}], [${COLOR_SCHEME_ATTRIBUTE}], ${darkSelector}, ${lightSelector}`,
+      `:root, [${THEME_ATTRIBUTE}], [${COLOR_SCHEME_ATTRIBUTE}], [${ACCENT_ATTRIBUTE}], ${darkSelector}, ${lightSelector}`,
       finalNames.map((name) => `${name}: var(--cs-is-dark, var(${name}-light)) var(--cs-is-light, var(${name}-dark));`),
     ),
   ].join("\n\n");
@@ -145,5 +175,6 @@ export function renderThemeCss(theme: ThemeDefinition): string {
     `/* Clawscale ${theme.label} theme tokens. Generated from @clawscale/tokens. Do not edit. */`,
     block(selector, themeDeclarations(theme)),
     ...supportsBlocks(theme, selector),
+    ...accentBlocks(theme),
   ].join("\n\n");
 }

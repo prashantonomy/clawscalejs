@@ -58,6 +58,35 @@ export type ColorToken =
 
 export type ShadowToken = "0" | "1" | "2" | "3" | "4" | "control";
 
+/** The color tokens an accent sets. Every other color stays with the theme. */
+export const accentTokens = [
+  "primary",
+  "primary-hover",
+  "primary-active",
+  "primary-disabled",
+  "primary-on",
+  "primary-subtle",
+  "primary-subtle-hover",
+  "primary-border",
+  "primary-text",
+  "focus",
+  "selection",
+  "surface-selected",
+] as const satisfies readonly ColorToken[];
+
+/** A color token that an accent sets. */
+export type AccentToken = (typeof accentTokens)[number];
+
+/** An accent: the primary color of a theme, with its tints, focus ring and selection, in both color schemes. */
+export interface AccentDefinition {
+  /** Identifier for the `data-cs-accent` attribute and the `accent` prop. Lowercase, no spaces. */
+  name: string;
+  /** Name for people, for example in an accent picker. */
+  label: string;
+  light: Record<AccentToken, string>;
+  dark: Record<AccentToken, string>;
+}
+
 /** Categorical chart slots plus chart chrome. The CSS variable is `--cs-chart-<name>`. */
 export type ChartToken =
   | "1"
@@ -383,4 +412,8 @@ export interface ThemeDefinition {
    * keyed by an `@supports` condition such as `"(corner-shape: bevel)"`.
    */
   supports?: Record<string, SharedOverrides>;
+  /** The name and label of the accent that `light` and `dark` hold. */
+  accent?: { name: string; label: string };
+  /** More accents people can pick. Each replaces the accent tokens under `data-cs-accent`. */
+  accents?: readonly AccentDefinition[];
 }
