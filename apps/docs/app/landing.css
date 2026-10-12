@@ -26,6 +26,26 @@
   min-height: 100vh;
 }
 
+/* Beak: its warm graphite planes, hairlines and inks in place of the default navy. */
+:root[data-cs-theme="beak"] .landing {
+  --landing-bg: #11110e;
+  --landing-glow: #33322c;
+  --landing-glow-edge: #201f1b;
+  --landing-grid: rgba(223, 222, 216, 0.06);
+  --landing-grid-major: rgba(223, 222, 216, 0.1);
+  --landing-wireframe: rgba(223, 222, 216, 0.26);
+  --landing-scrim: rgba(17, 17, 14, 0.85);
+  --landing-scrim-edge: rgba(17, 17, 14, 0);
+  --landing-text: #dfded8;
+  --landing-title: #f4f3ef;
+  --landing-tagline: #dfded8;
+  --landing-subtitle: #b7b6b0;
+  --landing-rule: rgba(223, 222, 216, 0.3);
+  --landing-rule-faint: rgba(223, 222, 216, 0.2);
+  --landing-footer-text: #cdccc6;
+  --landing-footnote: #b7b6b0;
+}
+
 .landing-hero {
   align-items: center;
   background:
