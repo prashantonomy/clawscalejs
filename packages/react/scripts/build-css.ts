@@ -11,7 +11,7 @@
  * Both files state the full layer order, so the order holds whichever file loads first.
  * Blueprint CSS is inlined, which is why @clawscale/react pins exact Blueprint versions.
  */
-import { copyFileSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -101,6 +101,7 @@ export function buildStyles(): string {
 
 /** Theme folders in src/styles/themes. Each needs a theme of the same name in @clawscale/tokens. */
 export function themeNames(): string[] {
+  if (!existsSync(themesDir)) return [];
   return readdirSync(themesDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
@@ -148,10 +149,9 @@ export function buildThemeStyles(name: string): string {
 
 /** The optional fonts stylesheet. Browsers only download the fonts a page uses. */
 export const fontsCss = [
-  "/* Inter, JetBrains Mono and Oxanium, the Clawscale typefaces. Optional. Browsers download only the fonts a page uses. */",
+  "/* Inter and JetBrains Mono, the Clawscale typefaces. Optional. Browsers download only the fonts a page uses. */",
   '@import "@fontsource-variable/inter/index.css";',
   '@import "@fontsource-variable/jetbrains-mono/index.css";',
-  '@import "@fontsource-variable/oxanium/index.css";',
   "",
 ].join("\n");
 

@@ -27,8 +27,8 @@ function ThemeButtons() {
       <button type="button" onClick={() => setColorScheme("light")}>
         light
       </button>
-      <button type="button" onClick={() => setTheme("futuristic")}>
-        futuristic
+      <button type="button" onClick={() => setTheme("harbor")}>
+        harbor
       </button>
       <button type="button" onClick={() => setTheme("default")}>
         default
@@ -111,18 +111,18 @@ describe("ClawscaleProvider", () => {
         <ThemeButtons />
       </ClawscaleProvider>,
     );
-    await userEvent.click(screen.getByRole("button", { name: "futuristic" }));
-    expect(localStorage.getItem("clawscale-theme")).toBe("futuristic");
-    expect(root()).toHaveAttribute("data-cs-theme", "futuristic");
+    await userEvent.click(screen.getByRole("button", { name: "harbor" }));
+    expect(localStorage.getItem("clawscale-theme")).toBe("harbor");
+    expect(root()).toHaveAttribute("data-cs-theme", "harbor");
     await userEvent.click(screen.getByRole("button", { name: "dark" }));
-    expect(state()).toBe("futuristic/dark/dark");
+    expect(state()).toBe("harbor/dark/dark");
     await userEvent.click(screen.getByRole("button", { name: "default" }));
     expect(root()).toHaveAttribute("data-cs-theme", "default");
     expect(root()).toHaveAttribute("data-cs-color-scheme", "dark");
   });
 
   it("restores the saved theme and color scheme", async () => {
-    localStorage.setItem("clawscale-theme", "futuristic");
+    localStorage.setItem("clawscale-theme", "harbor");
     localStorage.setItem("clawscale-color-scheme", "dark");
     render(
       <ClawscaleProvider>
@@ -130,7 +130,7 @@ describe("ClawscaleProvider", () => {
       </ClawscaleProvider>,
     );
     await act(async () => {});
-    expect(state()).toBe("futuristic/dark/dark");
+    expect(state()).toBe("harbor/dark/dark");
   });
 
   it("moves a color scheme saved before 0.2 to its own key", async () => {
@@ -160,9 +160,9 @@ describe("ClawscaleProvider", () => {
       </ClawscaleProvider>,
     );
     await userEvent.click(screen.getByRole("button", { name: "dark" }));
-    await userEvent.click(screen.getByRole("button", { name: "futuristic" }));
+    await userEvent.click(screen.getByRole("button", { name: "harbor" }));
     expect(onColorSchemeChange).toHaveBeenCalledWith("dark");
-    expect(onThemeChange).toHaveBeenCalledWith("futuristic");
+    expect(onThemeChange).toHaveBeenCalledWith("harbor");
     expect(state()).toBe("default/light/light");
   });
 
@@ -172,9 +172,9 @@ describe("ClawscaleProvider", () => {
         <ThemeButtons />
       </ClawscaleProvider>,
     );
-    await userEvent.click(screen.getByRole("button", { name: "futuristic" }));
+    await userEvent.click(screen.getByRole("button", { name: "harbor" }));
     await userEvent.click(screen.getByRole("button", { name: "dark" }));
-    expect(localStorage.getItem("app-theme")).toBe("futuristic");
+    expect(localStorage.getItem("app-theme")).toBe("harbor");
     expect(localStorage.getItem("clawscale-color-scheme")).toBeNull();
     expect(localStorage.length).toBe(1);
   });
@@ -193,12 +193,12 @@ describe("ClawscaleProvider", () => {
 
   it("leaves the document alone when asked", async () => {
     render(
-      <ClawscaleProvider applyToDocument={false} defaultTheme="futuristic" defaultColorScheme="dark">
+      <ClawscaleProvider applyToDocument={false} defaultTheme="harbor" defaultColorScheme="dark">
         <ThemeButtons />
       </ClawscaleProvider>,
     );
     await act(async () => {});
-    expect(state()).toBe("futuristic/dark/dark");
+    expect(state()).toBe("harbor/dark/dark");
     expect(root()).not.toHaveAttribute("data-cs-theme");
     expect(root()).not.toHaveAttribute("data-cs-color-scheme");
   });
@@ -206,12 +206,12 @@ describe("ClawscaleProvider", () => {
   it("warns when a theme's stylesheet is missing", async () => {
     vi.useFakeTimers();
     try {
-      render(<ClawscaleProvider defaultTheme="futuristic">content</ClawscaleProvider>);
+      render(<ClawscaleProvider defaultTheme="harbor">content</ClawscaleProvider>);
       await act(async () => {});
       await act(async () => {
         vi.advanceTimersByTime(1000);
       });
-      expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("@clawscale/react/themes/futuristic.css"));
+      expect(console.warn).toHaveBeenCalledWith(expect.stringContaining("@clawscale/react/themes/harbor.css"));
     } finally {
       vi.useRealTimers();
     }
@@ -281,17 +281,17 @@ describe("getThemeScript", () => {
   const run = (options?: Parameters<typeof getThemeScript>[0]) => new Function(getThemeScript(options))();
 
   it("applies the saved theme and color scheme when run", () => {
-    localStorage.setItem("clawscale-theme", "futuristic");
+    localStorage.setItem("clawscale-theme", "harbor");
     localStorage.setItem("clawscale-color-scheme", "dark");
     run();
     expect(root()).toHaveClass("bp6-dark");
-    expect(root()).toHaveAttribute("data-cs-theme", "futuristic");
+    expect(root()).toHaveAttribute("data-cs-theme", "harbor");
     expect(root()).toHaveAttribute("data-cs-color-scheme", "dark");
   });
 
   it("falls back to the defaults", () => {
-    run({ defaultTheme: "futuristic", defaultColorScheme: "light" });
-    expect(root()).toHaveAttribute("data-cs-theme", "futuristic");
+    run({ defaultTheme: "harbor", defaultColorScheme: "light" });
+    expect(root()).toHaveAttribute("data-cs-theme", "harbor");
     expect(root()).toHaveAttribute("data-cs-color-scheme", "light");
   });
 
@@ -313,8 +313,8 @@ describe("getThemeScript", () => {
     vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
       throw new Error("denied");
     });
-    run({ defaultTheme: "futuristic", defaultColorScheme: "dark" });
-    expect(root()).toHaveAttribute("data-cs-theme", "futuristic");
+    run({ defaultTheme: "harbor", defaultColorScheme: "dark" });
+    expect(root()).toHaveAttribute("data-cs-theme", "harbor");
     expect(root()).toHaveClass("bp6-dark");
   });
 });

@@ -1,12 +1,12 @@
 "use client";
 
 import { PropertyList, PropertyListItem, useTheme } from "@clawscale/react";
-import { chartPalettes } from "@clawscale/tokens";
+import { type BuiltInThemeName, chartPalettes } from "@clawscale/tokens";
 
 export default function UseThemeResolved() {
   const { theme, colorScheme, resolvedColorScheme } = useTheme();
   // Colors for a canvas chart, which CSS variables cannot reach.
-  const palette = theme === "futuristic" ? chartPalettes.futuristic : chartPalettes.default;
+  const palette = chartPalettes[theme as BuiltInThemeName] ?? chartPalettes.default;
   return (
     <PropertyList style={{ width: "100%", maxWidth: 340 }}>
       <PropertyListItem label="theme" monospace>

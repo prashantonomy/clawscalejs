@@ -8,7 +8,7 @@ import {
   type ThemeDefinition,
 } from "./tokens.js";
 
-/** Attribute that names the theme of an element and its subtree, for example `data-cs-theme="futuristic"`. */
+/** Attribute that names the theme of an element and its subtree, for example `data-cs-theme="harbor"`. */
 export const THEME_ATTRIBUTE = "data-cs-theme";
 
 /** Attribute that sets the color scheme of an element and its subtree: `light` or `dark`. */

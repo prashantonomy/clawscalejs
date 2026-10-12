@@ -18,7 +18,7 @@ npm install @clawscale/tokens
 }
 ```
 
-`tokens.css` holds the default theme. Dark values apply under `[data-cs-color-scheme="dark"]`. Add `@clawscale/tokens/themes/futuristic.css` for the futuristic theme under `[data-cs-theme="futuristic"]`. `@clawscale/react/styles.css` already includes the default tokens.
+`tokens.css` holds the default theme. Dark values apply under `[data-cs-color-scheme="dark"]`. A theme other than the default ships `themes/<name>.css`, which applies under `[data-cs-theme="<name>"]`. `@clawscale/react/styles.css` already includes the default tokens.
 
 ## JavaScript
 
@@ -26,8 +26,8 @@ npm install @clawscale/tokens
 import { chartPalettes, dark, light, shared, themes } from "@clawscale/tokens";
 
 light.color.primary; // "#3563E9", the default theme
-themes.futuristic.dark.color.primary; // "#0FD4F1"
-chartPalettes.futuristic.dark; // eight categorical colors in their fixed order
+themes.default.dark.color.primary; // every theme, by name
+chartPalettes.default.dark; // eight categorical colors in their fixed order
 ```
 
 `renderThemeCss(theme)` turns a `ThemeDefinition` into CSS, so you can build your own theme.

@@ -12,7 +12,6 @@ export {
   themeSelector,
   themeVariables,
 } from "./css.js";
-export { futuristic } from "./futuristic.js";
 export {
   type BuiltInThemeName,
   chartPalettes,

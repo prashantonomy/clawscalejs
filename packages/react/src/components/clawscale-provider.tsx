@@ -30,7 +30,7 @@ export type ThemePreference = ColorSchemePreference;
 export type ResolvedTheme = ColorScheme;
 
 export interface ThemeContextValue {
-  /** The theme, for example `"default"` or `"futuristic"`. */
+  /** The theme, for example `"default"`. */
   theme: ThemeName;
   /** Changes and saves the theme. */
   setTheme: (theme: ThemeName) => void;
@@ -46,7 +46,7 @@ export interface ThemeContextValue {
 
 export interface ClawscaleProviderProps extends Omit<BlueprintProviderProps, "children"> {
   children?: ReactNode;
-  /** Controlled theme, for example `"futuristic"`. Leave unset to let the provider manage it. */
+  /** Controlled theme, for example `"default"`. Leave unset to let the provider manage it. */
   theme?: ThemeName;
   /**
    * Theme used before anything is saved.

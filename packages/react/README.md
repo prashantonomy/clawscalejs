@@ -32,8 +32,8 @@ export function App() {
 | `@clawscale/react/common` | Constants that are safe in React Server Components |
 | `@clawscale/react/sync-icons` | Synchronous icon loading for server rendering |
 | `@clawscale/react/styles.css` | Every style of the default theme, in `@layer blueprint` and `@layer clawscale` |
-| `@clawscale/react/themes/futuristic.css` | The futuristic theme. Load it after `styles.css` and pass `defaultTheme="futuristic"` |
-| `@clawscale/react/fonts.css` | Inter, JetBrains Mono and Oxanium |
+| `@clawscale/react/themes/<name>.css` | A theme other than the default. Load it after `styles.css` and pass `defaultTheme="<name>"` |
+| `@clawscale/react/fonts.css` | Inter and JetBrains Mono |
 
 `ClawscaleProvider` manages the theme and the light, dark and system color schemes. `useTheme` reads and changes both.
 

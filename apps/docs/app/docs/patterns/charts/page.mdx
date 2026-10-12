@@ -37,7 +37,7 @@ Eight slots, `--cs-chart-1` to `--cs-chart-8`, tell series apart. Each theme and
 - Color follows the series, not its rank. When a filter hides a series, the others keep their colors.
 - One series uses slot 1 and needs no legend. The title names it.
 - Two or more series need a legend. Up to four also get direct labels.
-- In the default theme's light color scheme, slots 3, 4 and 5 fall below 3:1 contrast on the surface. In the futuristic theme's, slot 6 does. Label those series directly or offer a table.
+- In the default theme's light color scheme, slots 3, 4 and 5 fall below 3:1 contrast on the surface. Label those series directly or offer a table.
 
 ## Status colors
 
@@ -53,7 +53,7 @@ Eight slots, `--cs-chart-1` to `--cs-chart-8`, tell series apart. Each theme and
 
 ## Sequential ramp
 
-`--cs-chart-seq-100` to `--cs-chart-seq-700` step one hue from light to dark: blue in the default theme, cyan in the futuristic theme. Use it for magnitude, such as heatmap cells. In the light color scheme, map values near zero to 100. In the dark color scheme, reverse the ramp so low values stay close to the surface.
+`--cs-chart-seq-100` to `--cs-chart-seq-700` step one hue from light to dark: blue in the default theme. Use it for magnitude, such as heatmap cells. In the light color scheme, map values near zero to 100. In the dark color scheme, reverse the ramp so low values stay close to the surface.
 
 <Example name="patterns/charts/sequential" align="start">
   <ChartsSequential />
@@ -95,11 +95,11 @@ SVG libraries such as Recharts accept CSS variables, so `stroke="var(--cs-chart-
 "use client";
 
 import { useTheme } from "@clawscale/react";
-import { chartPalettes } from "@clawscale/tokens";
+import { type BuiltInThemeName, chartPalettes } from "@clawscale/tokens";
 
 export function useChartPalette() {
   const { theme, resolvedColorScheme } = useTheme();
-  return chartPalettes[theme === "futuristic" ? "futuristic" : "default"][resolvedColorScheme];
+  return (chartPalettes[theme as BuiltInThemeName] ?? chartPalettes.default)[resolvedColorScheme];
 }
 ```
 

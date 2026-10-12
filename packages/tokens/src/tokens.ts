@@ -1,7 +1,7 @@
 /**
  * Clawscale design tokens: the token types and the default theme.
  *
- * Together with the other theme files (futuristic.ts), this is the single source of truth
+ * Together with any other theme files registered in themes.ts, this is the single source of truth
  * for every `--cs-*` CSS variable. Change a value here, run `pnpm build`, and every package
  * picks it up. Contrast rules for every theme are enforced by `test/tokens.test.ts`.
  */
@@ -9,7 +9,7 @@
 export const colorSchemes = ["light", "dark"] as const;
 export type ColorScheme = (typeof colorSchemes)[number];
 
-/** @deprecated Use `ColorScheme`. Since 0.2, a theme is a look such as "futuristic", and light and dark are color schemes. */
+/** @deprecated Use `ColorScheme`. Since 0.2, a theme is a look such as "default", and light and dark are color schemes. */
 export type Theme = ColorScheme;
 
 export const intents = ["primary", "success", "warning", "danger"] as const;

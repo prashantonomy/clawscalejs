@@ -1,5 +1,4 @@
 import "@clawscale/react/styles.css";
-import "@clawscale/react/themes/futuristic.css";
 import "@clawscale/react/fonts.css";
 import "./globals.css";
 import { ThemeScript } from "@clawscale/react";

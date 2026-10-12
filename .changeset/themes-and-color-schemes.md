@@ -3,13 +3,13 @@
 "@clawscale/tokens": minor
 ---
 
-Add themes, starting with a futuristic theme. Light and dark are now color schemes.
+Add themes. A theme sets the whole look, and light and dark are now color schemes.
 
-- New `futuristic` theme: a heads-up display with Oxanium, cut corners, cyan light, capital labels and glowing readouts. Load `@clawscale/react/themes/futuristic.css` after `styles.css` and pass `defaultTheme="futuristic"`.
+- `default` is the only built-in theme for now. A theme other than the default ships `@clawscale/react/themes/<name>.css`: load it after `styles.css` and pass `defaultTheme="<name>"`.
 - `ClawscaleProvider` and `ThemeScript` manage the theme and the color scheme separately. `useTheme` returns `theme`, `setTheme`, `colorScheme`, `resolvedColorScheme` and `setColorScheme`.
 - `<html>` gets `data-cs-theme`, the theme name, and `data-cs-color-scheme`, light or dark. Both work on any element and nest.
 - New tokens: `--cs-corner-shape`, `--cs-label-transform` and `--cs-label-tracking`. Each color, shadow and chart token also has a `-light` and a `-dark` value to override.
-- `@clawscale/tokens` exports `themes`, `chartPalettes`, `renderThemeCss` and the `ThemeDefinition` type, and ships `themes/futuristic.css`.
+- `@clawscale/tokens` exports `themes`, `chartPalettes`, `renderThemeCss` and the `ThemeDefinition` type.
 
 Fixes in every theme:
 

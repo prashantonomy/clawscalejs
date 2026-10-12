@@ -18,16 +18,12 @@
   <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
-<p align="center">
-  <img src="apps/docs/public/images/futuristic-showcase.webp" width="900" alt="A pipeline console built with Clawscale in the futuristic theme" />
-</p>
-
 ---
 
 Clawscale keeps [Blueprint](https://blueprintjs.com)'s components, APIs and principles, and gives them a refined look. It is built for dashboards, consoles and tools where a screen holds a lot of data.
 
 - **Every Blueprint component** from one package: core, select, datetime, table and icons.
-- **Two themes.** Default is calm and neutral. Futuristic is a heads-up display: cut corners, cyan light, capital labels and glowing readouts.
+- **Themes** that change the whole look at once. The default theme is calm and neutral.
 - **Light, dark and system color schemes** for every theme, tested for WCAG AA contrast.
 - **Next.js ready.** Components carry `"use client"`, render on the server and apply the theme before the first paint.
 - **Patterns for dense screens:** `Metric`, `Delta`, `Sparkline`, `PropertyList` and `StatusBar`.
@@ -58,19 +54,7 @@ export function App() {
 
 Using Next.js? Follow the [Next.js guide](https://prashantonomy.github.io/clawscalejs/docs/nextjs/) for the theme script and server rendering.
 
-### The futuristic theme
-
-Load its stylesheet and pick it on the provider.
-
-```tsx
-import "@clawscale/react/styles.css";
-import "@clawscale/react/themes/futuristic.css";
-import "@clawscale/react/fonts.css";
-
-<ClawscaleProvider defaultTheme="futuristic">{children}</ClawscaleProvider>;
-```
-
-See [Themes](https://prashantonomy.github.io/clawscalejs/docs/themes/) to let people switch, scope a theme or build your own.
+See [Themes](https://prashantonomy.github.io/clawscalejs/docs/themes/) to let people switch themes, scope one or build your own.
 
 ## Packages
 

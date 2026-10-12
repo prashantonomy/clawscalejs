@@ -172,17 +172,26 @@ describe("css output", () => {
 });
 
 describe("theme css output", () => {
-  const css = renderThemeCss(themes.futuristic);
+  // A theme you could define yourself: the default tokens with teal accents and cut corners.
+  const harbor: ThemeDefinition = {
+    ...defaultTheme,
+    name: "harbor",
+    label: "Harbor",
+    description: "The default theme with teal accents.",
+    shared: { ...defaultTheme.shared, corner: { shape: "bevel" } },
+    light: { ...defaultTheme.light, color: { ...defaultTheme.light.color, primary: "#0E7C6B" } },
+    supports: { "(corner-shape: bevel)": { radius: { md: "6px" } } },
+  };
+  const css = renderThemeCss(harbor);
 
   it("scopes a theme to its attribute", () => {
-    expect(css).toContain(
-      ':root[data-cs-theme="futuristic"], [data-cs-theme="futuristic"] {\n  --cs-theme: futuristic;',
-    );
+    expect(css).toContain(':root[data-cs-theme="harbor"], [data-cs-theme="harbor"] {\n  --cs-theme: harbor;');
     expect(css).not.toContain("--cs-is-dark");
   });
 
   it("declares the theme's values for both color schemes", () => {
-    for (const [name, value] of Object.entries(schemeValueVariables(themes.futuristic))) {
+    expect(css).toContain("--cs-color-primary-light: #0E7C6B;");
+    for (const [name, value] of Object.entries(schemeValueVariables(harbor))) {
       expect(css).toContain(`${name}: ${value};`);
     }
   });

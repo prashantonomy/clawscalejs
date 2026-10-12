@@ -11,7 +11,7 @@ Tokens are CSS variables named `--cs-*`. Clawscale's styles read them, so one ov
 
 ### CSS
 
-`@clawscale/react/styles.css` declares every token of the default theme, for both color schemes. Theme stylesheets such as `@clawscale/react/themes/futuristic.css` set their own values. Read them with `var()`.
+`@clawscale/react/styles.css` declares every token of the default theme, for both color schemes. A theme stylesheet in `@clawscale/react/themes/` sets its own values. Read them with `var()`.
 
 ```css
 .queue-panel {
@@ -42,18 +42,17 @@ import { dark, light, shared, themes } from "@clawscale/tokens";
 light.color.surface; // "#FFFFFF"
 dark.color.surface; // "#16171B"
 shared.radius.md; // "6px"
-themes.futuristic.dark.color.surface; // "#07121A"
+themes.default.dark.color.surface; // the same value as dark.color.surface
 ```
 
 `light`, `dark` and `shared` are the default theme. `themes` holds every theme, each with `shared`, `light`, `dark` and `sequential`. `light` and `dark` hold `color`, `shadow` and `chart`. `shared` holds the groups that do not change with the color scheme. `chartPalettes` and `sequentialBlue` hold chart colors. `themeVariables(theme, colorScheme)` and `sharedVariables(theme)` return the values keyed by variable name, such as `"--cs-radius-md"`.
 
 ### Without Clawscale styles
 
-`@clawscale/tokens/tokens.css` declares the default theme's variables alone, outside any cascade layer. The dark values apply under `[data-cs-color-scheme="dark"]`. `@clawscale/tokens/themes/futuristic.css` adds the futuristic theme under `[data-cs-theme="futuristic"]`. Use them on pages that do not load `@clawscale/react/styles.css`. `@clawscale/tokens/tokens.json` holds the same values for other tools.
+`@clawscale/tokens/tokens.css` declares the default theme's variables alone, outside any cascade layer. The dark values apply under `[data-cs-color-scheme="dark"]`. A theme other than the default ships `@clawscale/tokens/themes/<name>.css`, which applies under `[data-cs-theme="<name>"]`. Use them on pages that do not load `@clawscale/react/styles.css`. `@clawscale/tokens/tokens.json` holds the same values for other tools.
 
 ```css
 @import "@clawscale/tokens/tokens.css";
-@import "@clawscale/tokens/themes/futuristic.css";
 ```
 
 ## Override a token
@@ -70,7 +69,7 @@ Set the variable in your own CSS. Unlayered CSS beats both Clawscale layers, so 
 
 Color, shadow and chart tokens have a light and a dark value, such as `--cs-color-primary-text-light` and `--cs-color-primary-text-dark`. Set both, and each color scheme picks its own. [Theming](/docs/theming/) covers brand colors and scoped overrides.
 
-The tables below list the default theme. [Themes](/docs/themes/) shows the futuristic palette.
+The tables below list the default theme.
 
 ## Reference
 

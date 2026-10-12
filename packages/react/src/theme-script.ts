@@ -38,7 +38,7 @@ export interface ThemeScriptOptions {
   storageKey?: string | null;
 }
 
-/** Attribute that carries the theme on the document element, for example `futuristic`. */
+/** Attribute that carries the theme on the document element, for example `default`. */
 export const THEME_ATTRIBUTE = "data-cs-theme";
 
 /** Attribute that carries the resolved color scheme on the document element: `light` or `dark`. */

@@ -1,6 +1,6 @@
 /*
  * Landing page. Always dark, like the blueprintjs.com hero, in the colors of the active theme.
- * The variables hold the default theme's colors. The futuristic theme swaps in deep space and cyan.
+ * The variables hold the default theme's colors. Another theme can swap them under its attribute.
  */
 
 .landing {
@@ -26,25 +26,6 @@
   min-height: 100vh;
 }
 
-[data-cs-theme="futuristic"] .landing {
-  --landing-bg: #03090f;
-  --landing-glow: #0a3444;
-  --landing-glow-edge: #061b26;
-  --landing-grid: rgba(15, 212, 241, 0.06);
-  --landing-grid-major: rgba(15, 212, 241, 0.12);
-  --landing-wireframe: rgba(95, 230, 252, 0.22);
-  --landing-scrim: rgba(3, 9, 15, 0.86);
-  --landing-scrim-edge: rgba(3, 9, 15, 0);
-  --landing-text: #ddf3f9;
-  --landing-title: #f2fcff;
-  --landing-tagline: #cdeef7;
-  --landing-subtitle: #81a5b4;
-  --landing-rule: rgba(95, 230, 252, 0.3);
-  --landing-rule-faint: rgba(95, 230, 252, 0.2);
-  --landing-footer-text: #a3c4d0;
-  --landing-footnote: #6f8d9b;
-}
-
 .landing-hero {
   align-items: center;
   background:
@@ -58,38 +39,6 @@
   min-height: min(720px, 86vh);
   overflow: hidden;
   position: relative;
-}
-
-/* In the futuristic theme, a scan line sweeps down the hero. */
-[data-cs-theme="futuristic"] .landing-hero::after {
-  animation: landing-scan 7s linear infinite;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    rgba(95, 230, 252, 0.07) 48%,
-    rgba(95, 230, 252, 0.16) 50%,
-    transparent
-  );
-  content: "";
-  height: 160px;
-  left: 0;
-  pointer-events: none;
-  position: absolute;
-  right: 0;
-  top: -160px;
-}
-
-@keyframes landing-scan {
-  to {
-    transform: translateY(calc(min(720px, 86vh) + 160px));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-cs-theme="futuristic"] .landing-hero::after {
-    animation: none;
-    display: none;
-  }
 }
 
 .landing-wireframes {
@@ -130,11 +79,6 @@
   letter-spacing: -0.03em;
   line-height: 1.1;
   margin: 0;
-}
-
-[data-cs-theme="futuristic"] .landing-title {
-  letter-spacing: 0.02em;
-  text-shadow: 0 0 28px rgba(15, 212, 241, 0.45);
 }
 
 .landing-tagline {
