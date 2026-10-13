@@ -1,0 +1,11 @@
+/*
+ * Beak theme: the colors of the Beak design system.
+ *
+ * The build wraps this file in
+ *   @layer clawscale.themes { @scope ([data-cs-theme="beak"]) to (<another theme>) { ... } }
+ * so every rule here applies only inside the theme and beats every base rule, whatever its
+ * specificity. Target components as precisely as the base layer does, and restate variants.
+ *
+ * Tokens carry the whole theme: Beak's grounds, inks, azure accent and status colors.
+ * Add a rule here only for what a token cannot express.
+ */

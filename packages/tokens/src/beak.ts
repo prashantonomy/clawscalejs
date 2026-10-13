@@ -1,0 +1,223 @@
+/**
+ * The Beak theme: the colors of the Beak design system on Clawscale's type, shape and density.
+ *
+ * Beak is a dark instrument face: warm graphite grounds at OKLCH hue 96, one azure accent, and
+ * status colors that read as heat and carry dark ink. The dark color scheme uses Beak's values as
+ * authored. Beak has no light scheme, so the light one keeps Beak's hues on light grounds, with
+ * deeper solids that carry light ink. Fonts, corners and spacing are the default theme's.
+ * Contrast rules for these values are enforced by `test/tokens.test.ts`, like every theme.
+ */
+import {
+  type ColorScheme,
+  type ColorSchemeTokens,
+  chartSlots,
+  chartStatus,
+  type SequentialRamp,
+  shared,
+  type ThemeDefinition,
+} from "./tokens.js";
+
+/**
+ * Slots 1 to 4 hold Beak's four categorical hues. Slots 5 to 8 extend them with hues outside the
+ * bands Beak keeps for status and its accent. Validated with the dataviz method: adjacent CVD and
+ * normal-vision floors pass in both color schemes. Never reorder or cycle the slots.
+ */
+export const beakChartPalette: Record<ColorScheme, readonly string[]> = {
+  light: ["#0AA46C", "#6572DC", "#019EA5", "#7554BE", "#9F285D", "#0290E1", "#088B74", "#B670D5"],
+  dark: ["#0BA86E", "#6A78E3", "#02A6AD", "#7B5AC4", "#BA4374", "#0593E6", "#088F77", "#B670D5"],
+};
+
+/* Beak's monochrome ramp: magnitude spends no hue. Steps of 0.086 in OKLCH lightness. */
+const sequential: SequentialRamp = {
+  "100": "#EBE7DA",
+  "200": "#CFCBBF",
+  "300": "#B3B0A5",
+  "400": "#98958C",
+  "500": "#7E7B73",
+  "600": "#64625B",
+  "700": "#4C4B45",
+};
+
+/* Beak's hues on light grounds: its inks become the grounds, its grounds become the inks. */
+const light: ColorSchemeTokens = {
+  color: {
+    canvas: "#F4F3EF",
+    surface: "#FEFDFC",
+    "surface-raised": "#FEFDFC",
+    "surface-sunken": "#F8F8F5",
+    "surface-hover": "rgba(32, 31, 27, 0.05)",
+    "surface-active": "rgba(32, 31, 27, 0.09)",
+    "surface-selected": "rgba(2, 116, 147, 0.10)",
+    border: "#DCDBD5",
+    "border-strong": "#CDCCC6",
+    "border-subtle": "#EBE9E4",
+    text: "#201F1B",
+    "text-muted": "#484844",
+    "text-subtle": "#64635E",
+    "text-disabled": "#A6A59F",
+    "text-inverse": "#F4F3EF",
+    focus: "#027493",
+    backdrop: "rgba(5, 5, 4, 0.40)",
+    selection: "rgba(2, 116, 147, 0.20)",
+    tooltip: "#201F1B",
+    "tooltip-text": "#F4F3EF",
+    control: "#FEFDFC",
+    "control-hover": "#F8F8F5",
+    "control-active": "#F1F0EC",
+    "control-border": "#CDCCC6",
+    "control-border-hover": "#B7B6B0",
+    neutral: "#64635E",
+    "neutral-hover": "#565550",
+    "neutral-active": "#484844",
+    "neutral-on": "#F4F3EF",
+    primary: "#027493",
+    "primary-hover": "#006580",
+    "primary-active": "#02556D",
+    "primary-disabled": "#9ACDE2",
+    "primary-on": "#F4F3EF",
+    "primary-subtle": "#E6F7FE",
+    "primary-subtle-hover": "#D2EFFB",
+    "primary-border": "#9CD8F0",
+    "primary-text": "#006580",
+    success: "#0B764D",
+    "success-hover": "#056641",
+    "success-active": "#015636",
+    "success-disabled": "#A3D1B7",
+    "success-on": "#F4F3EF",
+    "success-subtle": "#E9F8EF",
+    "success-subtle-hover": "#D6F1E2",
+    "success-border": "#A6DCBE",
+    "success-text": "#056641",
+    warning: "#FDC64C",
+    "warning-hover": "#F0B135",
+    "warning-active": "#E1A02A",
+    "warning-disabled": "#F4DBA9",
+    "warning-on": "#0D0C09",
+    "warning-subtle": "#FFF4DF",
+    "warning-subtle-hover": "#FEE9BE",
+    "warning-border": "#F0CC83",
+    "warning-text": "#865901",
+    danger: "#B6322D",
+    "danger-hover": "#A12623",
+    "danger-active": "#8D1B19",
+    "danger-disabled": "#EEB3AC",
+    "danger-on": "#F4F3EF",
+    "danger-subtle": "#FFEFED",
+    "danger-subtle-hover": "#FEE2DE",
+    "danger-border": "#F8BDB5",
+    "danger-text": "#A12623",
+  },
+  shadow: {
+    "0": "0 0 0 1px rgba(4, 3, 2, 0.08)",
+    "1": "0 0 0 1px rgba(4, 3, 2, 0.07), 0 1px 2px rgba(4, 3, 2, 0.06)",
+    "2": "0 0 0 1px rgba(4, 3, 2, 0.07), 0 2px 4px -1px rgba(4, 3, 2, 0.06), 0 4px 12px -2px rgba(4, 3, 2, 0.08)",
+    "3": "0 0 0 1px rgba(4, 3, 2, 0.07), 0 4px 8px -2px rgba(4, 3, 2, 0.08), 0 12px 28px -6px rgba(4, 3, 2, 0.14)",
+    "4": "0 0 0 1px rgba(4, 3, 2, 0.07), 0 8px 16px -4px rgba(4, 3, 2, 0.10), 0 28px 56px -12px rgba(4, 3, 2, 0.22)",
+    control: "0 1px 2px rgba(4, 3, 2, 0.06)",
+  },
+  chart: {
+    ...chartSlots(beakChartPalette.light),
+    grid: "#EBE9E4",
+    axis: "#BFBEB8",
+    ...chartStatus,
+  },
+};
+
+/*
+ * Beak as authored: four grounds, five inks, hairlines tinted from ink-1, the azure accent and
+ * lit status plates with dark ink. Hover adds light and a press darkens, as in Beak.
+ */
+const dark: ColorSchemeTokens = {
+  color: {
+    canvas: "#11110E",
+    surface: "#201F1B",
+    "surface-raised": "#33322C",
+    "surface-sunken": "#181814",
+    "surface-hover": "rgba(223, 222, 216, 0.11)",
+    "surface-active": "rgba(223, 222, 216, 0.16)",
+    "surface-selected": "rgba(19, 183, 230, 0.115)",
+    border: "#33322E",
+    "border-strong": "#3F3E39",
+    "border-subtle": "#2B2A26",
+    text: "#F4F3EF",
+    "text-muted": "#CDCCC6",
+    "text-subtle": "#B7B6B0",
+    "text-disabled": "#76746F",
+    "text-inverse": "#0D0C09",
+    focus: "#13B7E6",
+    backdrop: "rgba(5, 5, 4, 0.88)",
+    selection: "rgba(19, 183, 230, 0.30)",
+    tooltip: "#33322C",
+    "tooltip-text": "#F4F3EF",
+    control: "#201F1B",
+    "control-hover": "#353430",
+    "control-active": "#131210",
+    "control-border": "#52514C",
+    "control-border-hover": "#76746F",
+    neutral: "#484844",
+    "neutral-hover": "#53524F",
+    "neutral-active": "#5E5E5A",
+    "neutral-on": "#F4F3EF",
+    primary: "#13B7E6",
+    "primary-hover": "#51C7F1",
+    "primary-active": "#00A1CB",
+    "primary-disabled": "#17495A",
+    "primary-on": "#0D0C09",
+    "primary-subtle": "rgba(19, 183, 230, 0.115)",
+    "primary-subtle-hover": "rgba(19, 183, 230, 0.18)",
+    "primary-border": "#13B7E6",
+    "primary-text": "#13B7E6",
+    success: "#75C59B",
+    "success-hover": "#8CD3AD",
+    "success-active": "#62B289",
+    "success-disabled": "#294B39",
+    "success-on": "#0D0C09",
+    "success-subtle": "rgba(117, 197, 155, 0.115)",
+    "success-subtle-hover": "rgba(117, 197, 155, 0.18)",
+    "success-border": "#75C59B",
+    "success-text": "#75C59B",
+    warning: "#FDC64C",
+    "warning-hover": "#FFD57E",
+    "warning-active": "#EAB53B",
+    "warning-disabled": "#5D4A24",
+    "warning-on": "#0D0C09",
+    "warning-subtle": "rgba(253, 198, 76, 0.115)",
+    "warning-subtle-hover": "rgba(253, 198, 76, 0.18)",
+    "warning-border": "#FDC64C",
+    "warning-text": "#FDC64C",
+    danger: "#FE7065",
+    "danger-hover": "#FF8B7F",
+    "danger-active": "#E86156",
+    "danger-disabled": "#62332E",
+    "danger-on": "#0D0C09",
+    "danger-subtle": "rgba(254, 112, 101, 0.115)",
+    "danger-subtle-hover": "rgba(254, 112, 101, 0.18)",
+    "danger-border": "#FE7065",
+    "danger-text": "#FE7065",
+  },
+  shadow: {
+    "0": "0 0 0 1px rgba(223, 222, 216, 0.10)",
+    "1": "0 0 0 1px rgba(223, 222, 216, 0.10), 0 1px 2px rgba(4, 3, 2, 0.40)",
+    "2": "0 0 0 1px rgba(223, 222, 216, 0.10), 0 2px 4px -1px rgba(4, 3, 2, 0.40), 0 4px 12px -2px rgba(4, 3, 2, 0.45)",
+    "3": "0 0 0 1px rgba(223, 222, 216, 0.10), 0 4px 8px -2px rgba(4, 3, 2, 0.45), 0 12px 28px -6px rgba(4, 3, 2, 0.55)",
+    "4": "0 0 0 1px rgba(223, 222, 216, 0.10), 0 8px 16px -4px rgba(4, 3, 2, 0.55), 0 28px 56px -12px rgba(4, 3, 2, 0.60)",
+    control: "0 1px 2px rgba(4, 3, 2, 0.35)",
+  },
+  chart: {
+    ...chartSlots(beakChartPalette.dark),
+    grid: "#2B2A26",
+    axis: "#3F3E39",
+    ...chartStatus,
+  },
+};
+
+export const beak: ThemeDefinition = {
+  name: "beak",
+  label: "Beak",
+  description: "Warm graphite with one azure accent, and amber and coral for warnings and errors.",
+  shared,
+  light,
+  dark,
+  sequential,
+  accent: { name: "azure", label: "Azure" },
+};

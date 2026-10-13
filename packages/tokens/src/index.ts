@@ -1,4 +1,5 @@
 export { blue, teal, themeAccents, violet, withAccent } from "./accents.js";
+export { beak } from "./beak.js";
 export { composite, contrastRatio, luminance, parseColor, type Rgba } from "./contrast.js";
 export {
   ACCENT_ATTRIBUTE,

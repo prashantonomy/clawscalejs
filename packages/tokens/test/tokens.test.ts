@@ -209,6 +209,7 @@ describe("accents", () => {
     expect(themeAccents(defaultTheme).map((accent) => accent.name)).toEqual(["blue", "violet", "teal"]);
     expect(themeAccents(themes.ledger).map((accent) => accent.name)).toEqual(["violet", "blue", "teal"]);
     expect(themeAccents(themes.ledger)[0]?.light.primary).toBe(themes.ledger.light.color.primary);
+    expect(themeAccents(themes.beak).map((accent) => accent.name)).toEqual(["azure"]);
   });
 
   it("replace only the accent tokens", () => {

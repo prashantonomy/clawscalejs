@@ -3,6 +3,7 @@
  * Components only read tokens, so a theme changes the look without changing any markup.
  */
 import { teal, violet } from "./accents.js";
+import { beak, beakChartPalette } from "./beak.js";
 import { ledger } from "./ledger.js";
 import { type ColorScheme, chartPalette, dark, light, sequentialBlue, shared, type ThemeDefinition } from "./tokens.js";
 
@@ -22,6 +23,7 @@ export const defaultTheme: ThemeDefinition = {
 export const themes = {
   default: defaultTheme,
   ledger,
+  beak,
 } as const satisfies Record<string, ThemeDefinition>;
 
 /** The name of a built-in theme. */
@@ -37,4 +39,5 @@ export const themeNames = Object.keys(themes) as BuiltInThemeName[];
 export const chartPalettes: Record<BuiltInThemeName, Record<ColorScheme, readonly string[]>> = {
   default: chartPalette,
   ledger: chartPalette,
+  beak: beakChartPalette,
 };

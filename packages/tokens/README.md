@@ -18,7 +18,7 @@ npm install @clawscale/tokens
 }
 ```
 
-`tokens.css` holds the default theme. Dark values apply under `[data-cs-color-scheme="dark"]`. `themes/ledger.css` adds the Ledger theme under `[data-cs-theme="ledger"]`. `@clawscale/react/styles.css` already includes the default tokens.
+`tokens.css` holds the default theme. Dark values apply under `[data-cs-color-scheme="dark"]`. `themes/ledger.css` and `themes/beak.css` add the Ledger and Beak themes under `[data-cs-theme="ledger"]` and `[data-cs-theme="beak"]`. `@clawscale/react/styles.css` already includes the default tokens.
 
 ## JavaScript
 
