@@ -302,3 +302,5 @@ If a docs page that exists returns 404 in development after many files changed a
 
 - Some Blueprint components generate ids with a module counter (NumericInput, RadioGroup, Section, Select, Suggest, MultiSelect, QueryList, DateInput, TimePicker, Dialog). In development, React logs attribute mismatch warnings after server rendering. They are harmless and do not appear in production.
 - Blueprint's legacy `Popover` mispositions under React 19. Use `PopoverNext`. Blueprint's own components already do.
+- `OverlayToaster` plays the exit transition on the wrong toast when one is dismissed and another shown in the same tick, which hides the new one. Update the toast in place with `show(props, key)`, or wait for the exit.
+- `RadioGroup` does not pass its `name` to `RadioCard` inputs. Pass `inputProps={{ name }}` to each `RadioCard`, so arrow keys move within the group.
