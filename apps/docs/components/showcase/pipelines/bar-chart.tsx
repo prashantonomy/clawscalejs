@@ -1,7 +1,7 @@
 "use client";
 
 import { type KeyboardEvent, useState } from "react";
-import { niceScale } from "./line-chart";
+import { niceScale } from "../nice-scale";
 import { useElementWidth } from "./use-element-width";
 
 export interface BarChartProps {

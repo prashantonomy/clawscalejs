@@ -1,5 +1,6 @@
 import { themeNames } from "@clawscale/tokens";
 import { test } from "@playwright/test";
+import { showcases } from "../lib/showcases";
 
 /**
  * Full-page screenshots for visual review, written to apps/docs/screenshots/.
@@ -10,6 +11,7 @@ test.skip(!process.env.SCREENSHOTS, "Set SCREENSHOTS=1 to capture screenshots.")
 const pages = [
   { name: "gallery", href: "/gallery/" },
   { name: "showcase", href: "/showcase/" },
+  ...showcases.map((showcase) => ({ name: showcase.slug, href: showcase.href })),
   { name: "landing", href: "/" },
   { name: "buttons", href: "/docs/core/buttons/" },
 ];

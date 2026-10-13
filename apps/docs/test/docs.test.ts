@@ -1,9 +1,10 @@
-import { readdirSync, readFileSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import GithubSlugger from "github-slugger";
 import { describe, expect, it } from "vitest";
 import props from "../generated/props.json" with { type: "json" };
 import { allPages, nav } from "../lib/nav.ts";
+import { showcases } from "../lib/showcases.ts";
 import { headingText, parsePage } from "../scripts/generate-docs-index.ts";
 import { sanitizeDocText } from "../scripts/generate-props.ts";
 
@@ -61,6 +62,15 @@ describe("navigation", () => {
 
   it("gives every package at least one page", () => {
     for (const pkg of nav) expect(pkg.groups.flatMap((g) => g.pages).length, pkg.id).toBeGreaterThan(0);
+  });
+});
+
+describe("showcases", () => {
+  it("gives every showcase a page under its slug", () => {
+    for (const showcase of showcases) {
+      expect(showcase.href).toBe(`/showcase/${showcase.slug}/`);
+      expect(existsSync(join(root, "app", "showcase", showcase.slug, "page.tsx")), showcase.slug).toBe(true);
+    }
   });
 });
 

@@ -1,5 +1,6 @@
 import { teal, themeAccents, themeNames, themes } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
+import { showcases } from "../lib/showcases";
 
 test.describe("color scheme", () => {
   test("toggles with Shift+D and survives a reload", async ({ page }) => {
@@ -120,9 +121,21 @@ test.describe("examples", () => {
   });
 });
 
-test.describe("showcase", () => {
-  test("selects a pipeline and filters by status", async ({ page }) => {
+test.describe("showcase index", () => {
+  test("lists every showcase and opens one", async ({ page }) => {
     await page.goto("/showcase/");
+    for (const showcase of showcases) {
+      await expect(page.getByRole("link", { name: showcase.title, exact: true })).toBeVisible();
+    }
+    await page.getByRole("link", { name: "Pipeline console", exact: true }).click();
+    await expect(page).toHaveURL(/\/showcase\/pipelines\/$/);
+    await expect(page.locator("h1")).toHaveText("Production pipelines");
+  });
+});
+
+test.describe("pipeline console showcase", () => {
+  test("selects a pipeline and filters by status", async ({ page }) => {
+    await page.goto("/showcase/pipelines/");
     await page.waitForLoadState("networkidle");
     const inspector = page.getByRole("complementary", { name: "Pipeline details" });
     await expect(inspector).toContainText("Last run failed");
@@ -133,5 +146,39 @@ test.describe("showcase", () => {
     await page.getByLabel("Status").selectOption("failed");
     const count = await page.locator(".showcase-table-card .bp6-tag").first().innerText();
     await expect(page.locator(".showcase-cell-status")).toHaveCount(Number(count));
+  });
+});
+
+test.describe("omega showcase", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/showcase/omega/");
+    await page.waitForLoadState("networkidle");
+  });
+
+  test("submits a task order once every review stage is done", async ({ page }) => {
+    const coa = page.locator(".omega-coa", { hasText: "Escort transit through the strait" });
+    await coa.getByRole("button", { name: "Select", exact: true }).click();
+    const dialog = page.getByRole("dialog", { name: "Task order: Escort transit through the strait" });
+    const submit = dialog.getByRole("button", { name: "Submit task order" });
+    await expect(submit).toBeDisabled();
+    await expect(dialog).toContainText("All review stages are complete.");
+    await submit.click();
+    await expect(page.locator(".bp6-toast")).toContainText("Task order sent: Frigate Arden.");
+    await expect(coa).toContainText("Tasked");
+  });
+
+  test("tasks an aircraft that finds Talon", async ({ page }) => {
+    await page.getByRole("button", { name: "Task asset" }).click();
+    await page.getByRole("button", { name: "Choose models" }).click();
+    await page.getByRole("button", { name: "Deploy and task" }).click();
+    await expect(page.getByText("Talon found")).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole("complementary", { name: "Object details" })).toContainText("Sighted on route A");
+  });
+
+  test("finds an object with the search", async ({ page }) => {
+    await page.keyboard.press("ControlOrMeta+K");
+    await page.getByPlaceholder("Search units, sites and alerts").fill("port");
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("complementary", { name: "Object details" })).toContainText("Container port");
   });
 });

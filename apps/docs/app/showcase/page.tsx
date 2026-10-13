@@ -1,12 +1,12 @@
 import "./showcase.css";
 import type { Metadata } from "next";
-import { Showcase } from "@/components/showcase/showcase";
+import { ShowcaseIndex } from "@/components/showcase/showcase-index";
 
 export const metadata: Metadata = {
   title: "Showcase",
-  description: "A data platform console built entirely with Clawscale components.",
+  description: "Complete screens built entirely with Clawscale components.",
 };
 
 export default function ShowcasePage() {
-  return <Showcase />;
+  return <ShowcaseIndex />;
 }

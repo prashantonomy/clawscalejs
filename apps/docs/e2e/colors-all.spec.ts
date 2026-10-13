@@ -2,6 +2,7 @@ import { Colors } from "@clawscale/react/common";
 import { defaultTheme, themeNames, themeVariables } from "@clawscale/tokens";
 import { expect, test } from "@playwright/test";
 import index from "../generated/docs-index.json" with { type: "json" };
+import { showcases } from "../lib/showcases";
 
 /**
  * Color audit of every page in both themes and both color schemes. Opt-in, like a11y-all.spec.ts:
@@ -35,7 +36,13 @@ const blueprintPalette = Object.entries(Colors)
   .map(([, hex]) => toRgb(hex));
 
 const colorTokens = Object.keys(themeVariables(defaultTheme, "light")).filter((name) => name.startsWith("--cs-color-"));
-const pages = ["/", "/gallery/", "/showcase/", ...index.map((page) => page.href)];
+const pages = [
+  "/",
+  "/gallery/",
+  "/showcase/",
+  ...showcases.map((showcase) => showcase.href),
+  ...index.map((page) => page.href),
+];
 const combinations = themeNames.flatMap((theme) =>
   (["light", "dark"] as const).map((colorScheme) => ({ theme, colorScheme })),
 );
