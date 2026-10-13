@@ -33,6 +33,7 @@ export function App() {
 | `@clawscale/react/sync-icons` | Synchronous icon loading for server rendering |
 | `@clawscale/react/styles.css` | Every style of the default theme, in `@layer blueprint` and `@layer clawscale` |
 | `@clawscale/react/themes/ledger.css` | The Ledger theme. Load it after `styles.css` and pass `defaultTheme="ledger"` |
+| `@clawscale/react/themes/beak.css` | The Beak theme. Load it after `styles.css` and pass `defaultTheme="beak"` |
 | `@clawscale/react/fonts.css` | Inter and JetBrains Mono, and IBM Plex for Ledger |
 
 `ClawscaleProvider` manages the theme, the accent and the light, dark and system color schemes. `useTheme` reads and changes all three.

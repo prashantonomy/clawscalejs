@@ -9,7 +9,7 @@ Clawscale is an open source React UI system for data-dense software. It is a **l
 - `@clawscale/react` re-exports every Blueprint component, adds `"use client"` for Next.js and ships a stylesheet that restyles Blueprint.
 - `@clawscale/tokens` holds the design tokens (`--cs-*` CSS variables) for every theme.
 - Blueprint renders every component. Clawscale owns the tokens, the style layer, the themes, the import paths and a few original patterns.
-- Three settings shape the look. The **theme** (`default`, `ledger`) is the design language. The **accent** (for example `violet`, `blue`, `teal`) is the primary color, picked from the theme's own list. The **color scheme** (`light`, `dark`, `system`) picks a theme's light or dark values. Before 0.2, "theme" meant the color scheme.
+- Three settings shape the look. The **theme** (`default`, `ledger`, `beak`) is the design language. The **accent** (for example `violet`, `blue`, `teal`) is the primary color, picked from the theme's own list. The **color scheme** (`light`, `dark`, `system`) picks a theme's light or dark values. Before 0.2, "theme" meant the color scheme.
 
 ## Hard rules
 
