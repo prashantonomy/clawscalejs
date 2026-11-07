@@ -7,7 +7,7 @@ import index from "@/generated/docs-index.json" with { type: "json" };
 import { type NavPackage, type NavPage, nav, packageForPath } from "@/lib/nav";
 import { site } from "@/lib/site";
 import { LogoMark } from "./logo";
-import { ThemeLabel, ThemePicker, themeLabel } from "./theme-picker";
+import { ThemeLabel, ThemePicker } from "./theme-picker";
 
 function normalize(path: string): string {
   return path.endsWith("/") ? path : `${path}/`;
@@ -99,15 +99,13 @@ function NavPackageSection({
 }
 
 export interface SidebarProps {
-  theme: string;
-  resolvedColorScheme: "light" | "dark";
   onToggleColorScheme: () => void;
   onSearch: () => void;
   /** Called after a link is followed, to close the mobile drawer. */
   onNavigate?: () => void;
 }
 
-export function Sidebar({ theme, resolvedColorScheme, onToggleColorScheme, onSearch, onNavigate }: SidebarProps) {
+export function Sidebar({ onToggleColorScheme, onSearch, onNavigate }: SidebarProps) {
   const pathname = normalize(usePathname() ?? "/");
   const activePackage = packageForPath(pathname)?.id ?? "clawscale";
 
@@ -134,34 +132,35 @@ export function Sidebar({ theme, resolvedColorScheme, onToggleColorScheme, onSea
 
       <div className="docs-sidebar-actions">
         {/* Both variants render. CSS shows the right one from the attributes on <html>, so the first paint is correct. */}
-        <button
-          type="button"
-          className="docs-sidebar-action"
-          onClick={onToggleColorScheme}
-          aria-label={resolvedColorScheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-        >
+        <button type="button" className="docs-sidebar-action" onClick={onToggleColorScheme} aria-keyshortcuts="Shift+D">
           <Icon icon="moon" className="scheme-show-light" />
           <Icon icon="flash" className="scheme-show-dark" />
           <span className="docs-sidebar-action-label">
             <span className="scheme-show-light">Dark mode</span>
             <span className="scheme-show-dark">Light mode</span>
           </span>
-          <kbd className="docs-hint">⇧D</kbd>
+          <span className="docs-hint" aria-hidden="true">
+            ⇧D
+          </span>
         </button>
         <ThemePicker fill placement="bottom-start">
-          <button type="button" className="docs-sidebar-action" aria-label={`Theme: ${themeLabel(theme)}`}>
+          <button type="button" className="docs-sidebar-action" aria-keyshortcuts="Shift+T">
             <Icon icon="style" />
             <span className="docs-sidebar-action-label">
               <ThemeLabel /> theme
             </span>
             <Icon icon="caret-down" />
-            <kbd className="docs-hint">⇧T</kbd>
+            <span className="docs-hint" aria-hidden="true">
+              ⇧T
+            </span>
           </button>
         </ThemePicker>
-        <button type="button" className="docs-sidebar-action" onClick={onSearch}>
+        <button type="button" className="docs-sidebar-action" onClick={onSearch} aria-keyshortcuts="Shift+S">
           <Icon icon="search" />
           <span className="docs-sidebar-action-label">Search...</span>
-          <kbd className="docs-hint">⇧S</kbd>
+          <span className="docs-hint" aria-hidden="true">
+            ⇧S
+          </span>
         </button>
       </div>
 

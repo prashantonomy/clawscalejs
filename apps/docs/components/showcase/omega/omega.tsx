@@ -327,7 +327,9 @@ export function Omega() {
       {
         id: "talon",
         label: talonDark ? "Talon, last fix" : "Talon",
-        description: `Talon, destroyer, hostile${talonDark ? ", last known position" : ""}`,
+        description: talonDark
+          ? "Talon, last fix: hostile destroyer, last known position"
+          : "Talon, destroyer, hostile",
         icon: "ship",
         affiliation: "hostile",
         position: talonAt,
@@ -352,7 +354,7 @@ export function Omega() {
       {
         id: "fishing-fleet",
         label: `Fishing fleet, ${fleet}`,
-        description: `Fishing fleet alert, ${fleet} vessels`,
+        description: `Fishing fleet, ${fleet} vessels, alert`,
         icon: "warning-sign",
         affiliation: "civilian",
         alert: true,
@@ -564,7 +566,6 @@ export function Omega() {
             className="omega-search"
             icon="search"
             text="Search the map"
-            aria-label="Search the map"
             endIcon={<KeyComboTag combo="mod+k" minimal />}
             alignText="start"
             onClick={() => setSearchOpen(true)}
