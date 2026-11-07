@@ -10,6 +10,8 @@
     "dev": "pnpm generate && next dev --port 3100",
     "build": "pnpm generate && next build",
     "start": "node e2e/serve.mjs out 3100",
+    "seo:check": "node seo/check.mjs --property clawscale --dir out",
+    "seo:check:live": "node seo/check.mjs --property clawscale --live",
     "typecheck": "pnpm generate && tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",

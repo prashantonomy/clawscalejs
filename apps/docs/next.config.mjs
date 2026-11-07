@@ -1,3 +1,5 @@
+// SEO-CRITICAL: basePath and trailingSlash fix every URL Google indexes. Read SEO.md and ~/pensievelabs/seo/MASTER.md before changing it, then run pnpm --filter @clawscale/docs seo:check.
+import { fileURLToPath } from "node:url";
 import createMDX from "@next/mdx";
 
 /** Set by the docs deploy workflow, for example "/clawscale" on GitHub Pages. */
@@ -14,10 +16,10 @@ const nextConfig = {
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
 };
 
-// Plugins are passed by name so Turbopack can load them.
+// Plugins are passed by name or absolute path so Turbopack can load them.
 const withMDX = createMDX({
   options: {
-    remarkPlugins: ["remark-gfm"],
+    remarkPlugins: ["remark-gfm", fileURLToPath(new URL("./scripts/remark-page-description.mjs", import.meta.url))],
     rehypePlugins: ["rehype-slug"],
   },
 });

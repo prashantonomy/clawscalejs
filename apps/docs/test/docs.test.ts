@@ -37,6 +37,17 @@ describe("docs index", () => {
     ]);
   });
 
+  it("keeps tags in code spans and summarizes the intro in whole sentences", () => {
+    const entry = parsePage(
+      ["# HTML select", "", "**HTMLSelect** styles a native `<select>`. Use it for short lists.", "", "## Usage"].join(
+        "\n",
+      ),
+      "/docs/core/html-select/",
+    );
+    expect(entry.description).toBe("HTMLSelect styles a native <select>.");
+    expect(entry.summary).toBe("HTMLSelect styles a native <select>. Use it for short lists.");
+  });
+
   it("strips inline markdown from heading text", () => {
     expect(headingText("The [`Tag`](/docs/core/tag/) and **bold** part")).toBe("The Tag and bold part");
     expect(new GithubSlugger().slug(headingText("Using `useHotkeys`"))).toBe("using-usehotkeys");

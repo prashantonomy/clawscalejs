@@ -12,6 +12,7 @@
       "!**/.next",
       "!**/out",
       "!apps/docs/generated",
+      "!apps/docs/seo",
       "!**/*.tsbuildinfo",
       "!packages/react/src/generated",
       "!packages/react/src/styles/generated"

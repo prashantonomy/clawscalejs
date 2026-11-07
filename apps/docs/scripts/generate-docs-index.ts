@@ -1,3 +1,4 @@
+// SEO-CRITICAL: writes the meta description of every docs page (summary). Read SEO.md and ~/pensievelabs/seo/MASTER.md before changing it, then run pnpm --filter @clawscale/docs seo:check.
 /**
  * Builds generated/docs-index.json: the title and h2/h3 headings of every docs page.
  * The sidebar shows the headings of the current page and search uses the whole index.
@@ -20,6 +21,8 @@ export interface DocsIndexEntry {
   title: string;
   /** The first sentence of the page intro, as plain text. */
   description: string;
+  /** The page's meta description: the intro's leading sentences, up to 155 characters (Google's limit in MASTER.md). */
+  summary: string;
   headings: DocsHeading[];
 }
 
@@ -43,12 +46,28 @@ export function headingText(markdown: string): string {
     .trim();
 }
 
-function firstSentence(text: string): string {
-  const plain = headingText(text.replace(/<[^>]+>/g, ""))
+/** The intro as plain text. Tags go, but not inside code spans: "a native `<select>`" keeps its tag. */
+function plainText(text: string): string {
+  return headingText(text.replace(/`[^`]*`|<[^>]+>/g, (match) => (match.startsWith("`") ? match : "")))
     .replace(/\s+/g, " ")
     .trim();
+}
+
+function firstSentence(text: string): string {
+  const plain = plainText(text);
   const end = plain.search(/[.!?](\s|$)/);
   return end === -1 ? plain : plain.slice(0, end + 1);
+}
+
+/** Whole sentences from the start of the intro, as many as fit in `max` characters. Always the first. */
+function summarize(text: string, max = 155): string {
+  let summary = "";
+  for (const sentence of plainText(text).split(/(?<=[.!?])\s+/)) {
+    const next = summary ? `${summary} ${sentence}` : sentence;
+    if (summary && next.length > max) break;
+    summary = next;
+  }
+  return summary;
 }
 
 export function parsePage(source: string, href: string): DocsIndexEntry {
@@ -56,6 +75,7 @@ export function parsePage(source: string, href: string): DocsIndexEntry {
   const headings: DocsHeading[] = [];
   let title = "";
   let description = "";
+  let summary = "";
   let inFence = false;
   let intro: string[] | undefined;
   for (const line of source.split("\n")) {
@@ -64,8 +84,10 @@ export function parsePage(source: string, href: string): DocsIndexEntry {
     if (title && !description && headings.length === 0) {
       if (intro === undefined && line.trim() && !/^(import|export|<[A-Z]|#)/.test(line.trim())) intro = [];
       if (intro !== undefined) {
-        if (line.trim() === "" && intro.length > 0) description = firstSentence(intro.join(" "));
-        else if (line.trim()) intro.push(line.trim());
+        if (line.trim() === "" && intro.length > 0) {
+          description = firstSentence(intro.join(" "));
+          summary = summarize(intro.join(" "));
+        } else if (line.trim()) intro.push(line.trim());
       }
     }
     const match = /^(#{1,3})\s+(.+?)\s*$/.exec(line);
@@ -75,8 +97,11 @@ export function parsePage(source: string, href: string): DocsIndexEntry {
     if (match[1].length === 1) title ||= text;
     else headings.push({ depth: match[1].length as 2 | 3, text, id });
   }
-  if (!description && intro && intro.length > 0) description = firstSentence(intro.join(" "));
-  return { href, title, description, headings };
+  if (!description && intro && intro.length > 0) {
+    description = firstSentence(intro.join(" "));
+    summary = summarize(intro.join(" "));
+  }
+  return { href, title, description, summary, headings };
 }
 
 export function buildIndex(): DocsIndexEntry[] {
