@@ -50,8 +50,6 @@ export function DocsShell({ children }: { children: ReactNode }) {
   useHotkeys(hotkeys);
 
   const sidebarProps = {
-    theme,
-    resolvedColorScheme,
     onToggleColorScheme: toggleColorScheme,
     onSearch: openSearch,
   };

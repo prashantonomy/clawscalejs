@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.6.2/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -14,6 +14,7 @@
       "!apps/docs/generated",
       "!apps/docs/seo",
       "!**/*.tsbuildinfo",
+      "!pnpm-lock.yaml",
       "!packages/react/src/generated",
       "!packages/react/src/styles/generated"
     ]
@@ -39,6 +40,11 @@
       "enabled": true
     }
   },
+  "markdown": {
+    "formatter": {
+      "enabled": false
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -59,6 +65,16 @@
         "rules": {
           "style": {
             "noDescendingSpecificity": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/docs/e2e/**"],
+      "linter": {
+        "rules": {
+          "performance": {
+            "useDomNodeTextContent": "off"
           }
         }
       }
