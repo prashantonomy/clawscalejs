@@ -31,7 +31,15 @@ const TEXT_EXTENSIONS = new Set([
   "",
 ]);
 
-const SKIP = [/(^|\/)pnpm-lock\.yaml$/, /(^|\/)node_modules\//, /(^|\/)dist\//, /(^|\/)\.next\//, /(^|\/)out\//];
+// apps/docs/seo holds the vendored SEO registry and checker (synced from ~/pensievelabs/seo). They name the banned characters in order to ban them.
+const SKIP = [
+  /(^|\/)pnpm-lock\.yaml$/,
+  /(^|\/)node_modules\//,
+  /(^|\/)dist\//,
+  /(^|\/)\.next\//,
+  /(^|\/)out\//,
+  /^apps\/docs\/seo\//,
+];
 
 const root = resolve(import.meta.dirname, "..");
 

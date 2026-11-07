@@ -12,6 +12,7 @@
       "!**/.next",
       "!**/out",
       "!apps/docs/generated",
+      "!apps/docs/seo",
       "!**/*.tsbuildinfo",
       "!pnpm-lock.yaml",
       "!packages/react/src/generated",

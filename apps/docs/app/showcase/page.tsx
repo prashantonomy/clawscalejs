@@ -4,7 +4,8 @@ import { ShowcaseIndex } from "@/components/showcase/showcase-index";
 
 export const metadata: Metadata = {
   title: "Showcase",
-  description: "Complete screens built entirely with Clawscale components.",
+  description:
+    "Complete screens built entirely with Clawscale components, with realistic data. Every name, place and number is fictional.",
 };
 
 export default function ShowcasePage() {
