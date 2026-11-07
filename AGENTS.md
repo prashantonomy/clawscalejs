@@ -298,6 +298,15 @@ The docs use Next.js 16.3. It differs from older versions in your training data.
 
 If a docs page that exists returns 404 in development after many files changed at once, the dev server lost track of it. Restart `pnpm dev`.
 
+## Google Search (SEO)
+
+An SEO change is any change to a title, description, canonical, robots rule, sitemap, structured data, site name, base path, URL or slug. Before one:
+
+1. Read `SEO.md`, then `~/pensievelabs/seo/MASTER.md` (GitHub `prashantonomy/pensievelabs`, folder `seo/`). The master wins.
+2. Files that begin with an `SEO-CRITICAL` comment decide what Google indexes. `SEO.md` lists them.
+3. Never type a Pensieve Labs entity value by hand. Read it from `apps/docs/seo/registry.json`, and never edit that file or `check.mjs` here.
+4. After the change: `pnpm build:docs`, then `pnpm seo:check`. It must report 0 errors.
+
 ## Known limitations
 
 - Some Blueprint components generate ids with a module counter (NumericInput, RadioGroup, Section, Select, Suggest, MultiSelect, QueryList, DateInput, TimePicker, Dialog). In development, React logs attribute mismatch warnings after server rendering. They are harmless and do not appear in production.

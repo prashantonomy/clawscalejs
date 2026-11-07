@@ -1,3 +1,4 @@
+// SEO-CRITICAL: the gallery is noindex (registry noindex list). Read SEO.md and ~/pensievelabs/seo/MASTER.md before changing it, then run pnpm --filter @clawscale/docs seo:check.
 import type { Metadata } from "next";
 import { Gallery } from "./gallery";
 

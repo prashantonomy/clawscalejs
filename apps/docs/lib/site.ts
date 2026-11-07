@@ -1,3 +1,4 @@
+// SEO-CRITICAL: site.url is the origin and base path of every canonical, sitemap URL and JSON-LD id. Read SEO.md and ~/pensievelabs/seo/MASTER.md before changing it, then run pnpm --filter @clawscale/docs seo:check.
 import reactPackage from "@clawscale/react/package.json" with { type: "json" };
 
 export const site = {
